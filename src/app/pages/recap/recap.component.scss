@@ -1,0 +1,15 @@
+.flex-centered {
+    margin: auto;
+  }
+  nb-card-body {
+    display: flex;
+  }
+  
+  .title {
+    text-align: center;
+  }
+
+.nv-file-over { border: dotted 3px red; } /* Default class applied to drop zones on over */
+.another-file-over-class { border: dotted 3px green; }
+ 
+html, body { height: 100%; }

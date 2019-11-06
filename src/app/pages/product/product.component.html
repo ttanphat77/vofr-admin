@@ -1,0 +1,16 @@
+<nb-card>
+    <nb-card-header>
+        <h2>Product
+            <button nbButton (click)="process()">
+                <nb-icon icon="plus-outline" status="danger" style="color: white"></nb-icon>
+                Add new
+            </button>
+        </h2>
+    </nb-card-header>
+
+    <nb-card-body>
+        <ng2-smart-table [settings]="settings" [source]="source">
+        </ng2-smart-table>
+        <h1>{{demo}}</h1>
+    </nb-card-body>
+</nb-card>

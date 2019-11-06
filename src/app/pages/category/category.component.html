@@ -1,0 +1,38 @@
+<div class="card-row">
+    <div class="card-col">
+        <nb-card [size]="'medium'">
+            <nb-card-header>
+                <h2>Category
+                    <button nbButton (click)="process()">
+                        <nb-icon icon="plus-outline" status="danger" style="color: white"></nb-icon>
+                        Add new
+                    </button>
+                </h2>
+            </nb-card-header>
+
+            <nb-card-body>
+                <ng2-smart-table [settings]="settings_category" [source]="source_category">
+                </ng2-smart-table>
+                <h1>{{demo}}</h1>
+            </nb-card-body>
+        </nb-card>
+    </div>
+    <div class="card-col">
+        <nb-card [size]="'medium'">
+            <nb-card-header>
+                <h2>Category
+                    <button nbButton (click)="process()">
+                        <nb-icon icon="plus-outline" status="danger" style="color: white"></nb-icon>
+                        Add new
+                    </button>
+                </h2>
+            </nb-card-header>
+
+            <nb-card-body>
+                <ng2-smart-table [settings]="settings_category" [source]="source">
+                </ng2-smart-table>
+                <h1>{{demo}}</h1>
+            </nb-card-body>
+        </nb-card>
+    </div>
+</div>

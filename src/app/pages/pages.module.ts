@@ -5,6 +5,9 @@ import { ThemeModule } from '../@theme/theme.module';
 import { PagesComponent } from './pages.component';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { PagesRoutingModule } from './pages-routing.module';
+import { RecapModule } from './recap/recap.module';
+import { ProductModule } from './product/product.module';
+import { CategoryModule } from './category/category.module';
 
 @NgModule({
   imports: [
@@ -12,6 +15,9 @@ import { PagesRoutingModule } from './pages-routing.module';
     ThemeModule,
     NbMenuModule,
     DashboardModule,
+    RecapModule,
+    ProductModule,
+    CategoryModule
   ],
   declarations: [
     PagesComponent,

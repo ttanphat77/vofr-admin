@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 
 import { MENU_ITEMS } from './pages-menu';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'ngx-pages',
@@ -13,6 +14,5 @@ import { MENU_ITEMS } from './pages-menu';
   `,
 })
 export class PagesComponent {
-
   menu = MENU_ITEMS;
 }

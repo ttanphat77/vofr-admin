@@ -6,7 +6,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CoreModule } from './@core/core.module';
 import { ThemeModule } from './@theme/theme.module';
 import { AppComponent } from './app.component';
@@ -20,6 +20,12 @@ import {
   NbToastrModule,
   NbWindowModule,
 } from '@nebular/theme';
+import {
+  NbPasswordAuthStrategy,
+  NbAuthModule,
+  NbAuthJWTToken,
+} from '@nebular/auth';
+import { AuthGuard } from './services/auth-guard.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -28,7 +34,6 @@ import {
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
-
     ThemeModule.forRoot(),
 
     NbSidebarModule.forRoot(),
@@ -40,8 +45,39 @@ import {
     NbChatModule.forRoot({
       messageGoogleMapKey: 'AIzaSyA_wNuCzia92MAmdLRzmqitRGvCF7wCZPY',
     }),
+    NbAuthModule.forRoot({
+      strategies: [
+        NbPasswordAuthStrategy.setup({
+          name: 'email',
+          baseEndpoint: 'http://107.150.52.213/api-votf/api',
+          login: {
+            endpoint: '/account/check-login',
+            method: 'post',
+          },
+          token: {
+            class: NbAuthJWTToken,
+            key: 'data.access_token',
+          }
+        })
+      ],
+      forms: {
+        login: {
+          redirectDelay: 500,
+          strategy: 'email',
+          showMessages: {
+            success: true,
+            error: true,
+          },
+          redirect: {
+            success: '/pages/', 
+            failure: null,  
+          },
+        },
+      },
+    }),
     CoreModule.forRoot(),
   ],
+  providers: [AuthGuard],
   bootstrap: [AppComponent],
 })
 export class AppModule {

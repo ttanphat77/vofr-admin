@@ -1,0 +1,142 @@
+<!-- IMAGE DIALOG -->
+<ng-template #imageDialog let-data let-ref="dialogRef">
+    <nb-card [size]="'large'">
+        <!-- <nb-card-header>{{value.name}}</nb-card-header> -->
+        <nb-card-body>
+            <!-- Photo section -->
+            <h6>Image</h6>
+            <button (click)="imgInput.click()" style="margin-bottom: 1rem" nbButton
+                [disabled]="imgUploader.getNotUploadedItems().length">Upload</button>
+            <input style="visibility: hidden; width: 0px; height:0px;" type="file" #imgInput ng2FileSelect
+                [uploader]="imgUploader" multiple accept="image/*" />
+            <button type="button" style="margin-left: 1rem; margin-bottom: 1rem" nbButton (click)="uploadImage()"
+                [disabled]="!imgUploader.getNotUploadedItems().length" [nbSpinner]="imgLoading">
+                <nb-icon icon="upload-outline" style="color: white"></nb-icon> {{ imgUploader?.queue?.length }} file(s)
+            </button>
+            <button type="button" style="margin-left: 1rem; margin-bottom: 1rem" nbButton status="danger"
+                (click)="imgUploader.clearQueue();" [disabled]="!imgUploader.getNotUploadedItems().length">
+                <nb-icon icon="trash-2-outline" style="color: white"></nb-icon>
+            </button>
+            <nb-list>
+                <nb-list-item *ngIf="!images.length" style="color: red">
+                    No file uploaded!
+                </nb-list-item>
+                <nb-list-item *ngFor="let image of images">
+                    <nb-actions size="small">
+                        <nb-action> {{ image.name }} </nb-action>
+                        <nb-action icon="eye-outline" [nbPopover]="template" nbPopoverPlacement="right"></nb-action>
+                        <nb-action icon="trash-2-outline" (click)="deleteImage(image, 'img')"></nb-action>
+                        <ng-template #template let-data>
+                            <nb-card style="margin: 0">
+                                <nb-card-body>
+                                    <img src="{{image.url}}" width="300px">
+                                </nb-card-body>
+                            </nb-card>
+                        </ng-template>
+                    </nb-actions>
+                </nb-list-item>
+            </nb-list>
+
+            <!-- Glb section -->
+            <h6>Preview Object</h6>
+            <button (click)="glbInput.click()" style="margin-bottom: 1rem" nbButton
+                [disabled]="glbUploader.getNotUploadedItems().length">Upload</button>
+            <input style="visibility: hidden; width: 0px; height:0px;" type="file" #glbInput ng2FileSelect
+                [uploader]="glbUploader" accept=".glb" />
+            <button type="button" style="margin-left: 1rem; margin-bottom: 1rem" nbButton
+                (click)="glbUploader.uploadAll()" [disabled]="!glbUploader.getNotUploadedItems().length"
+                [nbSpinner]="glbLoading">
+                <nb-icon icon="upload-outline" style="color: white"></nb-icon> {{ glbUploader?.queue?.length }} file(s)
+            </button>
+            <button type="button" style="margin-left: 1rem; margin-bottom: 1rem" nbButton status="danger"
+                (click)="glbUploader.clearQueue();" [disabled]="!glbUploader.getNotUploadedItems().length">
+                <nb-icon icon="trash-2-outline" style="color: white"></nb-icon>
+            </button>
+            <nb-list>
+                <nb-list-item>
+                    <span *ngIf="!previewObj" style="color: red">No file uploaded!</span>
+                    <nb-actions size="small" *ngIf="previewObj">
+                        <nb-action> {{ previewObj.name }} </nb-action>
+                        <nb-action icon="eye-outline" [nbPopover]="template" nbPopoverPlacement="right"></nb-action>
+                        <nb-action icon="trash-2-outline" (click)="deleteImage(previewObj, 'glb')"></nb-action>
+                    </nb-actions>
+                </nb-list-item>
+            </nb-list>
+
+            <!-- Sfb section -->
+            <h6>Ar Object</h6>
+            <button (click)="sfbInput.click()" style="margin-bottom: 1rem" nbButton
+                [disabled]="sfbUploader.getNotUploadedItems().length">Upload</button>
+            <input style="visibility: hidden; width: 0px; height:0px;" type="file" #sfbInput ng2FileSelect
+                [uploader]="sfbUploader" accept=".sfb" />
+            <button type="button" style="margin-left: 1rem; margin-bottom: 1rem" nbButton
+                (click)="sfbUploader.uploadAll()" [disabled]="!sfbUploader.getNotUploadedItems().length"
+                [nbSpinner]="sfbLoading">
+                <nb-icon icon="upload-outline" style="color: white"></nb-icon> {{ sfbUploader?.queue?.length }} file(s)
+            </button>
+            <button type="button" style="margin-left: 1rem; margin-bottom: 1rem" nbButton status="danger"
+                (click)="sfbUploader.clearQueue();" [disabled]="!sfbUploader.getNotUploadedItems().length">
+                <nb-icon icon="trash-2-outline" style="color: white"></nb-icon>
+            </button>
+            <nb-list>
+                <nb-list-item>
+                    <span *ngIf="!arObj" style="color: red">No file uploaded!</span>
+                    <nb-actions size="small" *ngIf="arObj">
+                        <nb-action> {{ arObj.name }} </nb-action>
+                        <nb-action icon="trash-2-outline" (click)="deleteImage(arObj, 'sfb')"></nb-action>
+                    </nb-actions>
+                </nb-list-item>
+            </nb-list>
+        </nb-card-body>
+        <nb-card-footer>
+            <button (click)="ref.close()" nbButton status="danger">Close Dialog</button>
+        </nb-card-footer>
+    </nb-card>
+</ng-template>
+
+<!-- Edit Dialog -->
+<ng-template #editDialog let-data let-ref="dialogRef">
+    <nb-card [size]="'large'" style="width: 500px">
+        <nb-card-header>Edit product</nb-card-header>
+        <nb-card-body>
+            <h6 for="name">Name</h6>
+            <input type="text" nbInput fullWidth class="form-control" id="name" [(ngModel)]="value.row.name" name="name"
+                style="margin-bottom: 1rem" required>
+
+            <h6 for="price">Price</h6>
+            <input type="text" nbInput fullWidth class="form-control" id="price" [(ngModel)]="value.row.price"
+                name="price" style="margin-bottom: 1rem" required>
+
+            <h6 for="power">Category</h6>
+            <nb-select id="power" fullWidth style="margin-bottom: 1rem; margin-right: 1rem;" [(ngModel)]="value.row.categoryId"
+                required>
+                <nb-option-group *ngFor="let cate of masterCategory" title="{{cate.name}}">
+                        <nb-option *ngFor="let subcate of filtCategory(cate.id)" [value]="subcate.id">
+                                {{subcate.name}}
+                        </nb-option>
+                </nb-option-group>
+            </nb-select>
+            <!-- <nb-select id="power" style="margin-right: 1rem;" [(ngModel)]="value.row.categoryId"
+                required>
+                <nb-option *ngFor="let cate of filtCategory(value.row.masterCategoryId)" [value]="cate.id">
+                        {{cate.name}}
+                </nb-option>
+            </nb-select> -->
+
+            <h6 for="description">Description</h6>
+            <textarea type="text" nbInput fullWidth class="form-control" id="description" style="height: 150px"
+                [(ngModel)]="value.row.description" name="description"></textarea>
+
+        </nb-card-body>
+        <nb-card-footer>
+            <button (click)="ref.close()" nbButton status="danger" style="margin-right: 1rem;">Cancel</button>
+            <button (click)="save()" nbButton status="success">Save</button>
+        </nb-card-footer>
+    </nb-card>
+</ng-template>
+
+<nb-actions size="small">
+    <nb-action icon="image-outline" (click)="open(imageDialog)"></nb-action>
+    <nb-action icon="edit-2-outline" (click)="open(editDialog)"></nb-action>
+    <nb-action icon="trash-2-outline"></nb-action>
+</nb-actions>
