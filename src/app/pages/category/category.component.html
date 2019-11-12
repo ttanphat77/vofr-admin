@@ -1,13 +1,30 @@
 <div class="card-row">
     <div class="card-col">
-        <nb-card [size]="'medium'">
+        <nb-card>
             <nb-card-header>
                 <h2>Category
-                    <button nbButton (click)="process()">
+                    <button nbButton (click)="openAddNew(addNewMasterDialog, true)">
                         <nb-icon icon="plus-outline" status="danger" style="color: white"></nb-icon>
                         Add new
                     </button>
                 </h2>
+                <!-- Add new template -->
+                <ng-template #addNewMasterDialog let-data let-ref="dialogRef">
+                    <nb-card style="width: 500px">
+                        <nb-card-header>New category</nb-card-header>
+                        <nb-card-body>
+                            <h6 for="name">Name</h6>
+                            <input type="text" nbInput fullWidth class="form-control" id="name" name="name"
+                                [(ngModel)]="newCategory.name" style="margin-bottom: 1rem" required>
+                        </nb-card-body>
+                        <nb-card-footer>
+                            <button (click)="ref.close()" nbButton status="danger"
+                                style="margin-right: 1rem;">Cancel</button>
+                            <button (click)="createCategory();ref.close()" nbButton type="submit"
+                                status="success">Save</button>
+                        </nb-card-footer>
+                    </nb-card>
+                </ng-template>
             </nb-card-header>
 
             <nb-card-body>
@@ -18,10 +35,10 @@
         </nb-card>
     </div>
     <div class="card-col">
-        <nb-card [size]="'medium'">
+        <nb-card>
             <nb-card-header>
-                <h2>Category
-                    <button nbButton (click)="process()">
+                <h2>{{chosenCategory?.name}}
+                    <button nbButton (click)="openAddNew(addNewMasterDialog, false)">
                         <nb-icon icon="plus-outline" status="danger" style="color: white"></nb-icon>
                         Add new
                     </button>
@@ -29,7 +46,7 @@
             </nb-card-header>
 
             <nb-card-body>
-                <ng2-smart-table [settings]="settings_category" [source]="source">
+                <ng2-smart-table [settings]="settings_category" [source]="source_subCategory">
                 </ng2-smart-table>
                 <h1>{{demo}}</h1>
             </nb-card-body>

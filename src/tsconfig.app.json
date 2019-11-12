@@ -3,6 +3,7 @@
   "compilerOptions": {
     "outDir": "../out-tsc/app",
     "baseUrl": "./",
+    "allowJs": true,
     "paths": {
       "@angular/*": [
         "../node_modules/@angular/*"

@@ -34,5 +34,4 @@ export class ActiveButtonRenderComponent implements OnInit {
     this.save.emit(this.renderValue);
   }
 
-
 }

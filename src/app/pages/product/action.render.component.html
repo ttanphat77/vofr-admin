@@ -57,7 +57,6 @@
                     <span *ngIf="!previewObj" style="color: red">No file uploaded!</span>
                     <nb-actions size="small" *ngIf="previewObj">
                         <nb-action> {{ previewObj.name }} </nb-action>
-                        <nb-action icon="eye-outline" [nbPopover]="template" nbPopoverPlacement="right"></nb-action>
                         <nb-action icon="trash-2-outline" (click)="deleteImage(previewObj, 'glb')"></nb-action>
                     </nb-actions>
                 </nb-list-item>
@@ -100,43 +99,51 @@
         <nb-card-header>Edit product</nb-card-header>
         <nb-card-body>
             <h6 for="name">Name</h6>
-            <input type="text" nbInput fullWidth class="form-control" id="name" [(ngModel)]="value.row.name" name="name"
+            <input type="text" nbInput fullWidth class="form-control" id="name" [(ngModel)]="product.name" name="name"
                 style="margin-bottom: 1rem" required>
 
             <h6 for="price">Price</h6>
-            <input type="text" nbInput fullWidth class="form-control" id="price" [(ngModel)]="value.row.price"
+            <input type="number" nbInput fullWidth class="form-control" id="price" [(ngModel)]="product.price"
                 name="price" style="margin-bottom: 1rem" required>
 
             <h6 for="power">Category</h6>
-            <nb-select id="power" fullWidth style="margin-bottom: 1rem; margin-right: 1rem;" [(ngModel)]="value.row.categoryId"
-                required>
+            <nb-select id="power" fullWidth style="margin-bottom: 1rem; margin-right: 1rem;"
+                [(ngModel)]="product.categoryId" required>
                 <nb-option-group *ngFor="let cate of masterCategory" title="{{cate.name}}">
-                        <nb-option *ngFor="let subcate of filtCategory(cate.id)" [value]="subcate.id">
-                                {{subcate.name}}
-                        </nb-option>
+                    <nb-option *ngFor="let subcate of filtCategory(cate.id)" [value]="subcate.id">
+                        {{subcate.name}}
+                    </nb-option>
                 </nb-option-group>
             </nb-select>
-            <!-- <nb-select id="power" style="margin-right: 1rem;" [(ngModel)]="value.row.categoryId"
-                required>
-                <nb-option *ngFor="let cate of filtCategory(value.row.masterCategoryId)" [value]="cate.id">
-                        {{cate.name}}
-                </nb-option>
-            </nb-select> -->
 
             <h6 for="description">Description</h6>
             <textarea type="text" nbInput fullWidth class="form-control" id="description" style="height: 150px"
-                [(ngModel)]="value.row.description" name="description"></textarea>
+                [(ngModel)]="product.description" name="description"></textarea>
 
         </nb-card-body>
         <nb-card-footer>
             <button (click)="ref.close()" nbButton status="danger" style="margin-right: 1rem;">Cancel</button>
-            <button (click)="save()" nbButton status="success">Save</button>
+            <button (click)="saveProduct();ref.close()" nbButton status="success">Save</button>
+        </nb-card-footer>
+    </nb-card>
+</ng-template>
+
+<!-- Delete Dialog -->
+<ng-template #deleteDialog let-data let-ref="dialogRef">
+    <nb-card>
+        <nb-card-header>Delete product</nb-card-header>
+        <nb-card-body>
+            <h5>Do you want to delete "{{product.name}}"?</h5>
+        </nb-card-body>
+        <nb-card-footer>
+            <button (click)="ref.close()" nbButton status="danger" style="margin-right: 1rem;">Cancel</button>
+            <button (click)="deleteProduct();ref.close()" nbButton>Delete</button>
         </nb-card-footer>
     </nb-card>
 </ng-template>
 
 <nb-actions size="small">
-    <nb-action icon="image-outline" (click)="open(imageDialog)"></nb-action>
+    <nb-action icon="image-outline" (click)="openImg(imageDialog)"></nb-action>
     <nb-action icon="edit-2-outline" (click)="open(editDialog)"></nb-action>
-    <nb-action icon="trash-2-outline"></nb-action>
+    <nb-action icon="trash-2-outline" (click)="open(deleteDialog)"></nb-action>
 </nb-actions>

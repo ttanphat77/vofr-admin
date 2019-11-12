@@ -1,10 +1,13 @@
 import { Component, Input, OnInit, Output, EventEmitter, TemplateRef } from '@angular/core';
 import { NbDialogService } from '@nebular/theme';
 import { ProductImageService } from '../../services/productImage.service';
+import { ProductService } from '../../services/product.service';
 import { FileUploader } from 'ng2-file-upload';
 import { NbAuthService } from '@nebular/auth';
 import { Image } from '../../models/image.model';
 import { Category } from '../../models/category.model';
+import { Product } from '../../models/product.model';
+
 
 const UPLOAD_URL = 'http://107.150.52.213/api-votf/api/upload-file';
 
@@ -25,17 +28,22 @@ export class ActionRenderComponent implements OnInit {
   imgLoading = false;
   glbLoading = false;
   sfbLoading = false;
+  product: Product;
 
   @Input() value;
+
+  @Output() save: EventEmitter<any> = new EventEmitter();
 
   constructor(
     private dialogService: NbDialogService,
     private imageService: ProductImageService,
+    private productService: ProductService,
     private tokenService: NbAuthService,
   ) {
   }
 
   ngOnInit() {
+    this.product = this.value.row;
     this.tokenService.getToken().subscribe(res => this.token = (res as any).token)
     this.masterCategory = this.value.cateList.filter((cate) => { return cate.masterCategoryId == null});
     //Image input config
@@ -93,10 +101,6 @@ export class ActionRenderComponent implements OnInit {
       this.sfbUploader.clearQueue();
       this.sfbLoading = false;
     };
-
-    this.getImages();
-    this.getPreviewObj();
-    this.getArObj();
   }
 
   getImages() {
@@ -107,7 +111,8 @@ export class ActionRenderComponent implements OnInit {
         var image: Image = new Image();
         image.id = img.image_id;
         image.url = img.image_url;
-        image.name = image.url.split('/')[5];
+        var splited = image.url.split('_');
+        image.name = splited.slice(1).join('_');
         this.images.push(image);
       })
     })
@@ -186,11 +191,28 @@ export class ActionRenderComponent implements OnInit {
     return this.value.cateList.filter((cate) => { return cate.masterCategoryId == id});
   }
 
-  save() {
-    console.log(this.value.row);
+  saveProduct() {
+    this.productService.updateProduct(this.value.row).subscribe();
+    this.value.row = this.product;
+    var newCategory = this.value.cateList.find(cate => cate.id == this.value.row.categoryId);
+    this.value.row.modifiedDate = Date.now();
+    this.value.row.masterCategoryId = newCategory.masterCategoryId;
+    this.save.emit({product: this.value.row, action: 'edit'});
+  }
+
+  deleteProduct() {
+    this.productService.deleteProduct(this.value.row.id).subscribe();
+    this.save.emit({product: this.value.row, action: 'delete'})
   }
 
   open(dialog: TemplateRef<any>) {
+    this.dialogService.open(dialog, { hasBackdrop: true, hasScroll: true, autoFocus: false, closeOnEsc: false });
+  }
+
+  openImg(dialog: TemplateRef<any>) {
+    this.getImages();
+    this.getPreviewObj();
+    this.getArObj();
     this.dialogService.open(dialog, { hasBackdrop: true, hasScroll: true, autoFocus: false, closeOnEsc: false });
   }
 }
