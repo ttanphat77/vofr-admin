@@ -55,15 +55,15 @@ export class RecapComponent {
                       this.service.checkProgress(token, sceneId).subscribe(res => {
                         if (res.completed == true) {
                           this.progress = 100;
-                          this.message = "Successful";
+                          this.message = 'Successful';
                           this.link = res.link;
                           sub.unsubscribe();
                         } else {
                           if (res.error) {
-                            this.message = "Error - Please try again!";
+                            this.message = 'Error - Please try again!';
                             sub.unsubscribe();
                           } else {
-                            this.message = "Processing..." + res.progress + "%"
+                            this.message = 'Processing...' + res.progress + '%'
                             this.progress = res.progress;
                           }
                         }
