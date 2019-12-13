@@ -33,7 +33,7 @@ import { FormsModule } from '@angular/forms';
   entryComponents: [
     ActiveButtonRenderComponent,
     ActionRenderComponent,
-    DescriptionRenderComponent
+    DescriptionRenderComponent,
   ],
   imports: [
     NbCardModule,
@@ -55,7 +55,7 @@ import { FormsModule } from '@angular/forms';
     NbSelectModule,
     NbDialogModule.forRoot(),
   ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class ProductModule { }
 

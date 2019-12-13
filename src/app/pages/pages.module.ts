@@ -8,6 +8,7 @@ import { PagesRoutingModule } from './pages-routing.module';
 import { RecapModule } from './recap/recap.module';
 import { ProductModule } from './product/product.module';
 import { CategoryModule } from './category/category.module';
+import {OrderModule} from './order/order.module';
 
 @NgModule({
   imports: [
@@ -17,7 +18,8 @@ import { CategoryModule } from './category/category.module';
     DashboardModule,
     RecapModule,
     ProductModule,
-    CategoryModule
+    CategoryModule,
+    OrderModule,
   ],
   declarations: [
     PagesComponent,

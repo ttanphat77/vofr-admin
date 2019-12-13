@@ -8,12 +8,12 @@ import { ActionRenderComponent } from './action.render.component';
 import { FormsModule } from '@angular/forms';
 import { FileUploadModule } from 'ng2-file-upload';
 import {
-  NbCardModule, 
-  NbIconModule, 
-  NbInputModule, 
-  NbListModule, 
-  NbDialogModule, 
-  NbButtonModule, 
+  NbCardModule,
+  NbIconModule,
+  NbInputModule,
+  NbListModule,
+  NbDialogModule,
+  NbButtonModule,
   NbActionsModule,
   NbPopoverModule,
 } from '@nebular/theme';
@@ -42,7 +42,7 @@ import {
     NbEvaIconsModule,
     FileUploadModule,
     NbDialogModule.forRoot(),
-  ]
+  ],
 })
 export class CategoryModule { }
 

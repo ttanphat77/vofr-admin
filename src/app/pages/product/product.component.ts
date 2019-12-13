@@ -28,7 +28,7 @@ export class ProductComponent {
     cateFilterList: any[] = [];
     masterFilterList: any[] = [];
     tableSettings: any = {
-        actions: false,
+        actions: true,
         columns: {
             id: {
                 title: 'ID',
@@ -143,9 +143,9 @@ export class ProductComponent {
                 renderComponent: ActionRenderComponent,
                 onComponentInitFunction: (instance) => {
                     instance.save.subscribe((res) => {
-                        if (res.action == 'edit') {
+                        if (res.action === 'edit') {
                             this.handleEdit(res.product);
-                        } else if (res.action == 'delete') {
+                        } else if (res.action === 'delete') {
                             this.handleDelete(res.product);
                         }
                     });
@@ -158,7 +158,7 @@ export class ProductComponent {
         private productService: ProductService,
         private dialogService: NbDialogService,
         private categoryService: CategoryService,
-        private datePipe: DatePipe
+        private datePipe: DatePipe,
     ) {
     }
 
@@ -191,7 +191,7 @@ export class ProductComponent {
                     } else {
                         this.cateFilterList.push({ value: element.category_id, title: element.category_name });
                     }
-                })
+                });
                 this.masterFilterList.push({value: null, title: 'No category'})
                 this.cateFilterList.push({value: null, title: 'No category'})
                 this.productService.getAllProduct().subscribe(data => {

@@ -38,7 +38,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
   {
     title: 'Order',
     icon: 'shopping-cart-outline',
-    link: '/pages/user',
+    link: '/pages/order',
   },
   {
     title: 'Model generator',
