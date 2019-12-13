@@ -1,12 +1,12 @@
-import { Component, Input, OnInit, Output, EventEmitter, TemplateRef } from '@angular/core';
-import { NbDialogService } from '@nebular/theme';
-import { ProductImageService } from '../../services/productImage.service';
-import { ProductService } from '../../services/product.service';
-import { FileUploader } from 'ng2-file-upload';
-import { NbAuthService } from '@nebular/auth';
-import { Image } from '../../models/image.model';
-import { Category } from '../../models/category.model';
-import { Product } from '../../models/product.model';
+import {Component, Input, OnInit, Output, EventEmitter, TemplateRef} from '@angular/core';
+import {NbDialogService} from '@nebular/theme';
+import {ProductImageService} from '../../services/productImage.service';
+import {ProductService} from '../../services/product.service';
+import {FileUploader} from 'ng2-file-upload';
+import {NbAuthService} from '@nebular/auth';
+import {Image} from '../../models/image.model';
+import {Category} from '../../models/category.model';
+import {Product} from '../../models/product.model';
 
 
 const UPLOAD_URL = 'http://107.150.52.213/api-votf/api/upload-file';
@@ -44,27 +44,29 @@ export class ActionRenderComponent implements OnInit {
 
   ngOnInit() {
     this.product = this.value.row;
-    this.tokenService.getToken().subscribe(res => this.token = (res as any).token)
-    this.masterCategory = this.value.cateList.filter((cate) => { return cate.masterCategoryId == null});
-    //Image input config
+    this.tokenService.getToken().subscribe(res => this.token = (res as any).token);
+    this.masterCategory = this.value.cateList.filter((cate) => cate.masterCategoryId == null);
+    // Image input config
     this.imgUploader = new FileUploader({
       url: UPLOAD_URL,
       method: 'POST',
       authTokenHeader: 'authorization',
       authToken: 'Bearer ' + this.token,
-      itemAlias: 'files'
+      itemAlias: 'files',
     });
-    this.imgUploader.onAfterAddingFile = (file) => { file.withCredentials = false; };
+    this.imgUploader.onAfterAddingFile = (file) => {
+      file.withCredentials = false;
+    };
     this.imgUploader.onSuccessItem = (item, response) => {
       var name: string = response.substring(1, response.length - 1);
-      this.addFile(name, 'img')
+      this.addFile(name, 'img');
     };
     this.imgUploader.onCompleteAll = () => {
       this.imgUploader.clearQueue();
       this.imgLoading = false;
     };
 
-    //glb file input config
+    // glb file input config
     this.glbUploader = new FileUploader({
       url: UPLOAD_URL,
       method: 'POST',
@@ -72,11 +74,15 @@ export class ActionRenderComponent implements OnInit {
       authToken: 'Bearer ' + this.token,
       itemAlias: 'files'
     });
-    this.glbUploader.onAfterAddingFile = (file) => { file.withCredentials = false; };
-    this.glbUploader.onBeforeUploadItem = (file) => { this.glbLoading = true; };
+    this.glbUploader.onAfterAddingFile = (file) => {
+      file.withCredentials = false;
+    };
+    this.glbUploader.onBeforeUploadItem = (file) => {
+      this.glbLoading = true;
+    };
     this.glbUploader.onSuccessItem = (item, response) => {
       var name: string = response.substring(1, response.length - 1);
-      this.addFile(name, 'glb')
+      this.addFile(name, 'glb');
     };
     this.glbUploader.onCompleteAll = () => {
       this.glbUploader.clearQueue();
@@ -91,8 +97,12 @@ export class ActionRenderComponent implements OnInit {
       authToken: 'Bearer ' + this.token,
       itemAlias: 'files'
     });
-    this.sfbUploader.onAfterAddingFile = (file) => { file.withCredentials = false; };
-    this.sfbUploader.onBeforeUploadItem = (file) => { this.sfbLoading = true; };
+    this.sfbUploader.onAfterAddingFile = (file) => {
+      file.withCredentials = false;
+    };
+    this.sfbUploader.onBeforeUploadItem = (file) => {
+      this.sfbLoading = true;
+    };
     this.sfbUploader.onSuccessItem = (item, response) => {
       var name: string = response.substring(1, response.length - 1);
       this.addFile(name, 'sfb')
@@ -152,7 +162,7 @@ export class ActionRenderComponent implements OnInit {
     this.imageService.addImage(this.value.row.id, 'http://107.150.52.213/api-votf/image/' + img, type)
       .subscribe(res => {
         if (type == 'img') {
-          if(!this.imgLoading) {
+          if (!this.imgLoading) {
             this.getImages();
           }
         } else if (type == 'glb') {
@@ -187,8 +197,10 @@ export class ActionRenderComponent implements OnInit {
       })
   }
 
-  filtCategory(id) {  
-    return this.value.cateList.filter((cate) => { return cate.masterCategoryId == id});
+  filtCategory(id) {
+    return this.value.cateList.filter((cate) => {
+      return cate.masterCategoryId == id
+    });
   }
 
   saveProduct() {
@@ -206,13 +218,13 @@ export class ActionRenderComponent implements OnInit {
   }
 
   open(dialog: TemplateRef<any>) {
-    this.dialogService.open(dialog, { hasBackdrop: true, hasScroll: true, autoFocus: false, closeOnEsc: false });
+    this.dialogService.open(dialog, {hasBackdrop: true, hasScroll: true, autoFocus: false, closeOnEsc: false});
   }
 
   openImg(dialog: TemplateRef<any>) {
     this.getImages();
     this.getPreviewObj();
     this.getArObj();
-    this.dialogService.open(dialog, { hasBackdrop: true, hasScroll: true, autoFocus: false, closeOnEsc: false });
+    this.dialogService.open(dialog, {hasBackdrop: true, hasScroll: true, autoFocus: false, closeOnEsc: false});
   }
 }

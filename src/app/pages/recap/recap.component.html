@@ -77,7 +77,7 @@
           <span class="glyphicon glyphicon-trash"></span> Remove all
         </button>
         <br />
-        <button nbButton style="margin: 1rem;" (click)="process()" [disabled]="images.length < 3">Start rocess</button>
+        <button nbButton style="margin: 1rem;" (click)="process()" [disabled]="images.length < 3">Start process</button>
         {{message}}
         <br />
         <nb-progress-bar [value]="progress" *ngIf="progress >= 0" [displayValue]="true"></nb-progress-bar>

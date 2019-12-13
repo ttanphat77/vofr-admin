@@ -1,11 +1,12 @@
-import { RouterModule, Routes } from '@angular/router';
-import { NgModule } from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {NgModule} from '@angular/core';
 
-import { PagesComponent } from './pages.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { RecapComponent } from './recap/recap.component';
-import { ProductComponent } from './product/product.component';
-import { CategoryComponent } from './category/category.component';
+import {PagesComponent} from './pages.component';
+import {DashboardComponent} from './dashboard/dashboard.component';
+import {RecapComponent} from './recap/recap.component';
+import {ProductComponent} from './product/product.component';
+import {CategoryComponent} from './category/category.component';
+import {OrderComponent} from './order/order.component';
 
 const routes: Routes = [{
   path: '',
@@ -26,6 +27,9 @@ const routes: Routes = [{
     {
       path: 'category',
       component: CategoryComponent,
+    }, {
+      path: 'order',
+      component: OrderComponent,
     },
     {
       path: '',

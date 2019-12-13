@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { RecapService } from '../../services/recap.service';
 import { FileUploader } from 'ng2-file-upload';
-import { interval, Observable } from 'rxjs'
+import { interval, Observable } from 'rxjs';
 
 
 const URL = 'http://107.150.52.213/node/recapapi/v1/api/upload';

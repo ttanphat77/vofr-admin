@@ -1,0 +1,16 @@
+<ng-template #viewDialog let-data let-ref="dialogRef">
+  <nb-card [size]="'large'" style="width: 800px">
+    <nb-card-header>Order Detail</nb-card-header>
+    <nb-card-body>
+      <ng2-smart-table [settings]="tableSettings" [source]="source">
+      </ng2-smart-table>
+    </nb-card-body>
+    <nb-card-footer>
+      <button (click)="ref.close()" nbButton status="danger" style="margin-right: 1rem;">Cancel</button>
+    </nb-card-footer>
+  </nb-card>
+</ng-template>
+
+<nb-actions size="small">
+  <nb-action icon="eye-outline" (click)="open(viewDialog)"></nb-action>
+</nb-actions>

@@ -12,6 +12,9 @@ import { ThemeModule } from './@theme/theme.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import {
+  NbActionsModule,
+  NbButtonModule,
+  NbCardModule,
   NbChatModule,
   NbDatepickerModule,
   NbDialogModule,
@@ -26,6 +29,7 @@ import {
   NbAuthJWTToken,
 } from '@nebular/auth';
 import { AuthGuard } from './services/auth-guard.service';
+
 
 @NgModule({
   declarations: [AppComponent],
@@ -58,8 +62,8 @@ import { AuthGuard } from './services/auth-guard.service';
           token: {
             class: NbAuthJWTToken,
             key: 'data.access_token',
-          }
-        })
+          },
+        }),
       ],
       forms: {
         login: {
@@ -70,13 +74,16 @@ import { AuthGuard } from './services/auth-guard.service';
             error: true,
           },
           redirect: {
-            success: '/pages/', 
-            failure: null,  
+            success: '/pages/',
+            failure: null,
           },
         },
       },
     }),
     CoreModule.forRoot(),
+    NbCardModule,
+    NbButtonModule,
+    NbActionsModule,
   ],
   providers: [AuthGuard],
   bootstrap: [AppComponent],
