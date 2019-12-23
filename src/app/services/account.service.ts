@@ -23,4 +23,14 @@ export class AccountService {
           return of(null);
         }));
   }
+
+  changeStatus(accountId, active): Observable<any> {
+    return this.http.put<any>(apiUrl + '/account/active-account?'
+      + 'id=' + accountId + '&param=' + active, {})
+      .pipe(tap(_ => console.log('changed status')),
+        catchError(err => {
+          console.log(err);
+          return of(null);
+        }));
+  }
 }

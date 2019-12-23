@@ -57,7 +57,7 @@ import {OrderActionComponent} from './pages/cashier/order-action.component';
       strategies: [
         NbPasswordAuthStrategy.setup({
           name: 'email',
-          baseEndpoint: 'http://54.255.195.251/vat-api/api',
+          baseEndpoint: 'http://23.94.26.75/vat-api/api',
           login: {
             endpoint: '/account/check-login',
             method: 'post',

@@ -10,5 +10,5 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://54.255.195.251/vat-api/api',
+  apiUrl: 'http://23.94.26.75/vat-api/api',
 };
