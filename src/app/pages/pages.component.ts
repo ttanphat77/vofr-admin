@@ -16,3 +16,4 @@ import { HttpClient } from '@angular/common/http';
 export class PagesComponent {
   menu = MENU_ITEMS;
 }
+  

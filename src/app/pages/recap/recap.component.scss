@@ -1,3 +1,76 @@
+@import '../../@theme/styles/themes.scss';
+
+@include nb-install-component() {
+  nb-card {
+    transform: translate3d(0, 0, 0);
+  }
+
+  :host {
+    display: block;
+    max-height: 25rem;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+  
+  .card-row {
+    display: flex;
+    margin: 0 -0.5rem;
+  }
+  
+  .card-col {
+    flex: 1 0 calc(50% - 1rem);
+    margin: 0 0.5rem;
+  }
+
+  ng2-smart-table ::ng-deep {
+    .ng2-smart-action-add-add {
+      background-color: nb-theme(button-filled-primary-background-color);
+      border-color: nb-theme(button-filled-primary-border-color);
+      color: nb-theme(button-filled-primary-text-color);
+
+      &:focus {
+        border-color: nb-theme(button-filled-primary-focus-border-color);
+      }
+
+      &:hover {
+        background-color: nb-theme(button-filled-primary-hover-background-color);
+        border-color: nb-theme(button-filled-primary-hover-border-color);
+      }
+
+      &:active {
+        background-color: nb-theme(button-filled-primary-active-background-color);
+        border-color: nb-theme(button-filled-primary-active-border-color);
+      }
+    }
+
+    nav.ng2-smart-pagination-nav .pagination li {
+      a, > span {
+        background-color: transparent;
+        color: nb-theme(button-outline-primary-text-color);
+
+        &:focus {
+          border-color: nb-theme(button-outline-primary-focus-border-color);
+          color: nb-theme(button-outline-primary-focus-text-color);
+        }
+
+        &:hover {
+          border-color: nb-theme(button-outline-primary-hover-border-color);
+          color: nb-theme(button-outline-primary-hover-text-color);
+        }
+      }
+    }
+
+    .ng2-smart-pagination .page-item.disabled {
+      .page-link,
+      .page-link:focus,
+      .page-link:hover {
+        background-color: transparent;
+        color: nb-theme(button-outline-primary-disabled-text-color);
+      }
+    }
+  }
+}
+
 .flex-centered {
     margin: auto;
   }
@@ -13,3 +86,9 @@
 .another-file-over-class { border: dotted 3px green; }
  
 html, body { height: 100%; }
+
+code {
+  background: #f1f2f3;
+  padding: .125rem .5rem;
+  border-radius: .25rem;
+}

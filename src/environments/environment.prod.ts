@@ -10,6 +10,6 @@
 
 export const environment = {
     production: false,
-    apiUrl: 'http://107.150.52.213/api-votf/api',
+    apiUrl: 'http://54.255.195.251/vat-api/api',
   };
   

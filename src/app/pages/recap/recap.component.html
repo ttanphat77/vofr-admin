@@ -1,89 +1,125 @@
-<nb-card>
-  <nb-card-header>
-    Recap
-  </nb-card-header>
-  <nb-card-body class="example-items-col">
+<div class="card-row">
+  <div class="card-col">
+    <nb-card>
+      <nb-card-header>
+        Recap
+      </nb-card-header>
+      <nb-card-body class="example-items-col">
 
-    <div class="container">
-      <br />
-      <input type="file" nbInput ng2FileSelect [disabled]="isCreated" [uploader]="uploader" multiple accept=".jpg" />
-      <h3>Upload queue</h3>
-      <p>Queue length: {{ uploader?.queue?.length }}</p>
+        <div class="container">
+          <br />
+          <label>Name: </label>
+          <input type="text" appForbiddenName="bob" name="name" #name="ngModel" ngModel 
+          required style="margin: 0 0 1rem 1rem" nbInput placeholder="Name" />
 
-      <table class="table">
-        <thead>
-          <tr>
-            <th width="50%">Name</th>
-            <th>Size</th>
-            <th>Progress</th>
-            <th>Status</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let item of uploader.queue">
-            <td><strong>{{ item?.file?.name }}</strong></td>
-            <td *ngIf="uploader.options.isHTML5" nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
-            <td *ngIf="uploader.options.isHTML5">
-              <div class="progress" style="margin-bottom: 0;">
-                <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': item.progress + '%' }"></div>
-              </div>
-            </td>
-            <td class="text-center">
-              <span *ngIf="item.isSuccess">
-                <nb-icon icon="checkmark-outline" status="success"></nb-icon>
-              </span>
-              <span *ngIf="item.isCancel">
-                <nb-icon icon="slash-outline" status="warning"></nb-icon>
-              </span>
-              <span *ngIf="item.isError">
-                <nb-icon icon="trash-2-outline" status="danger"></nb-icon>
-              </span>
-            </td>
-            <td nowrap>
-              <!-- <button type="button" class="btn btn-success btn-xs" (click)="item.upload()"
+          <label *ngIf="name.errors.required && (name.dirty || name.touched)" class="text-danger">
+              Name is required.
+            </label>
+
+          <input type="file" nbInput ng2FileSelect [disabled]="isCreated" [uploader]="uploader" multiple
+            accept=".jpg" />
+          <h3>Upload queue</h3>
+          <p>Queue length: {{ uploader?.queue?.length }}</p>
+          <table class="table" style="table-layout:fixed;">
+            <thead>
+              <tr>
+                <th width="50%">Name</th>
+                <th>Size</th>
+                <th>Progress</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of uploader.queue">
+                <td style="word-wrap:break-word;"><strong>{{ item?.file?.name }}</strong></td>
+                <td *ngIf="uploader.options.isHTML5" nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
+                <td *ngIf="uploader.options.isHTML5">
+                  <div class="progress" style="margin-bottom: 0;">
+                    <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': item.progress + '%' }"></div>
+                  </div>
+                </td>
+                <td class="text-center">
+                  <span *ngIf="item.isSuccess">
+                    <nb-icon icon="checkmark-outline" status="success"></nb-icon>
+                  </span>
+                  <span *ngIf="item.isCancel">
+                    <nb-icon icon="slash-outline" status="warning"></nb-icon>
+                  </span>
+                  <span *ngIf="item.isError">
+                    <nb-icon icon="trash-2-outline" status="danger"></nb-icon>
+                  </span>
+                </td>
+                <td nowrap>
+                  <!-- <button type="button" class="btn btn-success btn-xs" (click)="item.upload()"
                 [disabled]="item.isReady || item.isUploading || item.isSuccess">
                 <span class="glyphicon glyphicon-upload"></span> Upload
               </button> -->
-              <!-- <button type="button" class="btn btn-warning btn-xs" (click)="item.cancel()"
+                  <!-- <button type="button" class="btn btn-warning btn-xs" (click)="item.cancel()"
                 [disabled]="!item.isUploading">
                 <span class="glyphicon glyphicon-ban-circle"></span> Cancel
               </button> -->
-              <button type="button" class="btn btn-danger btn-xs" (click)="item.remove()">
-                <nb-icon icon="trash-2-outline" status="danger" style="color: white"></nb-icon>
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+                  <button type="button" class="btn btn-danger btn-xs" (click)="item.remove()">
+                    <nb-icon icon="trash-2-outline" status="danger" style="color: white"></nb-icon>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
 
-      <div>
-        <!-- <div>
+          <div>
+            <!-- <div>
           Queue progress:
           <div class="progress">
             <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': uploader.progress + '%' }"></div>
           </div>
         </div> -->
-        <button type="button" nbButton status="success" style="margin: 1rem;" (click)="uploader.uploadAll()"
-          [disabled]="!uploader.getNotUploadedItems().length">
-          <span class="glyphicon glyphicon-upload"></span> Upload all
-        </button>
-        <!-- <button type="button" class="btn btn-warning btn-s" (click)="uploader.cancelAll()"
+            <button type="button" nbButton status="success" style="margin: 1rem;" (click)="uploader.uploadAll()"
+              [disabled]="!uploader.getNotUploadedItems().length">
+              <span class="glyphicon glyphicon-upload"></span> Upload all
+            </button>
+            <!-- <button type="button" class="btn btn-warning btn-s" (click)="uploader.cancelAll()"
           [disabled]="!uploader.isUploading">
           <span class="glyphicon glyphicon-ban-circle"></span> Cancel all
         </button> -->
-        <button nbButton status="danger" type="button" style="margin: 1rem;" (click)="removeAll()"
-          [disabled]="!uploader.queue.length">
-          <span class="glyphicon glyphicon-trash"></span> Remove all
-        </button>
-        <br />
-        <button nbButton style="margin: 1rem;" (click)="process()" [disabled]="images.length < 3">Start process</button>
-        {{message}}
-        <br />
-        <nb-progress-bar [value]="progress" *ngIf="progress >= 0" [displayValue]="true"></nb-progress-bar>
-        <br />
-        <a href="{{link}}" *ngIf="link != ''">Download</a>
-      </div>
-    </div>
-  </nb-card-body>
-</nb-card>
+            <button nbButton status="danger" type="button" style="margin: 1rem;" (click)="removeAll()"
+              [disabled]="!uploader.queue.length">
+              <span class="glyphicon glyphicon-trash"></span> Remove all
+            </button>
+            <br />
+            <button nbButton type="submit" style="margin: 1rem;" (click)="process()"
+              [disabled]="images.length < 3">Start
+              process</button>
+            {{message}}
+            <br />
+            <nb-progress-bar [value]="progress" *ngIf="progress >= 0" [displayValue]="true"></nb-progress-bar>
+            <br />
+            <a href="{{link}}" *ngIf="link != ''">Download</a>
+          </div>
+        </div>
+      </nb-card-body>
+    </nb-card>
+  </div>
+  <div class="card-col">
+    <nb-card size="large">
+      <nb-card-header>
+        History
+      </nb-card-header>
+      <nb-list>
+        <nb-list-item *ngFor="let scene of scenes">
+          <h5 style="display: inline;">{{scene.name}}</h5> -
+          <code class="text-primary" *ngIf="scene.status == 'Processing'">Processing</code>
+          <code class="text-warning" *ngIf="scene.status == 'Error'">Error</code>
+          <code class="text-danger" *ngIf="scene.status == 'Cancelled'">Cancelled</code>
+          <code class="text-success" *ngIf="scene.status == 'DONE'">DONE</code>
+          <p class="text-hint subtitle">{{scene.createdDate | date:'medium'}}</p>
+          <nb-progress-bar [value]="scene.progress" *ngIf="scene.status == 'Processing'" [displayValue]="true">
+          </nb-progress-bar>
+          <a href="{{scene.link}}" target="_blank" *ngIf="scene.status == 'DONE'" nbButton>
+            <nb-icon icon="download-outline"></nb-icon>Download
+          </a>
+        </nb-list-item>
+      </nb-list>
+    </nb-card>
+  </div>
+</div>
