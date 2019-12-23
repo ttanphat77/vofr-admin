@@ -1,4 +1,4 @@
-import { NbMenuItem } from '@nebular/theme';
+import {NbMenuItem} from '@nebular/theme';
 
 export const MENU_ITEMS: NbMenuItem[] = [
   {
@@ -24,16 +24,22 @@ export const MENU_ITEMS: NbMenuItem[] = [
   {
     title: 'Account',
     icon: 'people-outline',
-    children: [
-      {
-        title: 'User',
-        link: '/pages/user',
-      },
-      {
-        title: 'Admin',
-        link: '/pages/admin',
-      },
-    ],
+    // children: [
+    //   {
+    //     title: 'User',
+    //     link: '/pages/user',
+    //   },
+    //   {
+    //     title: 'Admin',
+    //     link: '/pages/admin',
+    //   },
+    // ],
+    link: '/pages/account'
+  },
+  {
+    title: 'Cashier',
+    icon: 'shopping-cart-outline',
+    link: '/pages/cashier',
   },
   {
     title: 'Order',

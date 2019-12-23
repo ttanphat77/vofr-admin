@@ -24,6 +24,15 @@ export class ProductService {
         }));
   }
 
+  searchProduct(keyword: string): Observable<any> {
+    return this.http.get<any>(apiUrl + '/product/search-product-by-name?proName=' + keyword)
+      .pipe(tap(_ => console.log('fetched products')),
+        catchError(err => {
+          console.log(err);
+          return of(null);
+        }));
+  }
+
   changeStatus(productId, active): Observable<any> {
     return this.http.put<any>(apiUrl + '/product/active-product?'
       + 'productId=' + productId + '&param=' + active, {})

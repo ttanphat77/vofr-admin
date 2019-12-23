@@ -7,6 +7,8 @@ import {RecapComponent} from './recap/recap.component';
 import {ProductComponent} from './product/product.component';
 import {CategoryComponent} from './category/category.component';
 import {OrderComponent} from './order/order.component';
+import {CashierComponent} from './cashier/cashier.component';
+import {AccountComponent} from "./account/account.component";
 
 const routes: Routes = [{
   path: '',
@@ -19,6 +21,9 @@ const routes: Routes = [{
     {
       path: 'recap',
       component: RecapComponent,
+    }, {
+      path: 'cashier',
+      component: CashierComponent,
     },
     {
       path: 'product',
@@ -30,6 +35,9 @@ const routes: Routes = [{
     }, {
       path: 'order',
       component: OrderComponent,
+    }, {
+      path: 'account',
+      component: AccountComponent,
     },
     {
       path: '',

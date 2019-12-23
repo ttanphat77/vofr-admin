@@ -1,1 +1,6 @@
-<p>quantity-action-component works!</p>
+<div class="quantity">
+
+  <div (click)="change(-1)" class='arrow'>&#10094;</div>
+  <span class='value'>{{value.quantity}}</span>
+  <div (click)="change(1)" class='arrow'>&#10095;</div>
+</div>

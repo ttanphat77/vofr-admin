@@ -110,7 +110,7 @@ export class ActionRenderComponent implements OnInit {
         this.tokenService.getToken().subscribe(res => this.token = (res as any).token);
 
         this.imgUploader = new FileUploader({
-            url: 'http://107.150.52.213/api-votf/api/upload-file',
+            url: 'http://54.255.195.251/vat-api/api/upload-file',
             method: 'POST',
             authTokenHeader: 'authorization',
             authToken: 'Bearer ' + this.token,
@@ -133,7 +133,7 @@ export class ActionRenderComponent implements OnInit {
     }
 
     addImage(image: string) {
-        this.category.imageUrl = 'http://107.150.52.213/api-votf/image/' + image;
+        this.category.imageUrl = 'http://54.255.195.251/vat-api/image/' + image;
         this.categoryService.updateCategory(this.category).subscribe(res => {
             this.save.emit();
         })
