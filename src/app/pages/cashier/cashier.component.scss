@@ -1,0 +1,124 @@
+@import '../../@theme/styles/themes.scss';
+
+@include nb-install-component() {
+  nb-card {
+    transform: translate3d(0, 0, 0);
+  }
+  .active-pink-2 input[type=text]:focus:not([readonly]) {
+    border-bottom: 1px solid #f48fb1;
+    box-shadow: 0 1px 0 0 #f48fb1;
+  }
+
+  .active-pink input[type=text] {
+    border-bottom: 1px solid #f48fb1;
+    box-shadow: 0 1px 0 0 #f48fb1;
+  }
+
+  .active-purple-2 input[type=text]:focus:not([readonly]) {
+    border-bottom: 1px solid #ce93d8;
+    box-shadow: 0 1px 0 0 #ce93d8;
+  }
+
+  .active-purple input[type=text] {
+    border-bottom: 1px solid #ce93d8;
+    box-shadow: 0 1px 0 0 #ce93d8;
+  }
+
+  .active-cyan-2 input[type=text]:focus:not([readonly]) {
+    border-bottom: 1px solid #4dd0e1;
+    box-shadow: 0 1px 0 0 #4dd0e1;
+  }
+
+  .active-cyan input[type=text] {
+    border-bottom: 1px solid #4dd0e1;
+    box-shadow: 0 1px 0 0 #4dd0e1;
+  }
+
+  .active-cyan .fa,
+  .active-cyan-2 .fa {
+    color: #4dd0e1;
+  }
+
+  .active-purple .fa,
+  .active-purple-2 .fa {
+    color: #ce93d8;
+  }
+
+  .active-pink .fa,
+  .active-pink-2 .fa {
+    color: #f48fb1;
+  }
+
+
+  :host {
+    display: block;
+    max-height: 25rem;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  .card-row {
+    display: flex;
+    margin: 0 -0.5rem;
+  }
+
+  .card-col {
+    flex: 1 0 calc(70% - 0.5rem);
+    margin: 0 0;
+  }
+  .card-col2 {
+    flex: 1 0 calc(30% - 0.5rem);
+    margin: 0 0.5rem;
+  }
+  .card-col3 {
+    flex: 1 0 calc(30% - 0.5rem);
+    margin: 0 0.5rem;
+  }
+  ng2-smart-table ::ng-deep {
+    .ng2-smart-action-add-add {
+      background-color: nb-theme(button-filled-primary-background-color);
+      border-color: nb-theme(button-filled-primary-border-color);
+      color: nb-theme(button-filled-primary-text-color);
+
+      &:focus {
+        border-color: nb-theme(button-filled-primary-focus-border-color);
+      }
+
+      &:hover {
+        background-color: nb-theme(button-filled-primary-hover-background-color);
+        border-color: nb-theme(button-filled-primary-hover-border-color);
+      }
+
+      &:active {
+        background-color: nb-theme(button-filled-primary-active-background-color);
+        border-color: nb-theme(button-filled-primary-active-border-color);
+      }
+    }
+
+    nav.ng2-smart-pagination-nav .pagination li {
+      a, > span {
+        background-color: transparent;
+        color: nb-theme(button-outline-primary-text-color);
+
+        &:focus {
+          border-color: nb-theme(button-outline-primary-focus-border-color);
+          color: nb-theme(button-outline-primary-focus-text-color);
+        }
+
+        &:hover {
+          border-color: nb-theme(button-outline-primary-hover-border-color);
+          color: nb-theme(button-outline-primary-hover-text-color);
+        }
+      }
+    }
+
+    .ng2-smart-pagination .page-item.disabled {
+      .page-link,
+      .page-link:focus,
+      .page-link:hover {
+        background-color: transparent;
+        color: nb-theme(button-outline-primary-disabled-text-color);
+      }
+    }
+  }
+}

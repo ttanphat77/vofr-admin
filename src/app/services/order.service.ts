@@ -3,6 +3,7 @@ import {environment} from '../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import {Observable, of} from 'rxjs';
 import {catchError, tap} from 'rxjs/operators';
+import {Order} from '../models/order.model';
 
 const apiUrl = environment.apiUrl;
 
@@ -18,5 +19,36 @@ export class OrderService {
         catchError(err => {
           return of(null);
         }));
+  }
+
+  updateCustomerInformation(order: Order): Observable<any> {
+    return this.http.put<any>(apiUrl + '/order/update-customer-order', {
+      order_id: order.id,
+      total: order.total,
+      status: order.status,
+      order_date: null,
+      account_id: null,
+      full_name: order.name,
+      email: order.email,
+      address: order.address,
+      phone_number: order.phoneNumber,
+      method: 0,
+      order_items: [
+        {
+          order_item_id: 0,
+          price: 0,
+          quantity: 0,
+          date_created: null,
+          date_modified: null,
+          product_id: null,
+          order_id: null,
+          size: null
+        }
+      ]
+    }).pipe(tap(_ => console.log('Update product')),
+      catchError(err => {
+        console.log(err);
+        return of(null);
+      }));
   }
 }

@@ -93,9 +93,9 @@
     "rimraf": "2.6.1",
     "stylelint": "7.13.0",
     "ts-node": "3.2.2",
-    "tslint": "^5.20.0",
     "tslint-language-service": "^0.9.9",
-    "typescript": "3.4.5"
+    "typescript": "3.4.5",
+    "@ng-bootstrap/ng-bootstrap": "5.1.4"
   },
   "browser": {
     "fs": false,
