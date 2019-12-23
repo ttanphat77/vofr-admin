@@ -15,11 +15,12 @@ import {FormsModule} from "@angular/forms";
 import {ThemeModule} from "../../@theme/theme.module";
 import {Ng2SmartTableModule} from "ng2-smart-table";
 import {NbEvaIconsModule} from "@nebular/eva-icons";
-import { ActiveAccountButtonComponent } from './active-account-button/active-account-button.component';
+import {ActiveAccountButtonComponent} from './active-account-button.component';
 
 
 @NgModule({
   declarations: [AccountComponent, ActiveAccountButtonComponent],
+  entryComponents: [ActiveAccountButtonComponent],
   imports: [
     CommonModule,
     NbCardModule,

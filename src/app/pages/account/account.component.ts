@@ -1,13 +1,13 @@
 import {Component, OnInit, TemplateRef} from '@angular/core';
-import {sortDate, sortName} from "../common/sortDate";
+import {sortDate} from "../common/sortDate";
 import {ViewActionRenderComponent} from "../order/view-action-render.component";
 import {LocalDataSource} from "ng2-smart-table";
-import {Order} from "../../models/order.model";
 import {Account} from "../../models/account.model";
 import {NbDialogService} from "@nebular/theme";
 import {DatePipe} from "@angular/common";
-import {OrderService} from "../../services/order.service";
 import {AccountService} from "../../services/account.service";
+import {ActiveAccountButtonComponent} from "./active-account-button.component";
+import {Product} from "../../models/product.model";
 
 @Component({
   selector: 'account',
@@ -46,13 +46,13 @@ export class AccountComponent implements OnInit {
       email: {
         title: 'Email',
         type: 'String',
-        width: '5%',
+        width: '15%',
         // renderComponent: DescriptionRenderComponent,
       },
       phoneNumber: {
         title: 'Phone Number',
         type: 'String',
-        width: '5%',
+        width: '10%',
         // renderComponent: DescriptionRenderComponent,
       },
       username: {
@@ -74,14 +74,24 @@ export class AccountComponent implements OnInit {
       },
       status: {
         title: 'Status',
-        type: 'String',
-        width: '15%',
+        type: 'custom',
+        width: '5%',
+        valuePrepareFunction: (cell, row) => row,
+        renderComponent: ActiveAccountButtonComponent,
+        onComponentInitFunction: (instance) => {
+          instance.save.subscribe((row) => {
+            this.handleChangeStatus(row);
+          });
+        },
+        filter: false,
+        sort: false,
         // renderComponent: DescriptionRenderComponent,
       },
       role: {
         title: 'Role',
         type: 'String',
         width: '10%',
+
       },
       //
       // orderDate: {
@@ -111,11 +121,11 @@ export class AccountComponent implements OnInit {
       // },
       action: {
         title: 'Action',
-        type: 'custom',
+        type: 'string',
         filter: false,
         width: '5%',
-        valuePrepareFunction: (cell, row) => row,
-        renderComponent: ViewActionRenderComponent,
+        // valuePrepareFunction: (cell, row) => row,
+        // renderComponent: ViewActionRenderComponent,
         // onComponentInitFunction: (instance) => {
         //   instance.save.subscribe((res) => {
         //     if (res.action === 'edit') {
@@ -148,6 +158,7 @@ export class AccountComponent implements OnInit {
       console.log(accountList);
       accountList.forEach(element => {
         const account: Account = new Account();
+        account.id = element.account_id;
         account.firstName = element.first_name;
         account.lastName = element.last_name;
         account.email = element.email;
@@ -162,5 +173,11 @@ export class AccountComponent implements OnInit {
       });
       this.source.load(this.accounts);
     });
+  }
+
+  private handleChangeStatus(account: Account) {
+    const acc = account;
+    acc.activated = !acc.activated;
+    this.source.update(account, acc);
   }
 }
