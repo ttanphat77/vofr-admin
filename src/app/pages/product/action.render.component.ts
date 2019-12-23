@@ -9,7 +9,7 @@ import {Category} from '../../models/category.model';
 import {Product} from '../../models/product.model';
 
 
-const UPLOAD_URL = 'http://107.150.52.213/api-votf/api/upload-file';
+const UPLOAD_URL = 'http://23.94.26.75/vat-api/api/upload-file';
 
 @Component({
   templateUrl: './action.render.component.html',
@@ -159,7 +159,7 @@ export class ActionRenderComponent implements OnInit {
   }
 
   addFile(img, type) {
-    this.imageService.addImage(this.value.row.id, 'http://107.150.52.213/api-votf/image/' + img, type)
+    this.imageService.addImage(this.value.row.id, 'http://23.94.26.75/vat-api/image/' + img, type)
       .subscribe(res => {
         if (type == 'img') {
           if (!this.imgLoading) {

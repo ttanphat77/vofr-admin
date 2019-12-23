@@ -1,0 +1,114 @@
+<div class="card-row">
+  <div class="card-col">
+    <nb-card>
+      <nb-card-header>
+        <h2>Order
+          <button nbButton (click)="openAddNew(addOrderDialog, 1)">
+            <nb-icon icon="plus-outline" status="danger" style="color: white"></nb-icon>
+            Add new
+          </button>
+        </h2>
+
+        <!-- Add Order Dialog -->
+        <ng-template #addOrderDialog let-data let-ref="dialogRef">
+          <nb-card>
+            <nb-card-header>Add An Order</nb-card-header>
+            <nb-card-body>
+              <h6 for="name">Customer Name</h6>
+              <input type="text" nbInput fullWidth class="form-control" id="name" [(ngModel)]="newOrder.name"
+                     name="name"
+                     style="margin-bottom: 1rem" required>
+              <h6 for="phoneNumber">Phone Number</h6>
+              <input type="text" nbInput fullWidth class="form-control" id="phoneNumber"
+                     [(ngModel)]="newOrder.phoneNumber"
+                     name="phoneNumber"
+                     style="margin-bottom: 1rem" required>
+              <h6 for="email">Email</h6>
+              <input type="text" nbInput fullWidth class="form-control" id="email" [(ngModel)]="newOrder.email"
+                     name="email"
+                     style="margin-bottom: 1rem" required>
+              <h6 for="address">Address</h6>
+              <input type="text" nbInput fullWidth class="form-control" id="address" [(ngModel)]="newOrder.address"
+                     name="address"
+                     style="margin-bottom: 1rem" required>
+            </nb-card-body>
+            <nb-card-footer>
+              <button (click)="ref.close()" nbButton status="danger" style="margin-right: 1rem;">Cancel</button>
+              <button (click)="addNewOrder();ref.close()" nbButton>Save</button>
+            </nb-card-footer>
+          </nb-card>
+        </ng-template>
+        <!-- Add new template -->
+        <ng-template #addNewItemDialog let-data let-ref="dialogRef">
+          <nb-card style="width: 800px;">
+            <nb-card-header>Add New Item</nb-card-header>
+            <nb-card-body>
+              <!--              <input type="text" nbInput fullWidth class="form-control" id="name" name="name"-->
+              <!--                     [(ngModel)]="newItem.name" style="margin-bottom: 1rem" required>-->
+              <div class="form-inline md-form form-sm active-pink-2">
+                <input class="form-control form-control-sm mr-3 w-75" placeholder="Search Product" aria-label="Search"
+                       type="search" [(ngModel)]="searchText" mdbInput
+                       (keydown.enter)="search($event.target.value)">
+                <mdb-icon fas icon="search" aria-hidden="true"></mdb-icon>
+              </div>
+              <br/>
+              <!--              <ul *ngFor="let user of usersArray | filter: searchText">-->
+              <!--                <li>{{user.name}}</li>-->
+              <!--              </ul>-->
+              <ng2-smart-table [settings]="productSettings" [source]="productSource"
+                               (userRowSelect)="chooseNewProduct($event)">
+              </ng2-smart-table>
+            </nb-card-body>
+            <nb-card-footer>
+              <button (click)="ref.close()" nbButton status="danger"
+                      style="margin-right: 1rem;">Cancel
+              </button>
+              <button (click)="addNewOrderItem(productToAdd);ref.close()" nbButton type="submit"
+                      status="success">Add
+              </button>
+            </nb-card-footer>
+          </nb-card>
+        </ng-template>
+      </nb-card-header>
+
+      <nb-card-body>
+        <ng2-smart-table [settings]="orderSettings" [source]="source" (userRowSelect)="onUserRowSelect($event)">
+        </ng2-smart-table>
+        <!--        <h1>{{demo}}</h1>-->
+      </nb-card-body>
+    </nb-card>
+  </div>
+  <div class="card-col2" *ngIf="choosenOrder">
+    <nb-card>
+      <nb-card-header>
+        <h2>
+          <button nbButton style="margin-bottom: 1rem" (click)="openAddNew(addNewItemDialog, 2)">
+            <nb-icon icon="plus-outline" status="danger" style="color: white"></nb-icon>
+          </button>
+          <button nbButton style="margin-left: 1rem; margin-bottom: 1rem" (click)="saveOrder()">
+            <nb-icon icon="save-outline" status="danger" style="color: white"></nb-icon>
+          </button>
+          {{choosenOrder?.name}}
+        </h2>
+      </nb-card-header>
+
+      <nb-card-body>
+        <ng2-smart-table [settings]="orderDetailSettings" [source]="detailSource">
+        </ng2-smart-table>
+        <!--        <h1>{{demo}}</h1>-->
+        <h1 style="float: right" *ngIf="choosenOrder"> Total: {{caculateTotal()}} </h1>
+      </nb-card-body>
+
+      <nb-card-footer>
+        <button style="float: right; " nbButton (click)="saveOrder()">
+          <nb-icon icon="person-done-outline" status="primary" style="color: white;"></nb-icon>
+          Done
+        </button>
+        <button style="float: right; margin-right: 0.5rem" nbButton (click)="saveOrder()" status="danger">
+          <nb-icon icon="close-outline" status="warning" style="color: white;"></nb-icon>
+          Cancel
+        </button>
+      </nb-card-footer>
+    </nb-card>
+  </div>
+</div>

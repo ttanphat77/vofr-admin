@@ -3,14 +3,14 @@
  * Copyright Akveo. All Rights Reserved.
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { CoreModule } from './@core/core.module';
-import { ThemeModule } from './@theme/theme.module';
-import { AppComponent } from './app.component';
-import { AppRoutingModule } from './app-routing.module';
+import {BrowserModule} from '@angular/platform-browser';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {NgModule, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
+import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
+import {CoreModule} from './@core/core.module';
+import {ThemeModule} from './@theme/theme.module';
+import {AppComponent} from './app.component';
+import {AppRoutingModule} from './app-routing.module';
 import {
   NbActionsModule,
   NbButtonModule,
@@ -28,7 +28,11 @@ import {
   NbAuthModule,
   NbAuthJWTToken,
 } from '@nebular/auth';
-import { AuthGuard } from './services/auth-guard.service';
+import {AuthGuard} from './services/auth-guard.service';
+import {FilterPipe} from './pages/cashier/filter.pipe';
+import {QuantityActionComponentComponent} from './pages/cashier/quantity-action-component.component';
+import {DeleteActionComponent} from './pages/cashier/delete-action.component';
+import {OrderActionComponent} from './pages/cashier/order-action.component';
 
 
 @NgModule({
@@ -40,7 +44,6 @@ import { AuthGuard } from './services/auth-guard.service';
     HttpClientModule,
     AppRoutingModule,
     ThemeModule.forRoot(),
-
     NbSidebarModule.forRoot(),
     NbMenuModule.forRoot(),
     NbDatepickerModule.forRoot(),
@@ -54,7 +57,7 @@ import { AuthGuard } from './services/auth-guard.service';
       strategies: [
         NbPasswordAuthStrategy.setup({
           name: 'email',
-          baseEndpoint: 'http://107.150.52.213/api-votf/api',
+          baseEndpoint: 'http://23.94.26.75/vat-api/api',
           login: {
             endpoint: '/account/check-login',
             method: 'post',
@@ -86,7 +89,7 @@ import { AuthGuard } from './services/auth-guard.service';
     NbActionsModule,
   ],
   providers: [AuthGuard],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent]
 })
 export class AppModule {
 }

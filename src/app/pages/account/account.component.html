@@ -1,0 +1,30 @@
+<nb-card>
+  <nb-card-header>
+    <h2>Account
+      <button nbButton (click)="open(addNewDialog)">
+        <nb-icon icon="plus-outline" status="danger" style="color: white"></nb-icon>
+        Add new
+      </button>
+    </h2>
+  </nb-card-header>
+
+  <!-- Add new template -->
+  <ng-template #addNewDialog let-data let-ref="dialogRef">
+    <nb-card [size]="'large'" style="width: 500px">
+      <nb-card-header>New order</nb-card-header>
+      <nb-card-body>
+
+      </nb-card-body>
+      <nb-card-footer>
+        <button (click)="ref.close()" nbButton status="danger" style="margin-right: 1rem;">Cancel</button>
+        <!--        <button (click)="createProduct();ref.close()" nbButton type="submit" status="success">Save</button>-->
+      </nb-card-footer>
+    </nb-card>
+  </ng-template>
+
+  <nb-card-body>
+    <ng2-smart-table [settings]="tableSettings" [source]="source">
+    </ng2-smart-table>
+    <!--    <h1>{{demo}}</h1>-->
+  </nb-card-body>
+</nb-card>

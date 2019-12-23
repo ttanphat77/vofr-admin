@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { OrderComponent } from './order.component';
+import { DeleteActionComponent } from './delete-action.component';
 
-describe('OrderComponent', () => {
-  let component: OrderComponent;
-  let fixture: ComponentFixture<OrderComponent>;
+describe('DeleteActionComponent', () => {
+  let component: DeleteActionComponent;
+  let fixture: ComponentFixture<DeleteActionComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ OrderComponent ],
+      declarations: [ DeleteActionComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(OrderComponent);
+    fixture = TestBed.createComponent(DeleteActionComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

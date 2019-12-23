@@ -1,0 +1,26 @@
+<nb-action size="small" icon="edit-2-outline" (click)="open(editDialog)"></nb-action>
+<!-- Edit Dialog -->
+<ng-template #editDialog let-data let-ref="dialogRef">
+  <nb-card>
+    <nb-card-header>Edit Customer Information</nb-card-header>
+    <nb-card-body>
+      <h6 for="name">Customer Name</h6>
+      <input type="text" nbInput fullWidth class="form-control" id="name" [(ngModel)]="order.name" name="name"
+             style="margin-bottom: 1rem" required>
+      <h6 for="phoneNumber">Phone Number</h6>
+      <input type="text" nbInput fullWidth class="form-control" id="phoneNumber" [(ngModel)]="order.phoneNumber"
+             name="phoneNumber"
+             style="margin-bottom: 1rem" required>
+      <h6 for="email">Email</h6>
+      <input type="text" nbInput fullWidth class="form-control" id="email" [(ngModel)]="order.email" name="email"
+             style="margin-bottom: 1rem" required>
+      <h6 for="address">Address</h6>
+      <input type="text" nbInput fullWidth class="form-control" id="address" [(ngModel)]="order.address" name="address"
+             style="margin-bottom: 1rem" required>
+    </nb-card-body>
+    <nb-card-footer>
+      <button (click)="cancel();ref.close()" nbButton status="danger" style="margin-right: 1rem;">Cancel</button>
+      <button (click)="saveOrderInformation();ref.close()" nbButton>Save</button>
+    </nb-card-footer>
+  </nb-card>
+</ng-template>
