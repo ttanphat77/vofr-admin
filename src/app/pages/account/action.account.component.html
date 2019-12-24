@@ -1,0 +1,57 @@
+<!-- Edit Dialog -->
+<ng-template #editDialog let-data let-ref="dialogRef">
+  <nb-card [size]="'large'" style="width: 500px">
+    <nb-card-header>Edit Account</nb-card-header>
+    <nb-card-body>
+      <h6 for="firstName">First Name</h6>
+      <input type="text" nbInput fullWidth class="form-control" id="firstName"
+             [(ngModel)]="account.firstName" name="firstName"
+             style="margin-bottom: 1rem" required>
+
+      <h6 for="lastName">Last Name</h6>
+      <input type="text" nbInput fullWidth class="form-control" id="lastName"
+             [(ngModel)]="account.lastName"
+             name="lastName" style="margin-bottom: 1rem" required>
+      <h6 for="email">Email</h6>
+      <input type="email" nbInput fullWidth class="form-control" id="email"
+             [(ngModel)]="account.email"
+             name="email" style="margin-bottom: 1rem" required>
+      <h6 for="phoneNumber">Phone Number</h6>
+      <input type="phoneNumber" nbInput fullWidth class="form-control" id="phoneNumber"
+             [(ngModel)]="account.phoneNumber"
+             name="phoneNumber" style="margin-bottom: 1rem" required>
+      <h6 for="username">Username</h6>
+      <input type="text" nbInput fullWidth class="form-control" id="username"
+             [(ngModel)]="account.username"
+             name="username" style="margin-bottom: 1rem" required>
+      <h6 for="address">Address</h6>
+      <input type="text" nbInput fullWidth class="form-control" id="address"
+             [(ngModel)]="account.address"
+             name="address" style="margin-bottom: 1rem" required>
+    </nb-card-body>
+    <nb-card-footer>
+      <button (click)="ref.close()" nbButton status="danger" style="margin-right: 1rem;">Cancel</button>
+      <button (click)="saveAccount();ref.close()" nbButton status="success">Save</button>
+
+    </nb-card-footer>
+  </nb-card>
+</ng-template>
+
+<!-- Delete Dialog -->
+<ng-template #deleteDialog let-data let-ref="dialogRef">
+  <nb-card>
+    <nb-card-header>Delete Account</nb-card-header>
+    <nb-card-body>
+      <h5>Do you want to delete user [{{account.username}}]"?</h5>
+    </nb-card-body>
+    <nb-card-footer>
+      <button (click)="ref.close()" nbButton status="danger" style="margin-right: 1rem;">Cancel</button>
+      <button (click)="deleteAccount();ref.close()" nbButton>Delete</button>
+    </nb-card-footer>
+  </nb-card>
+</ng-template>
+<nb-actions size="small">
+  <nb-action icon="edit-2-outline" (click)="open(editDialog)"></nb-action>
+  <nb-action icon="trash-2-outline" (click)="open(deleteDialog)"></nb-action>
+</nb-actions>
+
