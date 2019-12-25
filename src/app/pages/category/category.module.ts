@@ -22,7 +22,8 @@ import {
   declarations: [
     CategoryComponent,
     SubCategoryRenderComponent,
-    ActionRenderComponent
+    ActionRenderComponent,
+
   ],
   entryComponents: [
     SubCategoryRenderComponent,

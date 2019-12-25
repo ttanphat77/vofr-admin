@@ -6,9 +6,11 @@ export class Account {
   address: string;
   phoneNumber: string;
   username: string;
+  password: string;
+  roleName: string;
   dateCreated: Date;
   activated: boolean;
   deleted: boolean;
-  role: string;
+  role: number;
   image: string;
 }

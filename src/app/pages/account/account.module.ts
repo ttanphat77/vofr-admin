@@ -1,8 +1,7 @@
 import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
 import {AccountComponent} from "./account.component";
 import {
-  NbActionsModule,
+  NbActionsModule, NbAlertModule,
   NbButtonModule,
   NbCardModule, NbDialogModule,
   NbIconModule,
@@ -16,13 +15,15 @@ import {ThemeModule} from "../../@theme/theme.module";
 import {Ng2SmartTableModule} from "ng2-smart-table";
 import {NbEvaIconsModule} from "@nebular/eva-icons";
 import {ActiveAccountButtonComponent} from './active-account-button.component';
+import {ActionAccountComponent} from "./action.account.component";
+import {RoleSelectComponent} from "./role.select.component";
+import {MustMatchDirective} from "./helper/must-match.directive";
 
 
 @NgModule({
-  declarations: [AccountComponent, ActiveAccountButtonComponent],
-  entryComponents: [ActiveAccountButtonComponent],
+  declarations: [AccountComponent, ActiveAccountButtonComponent, ActionAccountComponent, RoleSelectComponent, MustMatchDirective],
+  entryComponents: [ActiveAccountButtonComponent, ActionAccountComponent, RoleSelectComponent],
   imports: [
-    CommonModule,
     NbCardModule,
     FileUploadModule,
     FormsModule,
@@ -35,6 +36,7 @@ import {ActiveAccountButtonComponent} from './active-account-button.component';
     NbListModule,
     NbActionsModule,
     NbPopoverModule,
+    NbAlertModule,
     Ng2SmartTableModule,
     NbEvaIconsModule,
     NbTooltipModule,

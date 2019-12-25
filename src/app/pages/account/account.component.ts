@@ -8,6 +8,8 @@ import {DatePipe} from "@angular/common";
 import {AccountService} from "../../services/account.service";
 import {ActiveAccountButtonComponent} from "./active-account-button.component";
 import {Product} from "../../models/product.model";
+import {ActionAccountComponent} from "./action.account.component";
+import {RoleSelectComponent} from "./role.select.component";
 
 @Component({
   selector: 'account',
@@ -15,9 +17,12 @@ import {Product} from "../../models/product.model";
   styleUrls: ['./account.component.scss']
 })
 export class AccountComponent implements OnInit {
+  dialogRef: any;
   source: LocalDataSource = new LocalDataSource();
   accounts: Account[] = [];
-
+  account: Account;
+  model: any = {};
+  errors: string;
   tableSettings: any = {
     actions: false,
     columns: {
@@ -88,10 +93,17 @@ export class AccountComponent implements OnInit {
         // renderComponent: DescriptionRenderComponent,
       },
       role: {
+        editable: true,
         title: 'Role',
-        type: 'String',
-        width: '10%',
-
+        type: 'custom',
+        width: '5%',
+        valuePrepareFunction: (cell, row) => row,
+        renderComponent: RoleSelectComponent,
+        onComponentInitFunction: (instance) => {
+          instance.save.subscribe((row) => {
+            this.handleChangeStatus(row);
+          });
+        },
       },
       //
       // orderDate: {
@@ -121,20 +133,20 @@ export class AccountComponent implements OnInit {
       // },
       action: {
         title: 'Action',
-        type: 'string',
+        type: 'custom',
         filter: false,
         width: '5%',
-        // valuePrepareFunction: (cell, row) => row,
-        // renderComponent: ViewActionRenderComponent,
-        // onComponentInitFunction: (instance) => {
-        //   instance.save.subscribe((res) => {
-        //     if (res.action === 'edit') {
-        //       this.handleEdit(res.product);
-        //     } else if (res.action === 'delete') {
-        //       this.handleDelete(res.product);
-        //     }
-        //   });
-        // },
+        valuePrepareFunction: (cell, row) => row,
+        renderComponent: ActionAccountComponent,
+        onComponentInitFunction: (instance) => {
+          instance.save.subscribe((res) => {
+            if (res.action === 'edit') {
+              this.handleEdit(res.account);
+            } else if (res.action === 'delete') {
+              this.handleDelete(res.account);
+            }
+          });
+        },
       },
     },
   };
@@ -148,11 +160,18 @@ export class AccountComponent implements OnInit {
     this.getAllData();
   }
 
-  open(addNewDialog: TemplateRef<any>) {
-
+  open(dialog: TemplateRef<any>) {
+    this.account = new Account();
+    this.dialogRef = this.dialogService.open(dialog, {
+      hasBackdrop: true,
+      hasScroll: true,
+      autoFocus: false,
+      closeOnEsc: false,
+    });
   }
 
   getAllData() {
+    this.accounts = [];
     this.accountService.getAllAccount().subscribe(data => {
       const accountList: any[] = data.data;
       console.log(accountList);
@@ -166,6 +185,8 @@ export class AccountComponent implements OnInit {
         account.username = element.username;
         account.role = element.role_id;
         account.activated = element.actived;
+        account.password = element.password;
+        account.roleName = element.role_name;
         account.deleted = element.deleted;
         account.dateCreated = element.date_created;
         account.address = element.address;
@@ -175,9 +196,34 @@ export class AccountComponent implements OnInit {
     });
   }
 
-  private handleChangeStatus(account: Account) {
+  handleChangeStatus(account: Account) {
     const acc = account;
     acc.activated = !acc.activated;
     this.source.update(account, acc);
+  }
+
+  handleEdit(newAccount: Account) {
+    const oldProduct = this.accounts.find(acc => acc.id == newAccount.id);
+    this.source.update(oldProduct, newAccount);
+  }
+
+  handleDelete(account: Account) {
+    this.source.remove(account);
+  }
+
+  onSubmit(dialog: TemplateRef<any>) {
+    this.accountService.addNewAccount(this.account).subscribe(res => {
+      if (res.success === true) {
+        this.getAllData();
+        this.dialogService.open(dialog, {});
+        return this.dialogRef.close();
+      }
+      if (res.status === 400) {
+        return this.errors = res.error.message;
+      }
+      if (res.status === 500) {
+        return this.errors = 'Server Error';
+      }
+    });
   }
 }
