@@ -9,13 +9,13 @@
         <div class="container">
           <br />
           <label>Name: </label>
-          <input type="text" appForbiddenName="bob" name="name" #name="ngModel" ngModel 
+          <input type="text" name="name" #name="ngModel" [(ngModel)]="newSceneName" 
           required style="margin: 0 0 1rem 1rem" nbInput placeholder="Name" />
 
-          <label *ngIf="name.errors.required && (name.dirty || name.touched)" class="text-danger">
-              Name is required.
+          <label *ngIf="name.errors?.required && (name.dirty || name.touched)" class="text-danger">
+              Name is required!
             </label>
-
+            <br/>
           <input type="file" nbInput ng2FileSelect [disabled]="isCreated" [uploader]="uploader" multiple
             accept=".jpg" />
           <h3>Upload queue</h3>
@@ -88,13 +88,9 @@
             </button>
             <br />
             <button nbButton type="submit" style="margin: 1rem;" (click)="process()"
-              [disabled]="images.length < 3">Start
+              [disabled]="name.invalid || (uploader.queue.length != images.length) || (images.length < 3)">Start
               process</button>
             {{message}}
-            <br />
-            <nb-progress-bar [value]="progress" *ngIf="progress >= 0" [displayValue]="true"></nb-progress-bar>
-            <br />
-            <a href="{{link}}" *ngIf="link != ''">Download</a>
           </div>
         </div>
       </nb-card-body>
@@ -109,8 +105,7 @@
         <nb-list-item *ngFor="let scene of scenes">
           <h5 style="display: inline;">{{scene.name}}</h5> -
           <code class="text-primary" *ngIf="scene.status == 'Processing'">Processing</code>
-          <code class="text-warning" *ngIf="scene.status == 'Error'">Error</code>
-          <code class="text-danger" *ngIf="scene.status == 'Cancelled'">Cancelled</code>
+          <code class="text-danger" *ngIf="scene.status == 'ERROR'">Error</code>
           <code class="text-success" *ngIf="scene.status == 'DONE'">DONE</code>
           <p class="text-hint subtitle">{{scene.createdDate | date:'medium'}}</p>
           <nb-progress-bar [value]="scene.progress" *ngIf="scene.status == 'Processing'" [displayValue]="true">

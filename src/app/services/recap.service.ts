@@ -9,7 +9,7 @@ import { Scene } from '../models/scene.model';
 @Injectable({ providedIn: 'root' })
 
 export class RecapService {
-    serverUri: string = 'http://localhost:3030/node/api';
+    serverUri: string = 'http://23.94.26.75/node/api';
     constructor(private http: HttpClient) {
 
     }
@@ -23,12 +23,11 @@ export class RecapService {
     //         images: images
     //     });
     // }
-    createScene(): Observable<any> {
-        return this.http.get(this.serverUri + '/api/createScene');
+    createScene(name: string): Observable<any> {
+        return this.http.get(this.serverUri + '/createScene?name=' + name);
     }
-    addImage(token: string, sceneId: string, image: string): Observable<any> {
-        return this.http.post(this.serverUri + '/api/addImage', {
-            token: token,
+    addImage(sceneId: string, image: string): Observable<any> {
+        return this.http.post(this.serverUri + '/addImage', {
             sceneId: sceneId,
             image: image,
         })
@@ -40,21 +39,19 @@ export class RecapService {
     //         images: images
     //     })
     // }
-    startProcess(token: string, sceneId: string): Observable<any> {
-        return this.http.post(this.serverUri + '/api/startProcess', {
-            token: token,
+    startProcess(sceneId: string): Observable<any> {
+        return this.http.post(this.serverUri + '/startProcess', {
             sceneId: sceneId
         })
     }
-    checkProgress(token: string, sceneId: string): Observable<any> {
-        return this.http.post(this.serverUri + '/api/checkProgress', {
-            token: token,
+    checkProgress(sceneId: string): Observable<any> {
+        return this.http.post(this.serverUri + '/checkProgress', {
             sceneId: sceneId
         })
     }
     deleteImages(images: string[]): Observable<any> {
         console.log('delete');
-        return this.http.post(this.serverUri + '/api/deleteImages', {
+        return this.http.post(this.serverUri + '/deleteImages', {
             images: images,
         })
     }
