@@ -57,13 +57,34 @@ export class AccountService {
       }));
   }
 
-  deleteAccount(id: number): Observable<any> {
+  deleteAccount(id: string): Observable<any> {
     return this.http.put<any>(apiUrl + '/account/delete-account?id=' + id + '&param=true', {})
       .pipe(tap(_ => console.log('Delete Account')),
         catchError(err => {
           console.log(err);
           return of(null);
         }));
+  }
+
+
+  addNewAccount(account: Account): Observable<any> {
+    return this.http.post<any>(apiUrl + '/account/create-account', {
+      account_id: null,
+      first_name: account.firstName,
+      last_name: account.lastName,
+      email: account.email,
+      address: account.address,
+      phone_number: account.phoneNumber,
+      username: account.username,
+      password: "123456",
+      role_id: 2,
+      role_name: "User",
+      image_user: "https://cdn1.vectorstock.com/i/1000x1000/19/45/user-avatar-icon-sign-symbol-vector-4001945.jpg"
+    }).pipe(tap(_ => console.log('Create Account')),
+      catchError(err => {
+        console.log(err);
+        return of(err);
+      }));
   }
 }
 
