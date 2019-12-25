@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {AccountComponent} from "./account.component";
 import {
-  NbActionsModule,
+  NbActionsModule, NbAlertModule,
   NbButtonModule,
   NbCardModule, NbDialogModule,
   NbIconModule,
@@ -17,10 +17,11 @@ import {NbEvaIconsModule} from "@nebular/eva-icons";
 import {ActiveAccountButtonComponent} from './active-account-button.component';
 import {ActionAccountComponent} from "./action.account.component";
 import {RoleSelectComponent} from "./role.select.component";
+import {MustMatchDirective} from "./helper/must-match.directive";
 
 
 @NgModule({
-  declarations: [AccountComponent, ActiveAccountButtonComponent, ActionAccountComponent, RoleSelectComponent],
+  declarations: [AccountComponent, ActiveAccountButtonComponent, ActionAccountComponent, RoleSelectComponent, MustMatchDirective],
   entryComponents: [ActiveAccountButtonComponent, ActionAccountComponent, RoleSelectComponent],
   imports: [
     NbCardModule,
@@ -35,6 +36,7 @@ import {RoleSelectComponent} from "./role.select.component";
     NbListModule,
     NbActionsModule,
     NbPopoverModule,
+    NbAlertModule,
     Ng2SmartTableModule,
     NbEvaIconsModule,
     NbTooltipModule,

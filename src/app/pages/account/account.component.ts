@@ -17,9 +17,12 @@ import {RoleSelectComponent} from "./role.select.component";
   styleUrls: ['./account.component.scss']
 })
 export class AccountComponent implements OnInit {
+  dialogRef: any;
   source: LocalDataSource = new LocalDataSource();
   accounts: Account[] = [];
-
+  account: Account;
+  model: any = {};
+  errors: string;
   tableSettings: any = {
     actions: false,
     columns: {
@@ -157,11 +160,18 @@ export class AccountComponent implements OnInit {
     this.getAllData();
   }
 
-  open(addNewDialog: TemplateRef<any>) {
-
+  open(dialog: TemplateRef<any>) {
+    this.account = new Account();
+    this.dialogRef = this.dialogService.open(dialog, {
+      hasBackdrop: true,
+      hasScroll: true,
+      autoFocus: false,
+      closeOnEsc: false,
+    });
   }
 
   getAllData() {
+    this.accounts = [];
     this.accountService.getAllAccount().subscribe(data => {
       const accountList: any[] = data.data;
       console.log(accountList);
@@ -199,5 +209,21 @@ export class AccountComponent implements OnInit {
 
   handleDelete(account: Account) {
     this.source.remove(account);
+  }
+
+  onSubmit(dialog: TemplateRef<any>) {
+    this.accountService.addNewAccount(this.account).subscribe(res => {
+      if (res.success === true) {
+        this.getAllData();
+        this.dialogService.open(dialog, {});
+        return this.dialogRef.close();
+      }
+      if (res.status === 400) {
+        return this.errors = res.error.message;
+      }
+      if (res.status === 500) {
+        return this.errors = 'Server Error';
+      }
+    });
   }
 }
