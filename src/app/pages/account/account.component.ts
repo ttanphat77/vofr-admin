@@ -190,6 +190,7 @@ export class AccountComponent implements OnInit {
         account.deleted = element.deleted;
         account.dateCreated = element.date_created;
         account.address = element.address;
+        account.image = element.image_user;
         this.accounts.push(account);
       });
       this.source.load(this.accounts);

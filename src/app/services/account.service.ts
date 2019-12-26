@@ -1,10 +1,10 @@
-import {Injectable} from '@angular/core';
-import {environment} from "../../environments/environment";
-import {HttpClient} from "@angular/common/http";
-import {Observable, of} from "rxjs";
-import {catchError, tap} from "rxjs/operators";
-import {Product} from "../models/product.model";
-import {Account} from "../models/account.model";
+import { Injectable } from '@angular/core';
+import { environment } from "../../environments/environment";
+import { HttpClient } from "@angular/common/http";
+import { Observable, of } from "rxjs";
+import { catchError, tap } from "rxjs/operators";
+import { Account } from "../models/account.model";
+import { NbAuthJWTToken, NbAuthService } from '@nebular/auth';
 
 const apiUrl = environment.apiUrl;
 
@@ -14,7 +14,8 @@ const apiUrl = environment.apiUrl;
 })
 export class AccountService {
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+    private authService: NbAuthService) {
   }
 
   getAllAccount(): Observable<any> {
@@ -85,6 +86,15 @@ export class AccountService {
         console.log(err);
         return of(err);
       }));
+  }
+
+  getUserById(id): Observable<any> {
+    return this.http.get<any>(apiUrl + '/account?id=' + id)
+      .pipe(tap(_ => console.log('get account information')),
+        catchError(err => {
+          console.log(err);
+          return of(null);
+        }));
   }
 }
 

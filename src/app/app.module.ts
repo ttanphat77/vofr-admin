@@ -11,6 +11,7 @@ import {CoreModule} from './@core/core.module';
 import {ThemeModule} from './@theme/theme.module';
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app-routing.module';
+import { LogoutModule } from './auth/logout.module';
 import {
   NbActionsModule,
   NbButtonModule,
@@ -29,10 +30,6 @@ import {
   NbAuthJWTToken,
 } from '@nebular/auth';
 import {AuthGuard} from './services/auth-guard.service';
-import {FilterPipe} from './pages/cashier/filter.pipe';
-import {QuantityActionComponentComponent} from './pages/cashier/quantity-action-component.component';
-import {DeleteActionComponent} from './pages/cashier/delete-action.component';
-import {OrderActionComponent} from './pages/cashier/order-action.component';
 
 
 @NgModule({
@@ -43,6 +40,7 @@ import {OrderActionComponent} from './pages/cashier/order-action.component';
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
+    LogoutModule,
     ThemeModule.forRoot(),
     NbSidebarModule.forRoot(),
     NbMenuModule.forRoot(),
