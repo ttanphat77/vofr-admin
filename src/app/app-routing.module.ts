@@ -7,7 +7,7 @@ import {
   NbResetPasswordComponent,
 } from '@nebular/auth';
 import { AuthGuard } from './services/auth-guard.service';
-import { LogoutComponent } from './auth/logout.component';
+import { LogoutComponent } from './auth/logout/logout.component';
 
 const routes: Routes = [
   {

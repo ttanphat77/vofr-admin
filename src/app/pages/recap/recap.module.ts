@@ -4,6 +4,7 @@ import {
   NbInputModule,
   NbButtonModule,
   NbIconModule,
+  NbSpinnerModule,
   NbProgressBarModule,
   NbListModule,
 } from '@nebular/theme';
@@ -20,6 +21,7 @@ import { FormsModule } from '@angular/forms';
     NbInputModule,
     NbButtonModule,
     NbIconModule,
+    NbSpinnerModule,
     NbProgressBarModule,
     Ng2SmartTableModule,
     NbListModule,

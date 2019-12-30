@@ -9,18 +9,18 @@
         <div class="container">
           <br />
           <label>Name: </label>
-          <input type="text" name="name" #name="ngModel" [(ngModel)]="newSceneName" 
-          required style="margin: 0 0 1rem 1rem" nbInput placeholder="Name" />
+          <input type="text" name="name" #name="ngModel" [(ngModel)]="newSceneName" required
+            style="margin: 0 0 1rem 1rem" nbInput placeholder="Name" />
 
           <label *ngIf="name.errors?.required && (name.dirty || name.touched)" class="text-danger">
-              Name is required!
-            </label>
-            <br/>
+            Name is required!
+          </label>
+          <br />
           <input type="file" nbInput ng2FileSelect [disabled]="isCreated" [uploader]="uploader" multiple
             accept=".jpg" />
           <h3>Upload queue</h3>
           <p>Queue length: {{ uploader?.queue?.length }}</p>
-          <table class="table" style="table-layout:fixed;">
+          <!-- <table class="table" style="table-layout:fixed;">
             <thead>
               <tr>
                 <th width="50%">Name</th>
@@ -51,29 +51,29 @@
                   </span>
                 </td>
                 <td nowrap>
-                  <!-- <button type="button" class="btn btn-success btn-xs" (click)="item.upload()"
+                  <button type="button" class="btn btn-success btn-xs" (click)="item.upload()"
                 [disabled]="item.isReady || item.isUploading || item.isSuccess">
                 <span class="glyphicon glyphicon-upload"></span> Upload
-              </button> -->
-                  <!-- <button type="button" class="btn btn-warning btn-xs" (click)="item.cancel()"
+              </button>
+                  <button type="button" class="btn btn-warning btn-xs" (click)="item.cancel()"
                 [disabled]="!item.isUploading">
                 <span class="glyphicon glyphicon-ban-circle"></span> Cancel
-              </button> -->
+              </button>
                   <button type="button" class="btn btn-danger btn-xs" (click)="item.remove()">
                     <nb-icon icon="trash-2-outline" status="danger" style="color: white"></nb-icon>
                   </button>
                 </td>
               </tr>
             </tbody>
-          </table>
+          </table> -->
 
           <div>
-            <!-- <div>
-          Queue progress:
-          <div class="progress">
-            <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': uploader.progress + '%' }"></div>
-          </div>
-        </div> -->
+            <div>
+              Queue progress:
+              <div class="progress">
+                <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': uploader.progress + '%' }"></div>
+              </div>
+            </div>
             <button type="button" nbButton status="success" style="margin: 1rem;" (click)="uploader.uploadAll()"
               [disabled]="!uploader.getNotUploadedItems().length">
               <span class="glyphicon glyphicon-upload"></span> Upload all
@@ -87,8 +87,8 @@
               <span class="glyphicon glyphicon-trash"></span> Remove all
             </button>
             <br />
-            <button nbButton type="submit" style="margin: 1rem;" (click)="process()"
-              [disabled]="name.invalid || (uploader.queue.length != images.length) || (images.length < 3)">Start
+            <button nbButton type="submit" style="margin: 1rem;" (click)="process()" [nbSpinner]="processing"
+              [disabled]="name.invalid || (uploader.queue.length != images.length) || (images.length < 3) || processing">Start
               process</button>
             {{message}}
           </div>

@@ -24,7 +24,8 @@ export class RecapComponent implements OnInit, OnDestroy {
   progress: number = -1;
   scenes: Scene[] = [];
   uploaded: number = 0;
-  newSceneName: string = ''
+  newSceneName: string = '';
+  processing: boolean = false;
   constructor(private service: RecapService) {
   }
 
@@ -70,6 +71,7 @@ export class RecapComponent implements OnInit, OnDestroy {
     this.images = [];
   }
   process() {
+    this.processing = true;
     this.message = 'Create scene...'
     this.service.createScene(this.newSceneName).subscribe(res => {
       if (res.success == true) {
@@ -84,7 +86,10 @@ export class RecapComponent implements OnInit, OnDestroy {
                 this.service.startProcess(sceneId).subscribe(res => {
                   if (res.success == true) {
                     this.getHistory();
-                    this.message = "ok";
+                    this.message = '';
+                    this.processing = false;
+                    this.newSceneName = '';
+                    this.uploader.clearQueue();
                   } else {
                     this.message = res.error.msg;
                   }
