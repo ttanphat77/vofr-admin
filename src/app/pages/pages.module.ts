@@ -10,8 +10,6 @@ import {ProductModule} from './product/product.module';
 import {CategoryModule} from './category/category.module';
 import {OrderModule} from './order/order.module';
 import {CashierModule} from './cashier/cashier.module';
-import { AccountComponent } from './account/account.component';
-import {Ng2SmartTableModule} from "ng2-smart-table";
 import {AccountModule} from "./account/account.module";
 
 @NgModule({

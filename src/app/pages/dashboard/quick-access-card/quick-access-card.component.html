@@ -1,4 +1,4 @@
-<a routerLink="{{link}}">
+<a routerLink="{{link}}" *ngIf="accessChecker.isGranted('view', title) | async">
     <nb-card class="text-center text-primary">
         <div class="icon display-1">
             <nb-icon icon="{{icon}}"></nb-icon>

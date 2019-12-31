@@ -1,6 +1,8 @@
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 
-import {MENU_ITEMS} from './pages-menu';
+import { MENU_ITEMS } from './pages-menu';
+import { NbAccessChecker } from '@nebular/security';
+import { NbMenuItem } from '@nebular/theme';
 
 @Component({
   selector: 'ngx-pages',
@@ -13,6 +15,18 @@ import {MENU_ITEMS} from './pages-menu';
   `,
 })
 export class PagesComponent {
-  menu = MENU_ITEMS;
+  menu: NbMenuItem[];
+
+  constructor(public accessChecker: NbAccessChecker) { }
+
+  ngOnInit(): void {
+    MENU_ITEMS.forEach(item => {
+      if (item.title != 'Dashboard') {
+        this.accessChecker.isGranted('view', item.title).subscribe(res => {
+          item.hidden = !res;
+        });
+      }
+    })
+    this.menu = MENU_ITEMS;
+  }
 }
-  

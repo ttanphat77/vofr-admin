@@ -13,7 +13,7 @@ import { RouterModule } from '@angular/router';
     NbCardModule,
     NbIconModule,
     ThemeModule,
-    RouterModule,
+    RouterModule
   ],
   declarations: [
     DashboardComponent,

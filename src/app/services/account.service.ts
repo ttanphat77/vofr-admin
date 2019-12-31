@@ -18,6 +18,15 @@ export class AccountService {
     private authService: NbAuthService) {
   }
 
+  getUserById(id): Observable<any> {
+    return this.http.get<any>(apiUrl + '/account?id=' + id)
+      .pipe(tap(_ => console.log('get account information')),
+        catchError(err => {
+          console.log(err);
+          return of(null);
+        }));
+  }
+
   getAllAccount(): Observable<any> {
     return this.http.get<any>(apiUrl + '/account')
       .pipe(tap(_ => console.log('fetched accounts')),

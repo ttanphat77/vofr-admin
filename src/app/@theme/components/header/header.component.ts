@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NbMediaBreakpointsService, NbMenuService, NbSidebarService, NbThemeService } from '@nebular/theme';
+import { NbMenuService, NbSidebarService, NbThemeService } from '@nebular/theme';
 import { NbAuthJWTToken, NbAuthService } from '@nebular/auth';
 import { AccountService } from '../../../services/account.service';
 import { Account } from '../../../models/account.model';
@@ -43,8 +43,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private menuService: NbMenuService,
     private themeService: NbThemeService,
     private authService: NbAuthService,
-    private accountService: AccountService,
-    private breakpointService: NbMediaBreakpointsService) {
+    private accountService: AccountService,) {
   }
 
   ngOnInit() {

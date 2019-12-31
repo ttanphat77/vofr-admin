@@ -7,12 +7,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { CoreModule } from './@core/core.module';
 import { ThemeModule } from './@theme/theme.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { LogoutModule } from './auth/logout/logout.module';
-import { NbSecurityModule } from '@nebular/security';
+import { NbSecurityModule, NbRoleProvider } from '@nebular/security';
 import {
   NbActionsModule,
   NbButtonModule,
@@ -31,6 +30,7 @@ import {
   NbAuthJWTToken,
 } from '@nebular/auth';
 import { AuthGuard } from './services/auth-guard.service';
+import { RoleProvider } from './services/role.provider';
 
 @NgModule({
   declarations: [AppComponent],
@@ -41,7 +41,9 @@ import { AuthGuard } from './services/auth-guard.service';
     HttpClientModule,
     AppRoutingModule,
     LogoutModule,
-    NbSecurityModule.forRoot(),
+    NbCardModule,
+    NbButtonModule,
+    NbActionsModule,
     ThemeModule.forRoot(),
     NbSidebarModule.forRoot(),
     NbMenuModule.forRoot(),
@@ -82,12 +84,25 @@ import { AuthGuard } from './services/auth-guard.service';
         },
       },
     }),
-    CoreModule.forRoot(),
-    NbCardModule,
-    NbButtonModule,
-    NbActionsModule,
+    NbSecurityModule.forRoot({
+      accessControl: {
+        Cashier: {
+          view: ['Cashier', 'Order'],
+          create: 'Cashier',
+          edit: 'Cashier',
+        },
+        Admin: {
+          view: '*',
+          create: '*',
+          edit: '*',
+        }
+      }
+    }),
   ],
-  providers: [AuthGuard],
+  providers: [AuthGuard, {
+    provide: NbRoleProvider,
+    useClass: RoleProvider,
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule {
