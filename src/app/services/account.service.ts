@@ -88,9 +88,11 @@ export class AccountService {
       }));
   }
 
-  getUserById(id): Observable<any> {
-    return this.http.get<any>(apiUrl + '/account?id=' + id)
-      .pipe(tap(_ => console.log('get account information')),
+
+  changeRole(id: string, roleId: number) {
+    return this.http.put<any>(apiUrl + '/account/change-role-account?'
+      + 'id=' + id + '&roleId=' + roleId, {})
+      .pipe(tap(_ => console.log('changed role')),
         catchError(err => {
           console.log(err);
           return of(null);

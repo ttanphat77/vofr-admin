@@ -176,22 +176,24 @@ export class AccountComponent implements OnInit {
       const accountList: any[] = data.data;
       console.log(accountList);
       accountList.forEach(element => {
-        const account: Account = new Account();
-        account.id = element.account_id;
-        account.firstName = element.first_name;
-        account.lastName = element.last_name;
-        account.email = element.email;
-        account.phoneNumber = element.phone_number;
-        account.username = element.username;
-        account.role = element.role_id;
-        account.activated = element.actived;
-        account.password = element.password;
-        account.roleName = element.role_name;
-        account.deleted = element.deleted;
-        account.dateCreated = element.date_created;
-        account.address = element.address;
-        account.image = element.image_user;
-        this.accounts.push(account);
+
+        if (element.role_id === 1 || element.role_id === 3) {
+          const account: Account = new Account();
+          account.id = element.account_id;
+          account.firstName = element.first_name;
+          account.lastName = element.last_name;
+          account.email = element.email;
+          account.phoneNumber = element.phone_number;
+          account.username = element.username;
+          account.role = element.role_id;
+          account.activated = element.actived;
+          account.password = element.password;
+          account.roleName = element.role_name;
+          account.deleted = element.deleted;
+          account.dateCreated = element.date_created;
+          account.address = element.address;
+          this.accounts.push(account);
+        }
       });
       this.source.load(this.accounts);
     });
