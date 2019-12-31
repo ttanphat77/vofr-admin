@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NbMediaBreakpointsService, NbMenuService, NbSidebarService, NbThemeService } from '@nebular/theme';
-
-import { UserData } from '../../../@core/data/users';
-import { map, takeUntil } from 'rxjs/operators';
+import { NbAuthJWTToken, NbAuthService } from '@nebular/auth';
+import { AccountService } from '../../../services/account.service';
+import { Account } from '../../../models/account.model';
 import { Subject } from 'rxjs';
 
 @Component({
@@ -14,7 +14,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   private destroy$: Subject<void> = new Subject<void>();
   userPictureOnly: boolean = false;
-  user: any;
+  user: Account;
 
   themes = [
     {
@@ -37,36 +37,44 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   currentTheme = 'default';
 
-  userMenu = [ { title: 'Profile' }, { title: 'Log out', link: 'auth/logout' } ];
+  userMenu = [{ title: 'Profile' }, { title: 'Log out', link: 'auth/logout' }];
 
   constructor(private sidebarService: NbSidebarService,
-              private menuService: NbMenuService,
-              private themeService: NbThemeService,
-              private userService: UserData,
-              private breakpointService: NbMediaBreakpointsService) {
+    private menuService: NbMenuService,
+    private themeService: NbThemeService,
+    private authService: NbAuthService,
+    private accountService: AccountService,
+    private breakpointService: NbMediaBreakpointsService) {
   }
 
   ngOnInit() {
     this.currentTheme = this.themeService.currentTheme;
 
-    this.userService.getUsers()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((users: any) => this.user = users.nick);
+    this.authService.onTokenChange()
+      .subscribe((token: NbAuthJWTToken) => {
 
-    const { xl } = this.breakpointService.getBreakpointsMap();
-    this.themeService.onMediaQueryChange()
-      .pipe(
-        map(([, currentBreakpoint]) => currentBreakpoint.width < xl),
-        takeUntil(this.destroy$),
-      )
-      .subscribe((isLessThanXl: boolean) => this.userPictureOnly = isLessThanXl);
+        if (token.isValid()) {
+          this.accountService.getUserById(token.getPayload().unique_name).subscribe(data => {
+            var account = data.data[0];
+            this.user = new Account();
+            this.user.id = account.account_id;
+            this.user.firstName = account.first_name;
+            this.user.lastName = account.last_name;
+            this.user.email = account.email;
+            this.user.phoneNumber = account.phone_number;
+            this.user.username = account.username;
+            this.user.role = account.role_id;
+            this.user.activated = account.actived;
+            this.user.password = account.password;
+            this.user.roleName = account.role_name;
+            this.user.deleted = account.deleted;
+            this.user.dateCreated = account.date_created;
+            this.user.address = account.address;
+            this.user.image = account.image_user;
+          })
+        }
 
-    this.themeService.onThemeChange()
-      .pipe(
-        map(({ name }) => name),
-        takeUntil(this.destroy$),
-      )
-      .subscribe(themeName => this.currentTheme = themeName);
+      });
   }
 
   ngOnDestroy() {

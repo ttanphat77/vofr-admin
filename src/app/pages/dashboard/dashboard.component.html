@@ -1,5 +1,5 @@
 <div class="row">
-  <nb-card>
-    <nb-card-body>Welcome</nb-card-body>
-  </nb-card>
+  <div class="col-md-4 col-6" *ngFor="let item of items">
+    <quick-access-card [title]="item.title" [icon]="item.icon" [link]="item.link"></quick-access-card>
+  </div>
 </div>
