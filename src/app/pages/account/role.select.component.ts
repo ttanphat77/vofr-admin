@@ -25,5 +25,6 @@ export class RoleSelectComponent implements OnInit {
 
   changeRole() {
     console.log(this.account.role);
+    this.accountService.changeRole(this.value.id, this.account.role).subscribe();
   }
 }

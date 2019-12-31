@@ -86,6 +86,16 @@ export class AccountService {
         return of(err);
       }));
   }
+
+  changeRole(id: string, roleId: number) {
+    return this.http.put<any>(apiUrl + '/account/change-role-account?'
+      + 'id=' + id + '&roleId=' + roleId, {})
+      .pipe(tap(_ => console.log('changed role')),
+        catchError(err => {
+          console.log(err);
+          return of(null);
+        }));
+  }
 }
 
 // {
