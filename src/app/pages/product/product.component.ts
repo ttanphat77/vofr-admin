@@ -158,7 +158,7 @@ export class ProductComponent {
         private productService: ProductService,
         private dialogService: NbDialogService,
         private categoryService: CategoryService,
-        private datePipe: DatePipe,
+        private datePipe: DatePipe
     ) {
     }
 

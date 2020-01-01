@@ -6,6 +6,7 @@ import { ProductComponent } from './product.component';
 import { ActiveButtonRenderComponent } from './activeButton.render.component';
 import { ActionRenderComponent } from './action.render.component';
 import { FileUploadModule } from 'ng2-file-upload';
+import { NbSecurityModule } from '@nebular/security';
 import {
   NbCardModule,
   NbIconModule,
@@ -39,6 +40,7 @@ import { FormsModule } from '@angular/forms';
     NbCardModule,
     FileUploadModule,
     FormsModule,
+    NbSecurityModule,
     NbIconModule,
     NbInputModule,
     NbButtonModule,

@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { MENU_ITEMS } from '../pages-menu';
-import { NbAccessChecker } from '@nebular/security';
 import { NbMenuItem } from '@nebular/theme';
 
 @Component({
@@ -11,7 +10,7 @@ export class DashboardComponent {
 
   items: NbMenuItem[];
 
-  constructor(public accessChecker: NbAccessChecker) {
+  constructor() {
   }
 
   ngOnInit(): void {

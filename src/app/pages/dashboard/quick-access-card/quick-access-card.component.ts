@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { NbAccessChecker } from '@nebular/security';
 
 @Component({
   selector: 'quick-access-card',
@@ -12,5 +11,5 @@ export class QuickAccessCardComponent {
   @Input() icon: string;
   @Input() link: string;
 
-  constructor(public accessChecker: NbAccessChecker) { }
+  constructor() { }
 }
