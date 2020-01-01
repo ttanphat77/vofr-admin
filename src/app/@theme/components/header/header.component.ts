@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NbMenuService, NbSidebarService, NbThemeService } from '@nebular/theme';
+import { NbMenuService, NbSidebarService } from '@nebular/theme';
 import { NbAuthJWTToken, NbAuthService } from '@nebular/auth';
 import { AccountService } from '../../../services/account.service';
 import { Account } from '../../../models/account.model';
@@ -16,38 +16,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
   userPictureOnly: boolean = false;
   user: Account;
 
-  themes = [
-    {
-      value: 'default',
-      name: 'Light',
-    },
-    {
-      value: 'dark',
-      name: 'Dark',
-    },
-    {
-      value: 'cosmic',
-      name: 'Cosmic',
-    },
-    {
-      value: 'corporate',
-      name: 'Corporate',
-    },
-  ];
-
-  currentTheme = 'default';
-
   userMenu = [{ title: 'Profile' }, { title: 'Log out', link: 'auth/logout' }];
 
   constructor(private sidebarService: NbSidebarService,
     private menuService: NbMenuService,
-    private themeService: NbThemeService,
     private authService: NbAuthService,
     private accountService: AccountService,) {
   }
 
   ngOnInit() {
-    this.currentTheme = this.themeService.currentTheme;
 
     this.authService.onTokenChange()
       .subscribe((token: NbAuthJWTToken) => {
@@ -79,10 +56,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
-  }
-
-  changeTheme(themeName: string) {
-    this.themeService.changeTheme(themeName);
   }
 
   toggleSidebar(): boolean {

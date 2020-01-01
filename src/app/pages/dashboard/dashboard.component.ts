@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { MENU_ITEMS } from '../pages-menu';
 import { NbAccessChecker } from '@nebular/security';
+import { NbMenuItem } from '@nebular/theme';
 
 @Component({
   selector: 'ngx-dashboard',
@@ -8,9 +9,14 @@ import { NbAccessChecker } from '@nebular/security';
 })
 export class DashboardComponent {
 
-  constructor(public accessChecker: NbAccessChecker) { }
+  items: NbMenuItem[];
 
-  items = MENU_ITEMS.filter(item => {
-    return item.title != 'Dashboard';
-  });
+  constructor(public accessChecker: NbAccessChecker) {
+  }
+
+  ngOnInit(): void {
+    this.items = MENU_ITEMS.filter(item => !item.hidden && item.title !== 'Dashboard')
+  }
+
+
 }

@@ -87,7 +87,7 @@ import { RoleProvider } from './services/role.provider';
     NbSecurityModule.forRoot({
       accessControl: {
         Cashier: {
-          view: ['Cashier', 'Order'],
+          view: ['Cashier', 'Order', 'Dashboard', 'Product'],
           create: 'Cashier',
           edit: 'Cashier',
         },

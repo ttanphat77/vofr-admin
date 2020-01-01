@@ -21,11 +21,9 @@ export class PagesComponent {
 
   ngOnInit(): void {
     MENU_ITEMS.forEach(item => {
-      if (item.title != 'Dashboard') {
-        this.accessChecker.isGranted('view', item.title).subscribe(res => {
-          item.hidden = !res;
-        });
-      }
+      this.accessChecker.isGranted('view', item.title).subscribe(res => {
+        item.hidden = !res;
+      });
     })
     this.menu = MENU_ITEMS;
   }
