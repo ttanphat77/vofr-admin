@@ -1,0 +1,19 @@
+a {
+    text-decoration: none;
+}
+
+nb-card {
+    box-shadow: none;
+    font-size: 3.5rem;
+    font-weight: 200;
+    transition: 0.25s;
+}
+
+nb-card:hover {
+    box-shadow: 0 8px 20px 0 grey;
+    transform: scale(1.075);
+}
+
+nb-icon {
+    font-size: 5rem;
+}

@@ -1,7 +1,7 @@
 <nb-card>
     <nb-card-header>
         <h2>Product
-            <button nbButton (click)="open(addNewDialog)">
+            <button nbButton (click)="open(addNewDialog)" *nbIsGranted="['create', 'Product']">
                 <nb-icon icon="plus-outline" status="danger" style="color: white"></nb-icon>
                 Add new
             </button>
@@ -46,6 +46,5 @@
     <nb-card-body>
         <ng2-smart-table [settings]="tableSettings" [source]="source">
         </ng2-smart-table>
-        <h1>{{demo}}</h1>
     </nb-card-body>
 </nb-card>

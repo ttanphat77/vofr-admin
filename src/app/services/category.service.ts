@@ -1,14 +1,14 @@
-import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
-import {Observable, of} from 'rxjs';
-import {catchError, tap} from 'rxjs/operators';
-import {environment} from '../../environments/environment';
-import {Category} from '../models/category.model';
+import { Observable, of } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
+import { Category } from '../models/category.model';
 
 const apiUrl = environment.apiUrl;
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class CategoryService {
   constructor(private http: HttpClient) {
   }

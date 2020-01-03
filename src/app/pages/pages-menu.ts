@@ -5,51 +5,37 @@ export const MENU_ITEMS: NbMenuItem[] = [
     title: 'Dashboard',
     icon: 'home-outline',
     link: '/pages/dashboard',
-    home: true,
+    home: true
   },
   {
     title: 'Product',
-    icon: 'car-outline',
-    children: [
-      {
-        title: 'Category',
-        link: '/pages/category',
-      },
-      {
-        title: 'Product',
-        link: '/pages/product',
-      },
-    ],
+    link: '/pages/product',
+    icon: 'car-outline'
+  },
+  {
+    title: 'Category',
+    link: '/pages/category',
+    icon: 'keypad-outline'
   },
   {
     title: 'Account',
     icon: 'people-outline',
-    // children: [
-    //   {
-    //     title: 'User',
-    //     link: '/pages/user',
-    //   },
-    //   {
-    //     title: 'Admin',
-    //     link: '/pages/admin',
-    //   },
-    // ],
     link: '/pages/account'
   },
   {
     title: 'Cashier',
-    icon: 'shopping-cart-outline',
-    link: '/pages/cashier',
+    icon: 'printer-outline',
+    link: '/pages/cashier'
   },
   {
     title: 'Order',
     icon: 'shopping-cart-outline',
-    link: '/pages/order',
+    link: '/pages/order'
   },
   {
     title: 'Model generator',
     icon: 'cube-outline',
-    link: '/pages/recap',
+    link: '/pages/recap'
   },
   // {
   //   title: 'Auth',
