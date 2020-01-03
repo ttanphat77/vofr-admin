@@ -1,42 +1,190 @@
 <!-- Edit Dialog -->
-<ng-template #editDialog let-data let-ref="dialogRef">
-  <nb-card [size]="'large'" style="width: 500px">
-    <nb-card-header>Edit Account</nb-card-header>
-    <nb-card-body>
-      <h6 for="firstName">First Name</h6>
-      <input type="text" nbInput fullWidth class="form-control" id="firstName"
-             [(ngModel)]="account.firstName" name="firstName"
-             style="margin-bottom: 1rem" required>
+<!--<ng-template #editDialog let-data let-ref="dialogRef">-->
+<!--  <nb-card [size]="'large'" style="width: 500px">-->
+<!--    <nb-card-header>Edit Account</nb-card-header>-->
+<!--    <nb-card-body>-->
+<!--      <h6 for="firstName">First Name</h6>-->
+<!--      <input type="text" nbInput fullWidth class="form-control" id="firstName"-->
+<!--             [(ngModel)]="account.firstName" name="firstName"-->
+<!--             style="margin-bottom: 1rem" required>-->
 
-      <h6 for="lastName">Last Name</h6>
-      <input type="text" nbInput fullWidth class="form-control" id="lastName"
-             [(ngModel)]="account.lastName"
-             name="lastName" style="margin-bottom: 1rem" required>
-      <h6 for="email">Email</h6>
-      <input type="email" nbInput fullWidth class="form-control" id="email"
-             [(ngModel)]="account.email"
-             name="email" style="margin-bottom: 1rem" required>
-      <h6 for="phoneNumber">Phone Number</h6>
-      <input type="phoneNumber" nbInput fullWidth class="form-control" id="phoneNumber"
-             [(ngModel)]="account.phoneNumber"
-             name="phoneNumber" style="margin-bottom: 1rem" required>
-      <h6 for="username">Username</h6>
-      <input type="text" nbInput fullWidth class="form-control" id="username"
-             [(ngModel)]="account.username"
-             name="username" style="margin-bottom: 1rem" required>
-      <h6 for="address">Address</h6>
-      <input type="text" nbInput fullWidth class="form-control" id="address"
-             [(ngModel)]="account.address"
-             name="address" style="margin-bottom: 1rem" required>
+<!--      <h6 for="lastName">Last Name</h6>-->
+<!--      <input type="text" nbInput fullWidth class="form-control" id="lastName"-->
+<!--             [(ngModel)]="account.lastName"-->
+<!--             name="lastName" style="margin-bottom: 1rem" required>-->
+<!--      <h6 for="email">Email</h6>-->
+<!--      <input type="email" nbInput fullWidth class="form-control" id="email"-->
+<!--             [(ngModel)]="account.email"-->
+<!--             name="email" style="margin-bottom: 1rem" required>-->
+<!--      <h6 for="phoneNumber">Phone Number</h6>-->
+<!--      <input type="phoneNumber" nbInput fullWidth class="form-control" id="phoneNumber"-->
+<!--             [(ngModel)]="account.phoneNumber"-->
+<!--             name="phoneNumber" style="margin-bottom: 1rem" required>-->
+<!--      <h6 for="username">Username</h6>-->
+<!--      <input type="text" nbInput fullWidth class="form-control" id="username"-->
+<!--             [(ngModel)]="account.username"-->
+<!--             name="username" style="margin-bottom: 1rem" required>-->
+<!--      <h6 for="address">Address</h6>-->
+<!--      <input type="text" nbInput fullWidth class="form-control" id="address"-->
+<!--             [(ngModel)]="account.address"-->
+<!--             name="address" style="margin-bottom: 1rem" required>-->
+<!--    </nb-card-body>-->
+<!--    <nb-card-footer>-->
+<!--      <button (click)="ref.close()" nbButton status="danger" style="margin-right: 1rem;">Cancel</button>-->
+<!--      <button (click)="saveAccount();ref.close()" nbButton status="success">Save</button>-->
+<!--    </nb-card-footer>-->
+<!--  </nb-card>-->
+<!--</ng-template>-->
+
+<ng-template #success>
+  <nb-card>
+    <nb-card-body class="example-last-child-no-b-margin">
+      <nb-alert status="success">
+        You have edit account successfully!
+      </nb-alert>
     </nb-card-body>
-    <nb-card-footer>
-      <button (click)="ref.close()" nbButton status="danger" style="margin-right: 1rem;">Cancel</button>
-      <button (click)="saveAccount();ref.close()" nbButton status="success">Save</button>
-
-    </nb-card-footer>
   </nb-card>
 </ng-template>
 
+<ng-template #editDialog let-data let-ref="dialogRef">
+  <nb-card [size]="'large'" style="width: 500px">
+    <nb-card-header>New Account</nb-card-header>
+    <nb-card-body>
+      <div class="jumbotron">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-8 offset-md-2">
+              <form name="form" (ngSubmit)="f.form.valid && onSubmit(success)" #f="ngForm"
+                    [mustMatch]="['password', 'confirmPassword']" novalidate>
+                <div class="form-group">
+                  <label for="firstName">First Name</label>
+                  <input type="text" id="firstName" class="form-control" name="firstName"
+                         [(ngModel)]="account.firstName"
+                         #firstName="ngModel" [ngClass]="{ 'is-invalid': f.submitted && firstName.invalid }"
+                         required/>
+                  <div *ngIf="f.submitted && firstName.invalid" class="invalid-feedback">
+                    <div *ngIf="firstName.errors.required">First Name is required</div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="lastName">Last Name</label>
+                  <input type="text" id="lastName" class="form-control" name="lastName" [(ngModel)]="account.lastName"
+                         #lastName="ngModel" [ngClass]="{ 'is-invalid': f.submitted && lastName.invalid }" required/>
+                  <div *ngIf="f.submitted && lastName.invalid" class="invalid-feedback">
+                    <div *ngIf="lastName.errors.required">Last Name is required</div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="email">Email</label>
+                  <input type="text" class="form-control" id="email" name="email" [(ngModel)]="account.email"
+                         #email="ngModel"
+                         [ngClass]="{ 'is-invalid': f.submitted && email.invalid }" required email/>
+                  <div *ngIf="f.submitted && email.invalid" class="invalid-feedback">
+                    <div *ngIf="email.errors.required">Email is required</div>
+                    <div *ngIf="email.errors.email">Email must be a valid email address</div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="phoneNumber">Phone Number</label>
+                  <input type="text" class="form-control" id="phoneNumber" name="phoneNumber"
+                         [(ngModel)]="account.phoneNumber" #phoneNumber="ngModel"
+                         [ngClass]="{ 'is-invalid': f.submitted && phoneNumber.invalid }" required pattern="[0-9]+"/>
+                  <div *ngIf="f.submitted && phoneNumber.invalid" class="invalid-feedback">
+                    <div *ngIf="phoneNumber.errors.required">Phone Number is required</div>
+                    <div *ngIf="phoneNumber.errors.pattern">Phone Number must be valid</div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="username">Username</label>
+                  <input type="text" class="form-control" id="username" name="username" minlength="6"
+                         [(ngModel)]="account.username" #username="ngModel"
+                         [ngClass]="{ 'is-invalid': f.submitted && username.invalid }" required/>
+                  <div *ngIf="f.submitted && username.invalid" class="invalid-feedback">
+                    <div *ngIf="username.errors.required">Username is required</div>
+                    <div *ngIf="username.errors.minlength">Username must be more 6 characters</div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="address">Address</label>
+                  <input type="text" class="form-control" id="address" name="address"
+                         [(ngModel)]="account.address" #address="ngModel"
+                         [ngClass]="{ 'is-invalid': f.submitted && address.invalid }" required/>
+                  <div *ngIf="f.submitted && address.invalid" class="invalid-feedback">
+                    <div *ngIf="address.errors.required">Address is required</div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <pre class="text-danger">{{  errors | json }}</pre>
+                  <button (click)="ref.close()" nbButton status="danger" style="margin-right: 1rem;">Cancel</button>
+                  <button nbButton type="submit" status="success">Save</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--        <form novalidate #form="ngForm" (ngSubmit)="onSubmit()">-->
+      <!--          <h6 for="firstName">First Name</h6>-->
+      <!--          <input #firstName="ngModel" type="text" nbInput fullWidth class="form-control" id="firstName"-->
+      <!--                 [(ngModel)]="account.firstName" name="firstName"-->
+      <!--                 style="margin-bottom: 1rem" required>-->
+      <!--          <div class="text-danger" *ngIf="firstName.errors?.required && firstName.touched">-->
+      <!--            First Name is required-->
+      <!--          </div>-->
+      <!--          <h6 for="lastName">Last Name</h6>-->
+      <!--          <input #lastName="ngModel" type="text" nbInput fullWidth class="form-control" id="lastName"-->
+      <!--                 [(ngModel)]="account.lastName"-->
+      <!--                 name="lastName" style="margin-bottom: 1rem" required>-->
+      <!--          <div class="text-danger" *ngIf="lastName.errors?.required && lastName.touched">-->
+      <!--            Last name is required-->
+      <!--          </div>-->
+      <!--          <h6 for="email">Email</h6>-->
+      <!--          <input type="email"  #email="ngModel" nbInput fullWidth class="form-control"-->
+      <!--                 id="email"-->
+      <!--                 [(ngModel)]="account.email"-->
+      <!--                 name="email" style="margin-bottom: 1rem" required>-->
+      <!--          <div class="text-danger" *ngIf="email.errors?.required && email.touched">-->
+      <!--            Email is required-->
+      <!--          </div>-->
+      <!--          <div class="text-danger" *ngIf="email.errors?.email && email.touched">-->
+      <!--            Email is invalid-->
+      <!--          </div>-->
+      <!--          <h6 for="phoneNumber">Phone Number</h6>-->
+      <!--          <input #phoneNumber="ngModel" type="phoneNumber" nbInput fullWidth class="form-control" id="phoneNumber"-->
+      <!--                 [(ngModel)]="account.phoneNumber"-->
+      <!--                 name="phoneNumber" style="margin-bottom: 1rem" required>-->
+      <!--          <div class="text-danger" *ngIf="phoneNumber.errors?.required && phoneNumber.touched">-->
+      <!--            Phone Number is required-->
+      <!--          </div>-->
+      <!--          <div class="text-danger" *ngIf="phoneNumber.errors?.phoneNumber && phoneNumber.touched">-->
+      <!--            Phone Number is invalid-->
+      <!--          </div>-->
+      <!--          <h6 for="username">Username</h6>-->
+      <!--          <input #userName="ngModel" type="text" nbInput fullWidth class="form-control" id="username"-->
+      <!--                 [(ngModel)]="account.username" minlength="8"-->
+      <!--                 name="username" style="margin-bottom: 1rem" required>-->
+      <!--          <div class="text-danger" *ngIf="userName.errors?.required && userName.touched">-->
+      <!--            Username is required-->
+      <!--          </div>-->
+      <!--          <div *ngIf="userName.errors?.minlength && userName.touched" class="text-danger">-->
+      <!--            Minimum of 2 characters-->
+      <!--          </div>-->
+      <!--          <h6 for="address">Address</h6>-->
+      <!--          <input type="text" #address="ngModel" nbInput fullWidth class="form-control" id="address"-->
+      <!--                 [(ngModel)]="account.address"-->
+      <!--                 name="address" style="margin-bottom: 1rem" required>-->
+      <!--          <div class="text-danger" *ngIf="address.errors?.required && address.touched">-->
+      <!--            Address is required-->
+      <!--          </div>-->
+      <!--          <pre class="text-danger">{{  errors | json }}</pre>-->
+      <!--          <button (click)="ref.close()" nbButton status="danger" style="margin-right: 1rem;">Cancel</button>-->
+      <!--          <button nbButton type="submit" [disabled]="form.invalid" status="success">Save</button>-->
+      <!--        </form>-->
+    </nb-card-body>
+    <nb-card-footer>
+    </nb-card-footer>
+  </nb-card>
+</ng-template>
 <!-- Delete Dialog -->
 <ng-template #deleteDialog let-data let-ref="dialogRef">
   <nb-card>
