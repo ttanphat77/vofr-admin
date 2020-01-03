@@ -274,6 +274,8 @@ export class CashierComponent implements OnInit {
     } else if (b === 2) {
       this.dialogService.open(dialog, {hasBackdrop: true, hasScroll: true, autoFocus: false, closeOnEsc: false});
       this.getAllProduct();
+    } else if (b === 3) {
+      this.dialogService.open(dialog, {hasBackdrop: true, hasScroll: true, autoFocus: false, closeOnEsc: false});
     }
 
   }
@@ -344,6 +346,20 @@ export class CashierComponent implements OnInit {
     this.orderDetailService.updateOrderDetail(this.orderDetails).subscribe(res => {
       console.log(res);
     });
+  }
+
+  payOrder() {
+    this.orderService.changeStatus(this.choosenOrder.id, 2).subscribe(res => {
+      console.log(res);
+      this.source.remove(this.choosenOrder);
+    })
+  }
+
+  cancelOrder() {
+    this.orderService.changeStatus(this.choosenOrder.id, 3).subscribe(res => {
+      console.log(res);
+      this.source.remove(this.choosenOrder);
+    })
   }
 
   caculateTotal() {

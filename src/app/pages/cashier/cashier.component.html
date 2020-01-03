@@ -9,6 +9,35 @@
           </button>
         </h2>
 
+
+        <!-- Done Dialog -->
+        <ng-template #doneDialog let-data let-ref="dialogRef">
+          <nb-card>
+            <nb-card-header>Payment Order</nb-card-header>
+            <nb-card-body>
+              <h5>Do you want to make a payment for order"?</h5>
+            </nb-card-body>
+            <nb-card-footer>
+              <button (click)="ref.close()" nbButton status="danger" style="margin-right: 1rem;">Cancel</button>
+              <button (click)="payOrder();ref.close()" nbButton>Delete</button>
+            </nb-card-footer>
+          </nb-card>
+        </ng-template>
+
+        <!-- Cancel Dialog -->
+        <ng-template #cancelDialog let-data let-ref="dialogRef">
+          <nb-card>
+            <nb-card-header>Cancel Order</nb-card-header>
+            <nb-card-body>
+              <h5>Do you want to cancel this order"?</h5>
+            </nb-card-body>
+            <nb-card-footer>
+              <button (click)="ref.close()" nbButton status="danger" style="margin-right: 1rem;">Cancel</button>
+              <button (click)="cancelOrder();ref.close()" nbButton>Delete</button>
+            </nb-card-footer>
+          </nb-card>
+        </ng-template>
+
         <!-- Add Order Dialog -->
         <ng-template #addOrderDialog let-data let-ref="dialogRef">
           <nb-card>
@@ -100,11 +129,12 @@
       </nb-card-body>
 
       <nb-card-footer>
-        <button style="float: right; " nbButton (click)="saveOrder()">
+        <button style="float: right; " nbButton (click)="openAddNew(doneDialog, 3)">
           <nb-icon icon="person-done-outline" status="primary" style="color: white;"></nb-icon>
           Done
         </button>
-        <button style="float: right; margin-right: 0.5rem" nbButton (click)="saveOrder()" status="danger">
+        <button style="float: right; margin-right: 0.5rem" nbButton (click)="openAddNew(cancelDialog, 3)"
+                status="danger">
           <nb-icon icon="close-outline" status="warning" style="color: white;"></nb-icon>
           Cancel
         </button>
