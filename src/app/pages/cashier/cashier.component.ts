@@ -214,7 +214,17 @@ export class CashierComponent implements OnInit {
           order.id = element.order_id;
           order.name = element.full_name;
           order.total = element.total;
-          order.method = element.method;
+          switch (element.method) {
+            case 1:
+              order.method = 'Pay at cashier';
+              break;
+            case 2:
+              order.method = 'Pay by Paypal';
+              break;
+            case 0:
+              order.method = 'Cash on delivery';
+              break;
+          }
           if (element.status === 1) order.status = 'Processing';
           order.phoneNumber = element.phone_number;
           order.address = element.address;

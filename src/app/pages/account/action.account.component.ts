@@ -9,6 +9,9 @@ import {AccountService} from "../../services/account.service";
 
 export class ActionAccountComponent implements OnInit {
   account: Account;
+  errors: string;
+  dialogRef: any;
+
 
   @Input() value;
 
@@ -20,13 +23,34 @@ export class ActionAccountComponent implements OnInit {
 
   }
 
+  onSubmit(dialog: TemplateRef<any>) {
+    this.accountService.updateAccount(this.value).subscribe(res => {
+      if (res.success === true) {
+        this.save.emit({account: this.value, action: 'edit'});
+        this.dialogService.open(dialog, {});
+        return this.dialogRef.close();
+      }
+      if (res.status === 400) {
+        return this.errors = res.error.message;
+      }
+      if (res.status === 500) {
+        return this.errors = 'Server Error';
+      }
+    });
+  }
+
 
   ngOnInit(): void {
     this.account = this.value;
   }
 
   open(dialog: TemplateRef<any>) {
-    this.dialogService.open(dialog, {hasBackdrop: true, hasScroll: true, autoFocus: false, closeOnEsc: false});
+    this.dialogRef = this.dialogService.open(dialog, {
+      hasBackdrop: true,
+      hasScroll: true,
+      autoFocus: false,
+      closeOnEsc: false
+    });
   }
 
   saveAccount() {
