@@ -51,4 +51,14 @@ export class OrderService {
         return of(null);
       }));
   }
+
+  changeStatus(orderId: string, status: number): Observable<any> {
+    return this.http.put<any>(apiUrl + '/order/change-status?'
+      + 'orderId=' + orderId + '&number=' + status, {})
+      .pipe(tap(_ => console.log('changed status of order')),
+        catchError(err => {
+          console.log(err);
+          return of(err);
+        }));
+  }
 }
