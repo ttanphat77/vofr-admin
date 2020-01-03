@@ -10,6 +10,7 @@ import {ActiveAccountButtonComponent} from "./active-account-button.component";
 import {Product} from "../../models/product.model";
 import {ActionAccountComponent} from "./action.account.component";
 import {RoleSelectComponent} from "./role.select.component";
+import {AvatarRenderComponent} from "./avatar-render/avatar-render.component";
 
 @Component({
   selector: 'account',
@@ -33,10 +34,11 @@ export class AccountComponent implements OnInit {
       // },
       image: {
         title: 'Avatar',
-        type: 'String',
+        type: 'custom',
         width: '5%',
         filter: false,
-
+        valuePrepareFunction: (cell, row) => row,
+        renderComponent: AvatarRenderComponent,
       },
       firstName: {
         title: 'First Name',
@@ -192,6 +194,7 @@ export class AccountComponent implements OnInit {
           account.deleted = element.deleted;
           account.dateCreated = element.date_created;
           account.address = element.address;
+          account.image = element.image_user;
           this.accounts.push(account);
         }
       });
