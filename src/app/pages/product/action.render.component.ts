@@ -7,6 +7,7 @@ import {NbAuthService} from '@nebular/auth';
 import {Image} from '../../models/image.model';
 import {Category} from '../../models/category.model';
 import {Product} from '../../models/product.model';
+import {NbAccessChecker} from "@nebular/security";
 
 
 const UPLOAD_URL = 'http://23.94.26.75/vat-api/api/upload-file';
@@ -39,6 +40,7 @@ export class ActionRenderComponent implements OnInit {
     private imageService: ProductImageService,
     private productService: ProductService,
     private tokenService: NbAuthService,
+    private accessChecker: NbAccessChecker
   ) {
   }
 

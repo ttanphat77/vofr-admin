@@ -6,11 +6,13 @@ import {NbAccessChecker} from "@nebular/security";
 @Component({
   template: `
       <!--      <div *nbIsGranted="['create', 'Product']">-->
-      <button [disabled]="!accessChecker.isGranted('edit','Product')" *ngIf="actived" size="small" (click)="deactive()"
+      <button [disabled]="!(accessChecker.isGranted('edit','Product') | async)" *ngIf="actived" size="small"
+              (click)="deactive()"
               nbButton
               status="danger">Deactive
       </button>
-      <button [disabled]="!accessChecker.isGranted('edit', 'Product')" *ngIf="!actived" size="small" (click)="active()"
+      <button [disabled]="!(accessChecker.isGranted('edit', 'Product') | async)" *ngIf="!actived" size="small"
+              (click)="active()"
               nbButton>Active
       </button>
       <!--      </div>-->
