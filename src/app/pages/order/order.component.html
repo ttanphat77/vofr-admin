@@ -1,10 +1,6 @@
 <nb-card>
   <nb-card-header>
-    <h2>Order
-      <button nbButton (click)="open(addNewDialog)">
-        <nb-icon icon="plus-outline" status="danger" style="color: white"></nb-icon>
-        Add new
-      </button>
+    <h2>Order History
     </h2>
   </nb-card-header>
 
@@ -25,6 +21,6 @@
   <nb-card-body>
     <ng2-smart-table [settings]="tableSettings" [source]="source">
     </ng2-smart-table>
-<!--    <h1>{{demo}}</h1>-->
+    <!--    <h1>{{demo}}</h1>-->
   </nb-card-body>
 </nb-card>

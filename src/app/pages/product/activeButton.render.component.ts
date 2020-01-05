@@ -1,11 +1,21 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { ProductService } from '../../services/product.service';
+import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
+import {ProductService} from '../../services/product.service';
+import {NbAccessChecker} from "@nebular/security";
 
 
 @Component({
   template: `
-    <button *ngIf="actived" size="small" (click)="deactive()" nbButton status="danger">Deactive</button>
-    <button *ngIf="!actived" size="small" (click)="active()" nbButton>Active</button>
+      <!--      <div *nbIsGranted="['create', 'Product']">-->
+      <button [disabled]="!(accessChecker.isGranted('edit','Product') | async)" *ngIf="actived" size="small"
+              (click)="deactive()"
+              nbButton
+              status="danger">Deactive
+      </button>
+      <button [disabled]="!(accessChecker.isGranted('edit', 'Product') | async)" *ngIf="!actived" size="small"
+              (click)="active()"
+              nbButton>Active
+      </button>
+      <!--      </div>-->
   `,
 })
 export class ActiveButtonRenderComponent implements OnInit {
@@ -17,7 +27,9 @@ export class ActiveButtonRenderComponent implements OnInit {
 
   @Output() save: EventEmitter<any> = new EventEmitter();
 
-  constructor(private productService: ProductService) {  }
+  constructor(private productService: ProductService,
+              private accessChecker: NbAccessChecker) {
+  }
 
   ngOnInit() {
     this.renderValue = this.value;
