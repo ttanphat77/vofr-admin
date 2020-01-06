@@ -17,7 +17,7 @@ const UPLOAD_URL = 'http://23.94.26.75/vat-api/api/upload-file';
 })
 
 export class ActionRenderComponent implements OnInit {
-
+  dialogRef: any;
   masterCategory: Category[];
   images: Image[];
   previewObj: Image;
@@ -220,7 +220,12 @@ export class ActionRenderComponent implements OnInit {
   }
 
   open(dialog: TemplateRef<any>) {
-    this.dialogService.open(dialog, {hasBackdrop: true, hasScroll: true, autoFocus: false, closeOnEsc: false});
+    this.dialogRef = this.dialogService.open(dialog, {
+      hasBackdrop: true,
+      hasScroll: true,
+      autoFocus: false,
+      closeOnEsc: false
+    });
   }
 
   openImg(dialog: TemplateRef<any>) {
@@ -228,5 +233,10 @@ export class ActionRenderComponent implements OnInit {
     this.getPreviewObj();
     this.getArObj();
     this.dialogService.open(dialog, {hasBackdrop: true, hasScroll: true, autoFocus: false, closeOnEsc: false});
+  }
+
+  onSubmit(dialog: TemplateRef<any>) {
+    this.saveProduct();
+    return this.dialogRef.close();
   }
 }
