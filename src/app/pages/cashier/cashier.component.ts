@@ -348,9 +348,10 @@ export class CashierComponent implements OnInit {
     this.detailSource.load(this.orderDetails);
   }
 
-  saveOrder() {
+  saveOrder(dialog: TemplateRef<any>) {
     this.orderDetailService.updateOrderDetail(this.orderDetails).subscribe(res => {
       console.log(res);
+      this.openAddNew(dialog, 3);
     });
   }
 
@@ -377,5 +378,9 @@ export class CashierComponent implements OnInit {
 
   addNewOrder() {
     console.log(this.newOrder);
+    this.orderService.addNewOrder(this.newOrder).subscribe(res => {
+      this.choosenOrder = null;
+      this.getAllData();
+    })
   }
 }

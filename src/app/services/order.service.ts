@@ -61,4 +61,25 @@ export class OrderService {
           return of(err);
         }));
   }
+
+  addNewOrder(order: Order): Observable<any> {
+    return this.http.post<any>(apiUrl + '/order/create-order', {
+      order_id: null,
+      total: 0,
+      status: 0,
+      order_date: null,
+      account_id: null,
+      full_name: order.name,
+      email: order.email,
+      address: order.address,
+      phone_number: order.phoneNumber,
+      method: 1,
+      order_items: []
+    })
+      .pipe(tap(_ => console.log('add new order')),
+        catchError(err => {
+          console.log(err);
+          return of(err);
+        }));
+  }
 }

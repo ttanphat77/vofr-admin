@@ -9,6 +9,16 @@
           </button>
         </h2>
 
+        <!-- Success Dialog -->
+        <ng-template #success>
+          <nb-card>
+            <nb-card-body class="example-last-child-no-b-margin">
+              <nb-alert status="success">
+                Successfully Added
+              </nb-alert>
+            </nb-card-body>
+          </nb-card>
+        </ng-template>
 
         <!-- Done Dialog -->
         <ng-template #doneDialog let-data let-ref="dialogRef">
@@ -114,7 +124,7 @@
           <button nbButton style="margin-bottom: 1rem" (click)="openAddNew(addNewItemDialog, 2)">
             <nb-icon icon="plus-outline" status="danger" style="color: white"></nb-icon>
           </button>
-          <button nbButton style="margin-left: 1rem; margin-bottom: 1rem" (click)="saveOrder()">
+          <button nbButton style="margin-left: 1rem; margin-bottom: 1rem" (click)="saveOrder(success)">
             <nb-icon icon="save-outline" status="danger" style="color: white"></nb-icon>
           </button>
           {{choosenOrder?.name}}
