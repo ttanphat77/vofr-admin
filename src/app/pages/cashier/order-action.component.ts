@@ -15,6 +15,7 @@ export class OrderActionComponent implements OnInit {
   @Output() save: EventEmitter<any> = new EventEmitter();
 
   order: Order;
+  dialogRef: any;
 
   constructor(private dialogService: NbDialogService,
               private orderService: OrderService) {
@@ -26,7 +27,12 @@ export class OrderActionComponent implements OnInit {
   }
 
   open(dialog: TemplateRef<any>) {
-    this.dialogService.open(dialog, {hasBackdrop: true, hasScroll: true, autoFocus: false, closeOnEsc: false})
+    this.dialogRef = this.dialogService.open(dialog, {
+      hasBackdrop: true,
+      hasScroll: true,
+      autoFocus: false,
+      closeOnEsc: false
+    })
   }
 
   saveOrderInformation() {
@@ -37,5 +43,11 @@ export class OrderActionComponent implements OnInit {
 
   cancel() {
     this.save.emit({action: 'cancel'});
+  }
+
+  onSubmit(success: any) {
+    this.saveOrderInformation();
+    this.dialogRef.close();
+    return this.dialogService.open(success, {});
   }
 }
