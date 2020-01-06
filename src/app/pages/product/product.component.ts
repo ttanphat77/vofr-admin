@@ -25,6 +25,8 @@ export class ProductComponent {
   products: Product[] = [];
   categories: Category[] = [];
   masterCategories: Category[] = [];
+  errors: string;
+
   cateFilterList: any[] = [];
   masterFilterList: any[] = [];
   tableSettings: any = {
@@ -288,6 +290,9 @@ export class ProductComponent {
   }
 
   onSubmit() {
+    // console.log(tmp);
+    console.log(this.newProduct);
+    this.createProduct();
     // this.accountService.updateAccount(this.value).subscribe(res => {
     //   if (res.success === true) {
     //     this.save.emit({account: this.value, action: 'edit'});
