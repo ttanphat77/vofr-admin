@@ -2,7 +2,7 @@ import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {CashierComponent} from './cashier.component';
 import {
-  NbActionsModule,
+  NbActionsModule, NbAlertModule,
   NbButtonModule,
   NbCardModule, NbDialogModule,
   NbIconModule,
@@ -46,6 +46,7 @@ import {OrderActionComponent} from "./order-action.component";
     NbSpinnerModule,
     NbSelectModule,
     NbDialogModule.forRoot(),
+    NbAlertModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   exports: [

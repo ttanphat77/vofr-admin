@@ -348,9 +348,10 @@ export class CashierComponent implements OnInit {
     this.detailSource.load(this.orderDetails);
   }
 
-  saveOrder() {
+  saveOrder(dialog: TemplateRef<any>) {
     this.orderDetailService.updateOrderDetail(this.orderDetails).subscribe(res => {
       console.log(res);
+      this.openAddNew(dialog, 3);
     });
   }
 
