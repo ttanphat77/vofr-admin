@@ -24,6 +24,7 @@ export class CashierComponent implements OnInit {
   orders: Order[] = [];
   productToAdd: Product;
   orderDetails: OrderItem[] = [];
+  dialogRef: any;
   source: LocalDataSource = new LocalDataSource();
   detailSource: LocalDataSource = new LocalDataSource();
   productSource: LocalDataSource = new LocalDataSource();
@@ -276,7 +277,12 @@ export class CashierComponent implements OnInit {
   openAddNew(dialog: TemplateRef<any>, b: number) {
     if (b === 1) {
       this.newOrder = new Order();
-      this.dialogService.open(dialog, {hasBackdrop: true, hasScroll: true, autoFocus: false, closeOnEsc: false});
+      this.dialogRef = this.dialogService.open(dialog, {
+        hasBackdrop: true,
+        hasScroll: true,
+        autoFocus: false,
+        closeOnEsc: false
+      });
     } else if (b === 2) {
       this.dialogService.open(dialog, {hasBackdrop: true, hasScroll: true, autoFocus: false, closeOnEsc: false});
       this.getAllProduct();
@@ -382,5 +388,12 @@ export class CashierComponent implements OnInit {
       this.choosenOrder = null;
       this.getAllData();
     })
+  }
+
+  onSubmit(success: TemplateRef<any>) {
+    this.addNewOrder();
+    this.dialogRef.close();
+    return this.dialogService.open(success, {});
+
   }
 }
