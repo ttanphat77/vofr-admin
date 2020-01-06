@@ -377,5 +377,9 @@ export class CashierComponent implements OnInit {
 
   addNewOrder() {
     console.log(this.newOrder);
+    this.orderService.addNewOrder(this.newOrder).subscribe(res => {
+      this.choosenOrder = null;
+      this.getAllData();
+    })
   }
 }
