@@ -291,8 +291,8 @@ export class ProductComponent {
 
   onSubmit() {
     // console.log(tmp);
-    console.log('test', this.newProduct.categoryId.toString());
-    if (!this.newProduct.categoryId) this.errors = 'test';
+    console.log(this.newProduct);
+    this.createProduct();
     // this.accountService.updateAccount(this.value).subscribe(res => {
     //   if (res.success === true) {
     //     this.save.emit({account: this.value, action: 'edit'});

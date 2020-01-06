@@ -62,7 +62,7 @@
 
                   <div class="form-group">
                     <label for="description">Description</label>
-                    <textarea type="text" nbInput class="form-control" id="description" name="description"
+                    <textarea type="text" class="form-control" id="description" name="description"
                               [(ngModel)]="newProduct.description" #description="ngModel" style="height: 150px"
                               [ngClass]="{ 'is-invalid': f.submitted && description.invalid }" required></textarea>
                     <div *ngIf="f.submitted && (description.invalid)" class="text-danger">
