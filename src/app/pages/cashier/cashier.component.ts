@@ -135,7 +135,6 @@ export class CashierComponent implements OnInit {
             let index = this.orderDetails.findIndex(value1 => value1.id === value.orderItem.id);
             if (index !== -1) {
               this.orderDetails[index] = value.orderItem;
-              console.log('đã chỉnh sửa quantity');
               this.detailSource.load(this.orderDetails);
             }
           });
@@ -152,11 +151,9 @@ export class CashierComponent implements OnInit {
         renderComponent: DeleteActionComponent,
         onComponentInitFunction: (instance) => {
           instance.delete.subscribe((value) => {
-            console.log(value);
             let index = this.orderDetails.findIndex(value1 => value1.id === value.orderItem.id);
             if (index !== -1) {
               this.orderDetails.splice(index, 1);
-              console.log('đã xóa');
               this.detailSource.load(this.orderDetails);
             }
           });
@@ -199,7 +196,6 @@ export class CashierComponent implements OnInit {
   }
 
   onUserRowSelect(event): void {
-    console.log(event);
     this.choosenOrder = event.data;
     this.getAllDataOrderItem(this.choosenOrder.id);
   }
@@ -360,15 +356,15 @@ export class CashierComponent implements OnInit {
 
   payOrder() {
     this.orderService.changeStatus(this.choosenOrder.id, 2).subscribe(res => {
-      console.log(res);
       this.source.remove(this.choosenOrder);
+      this.choosenOrder = null;
     })
   }
 
   cancelOrder() {
     this.orderService.changeStatus(this.choosenOrder.id, 3).subscribe(res => {
-      console.log(res);
       this.source.remove(this.choosenOrder);
+      this.choosenOrder = null;
     })
   }
 
