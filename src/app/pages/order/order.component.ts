@@ -121,15 +121,18 @@ export class OrderComponent implements OnInit {
     this.orderService.getAllOrders().subscribe(data => {
       const orderList: any[] = data.data;
       orderList.forEach(element => {
-        const order: Order = new Order();
-        order.id = element.order_id;
-        order.name = element.full_name;
-        order.total = element.total;
-        if (element.status === 1) order.status = 'Processing';
-        order.phoneNumber = element.phone_number;
-        order.orderDate = element.order_date;
-        order.email = element.email;
-        this.orders.push(order);
+        if (element.status !== 1) {
+          const order: Order = new Order();
+          order.id = element.order_id;
+          order.name = element.full_name;
+          order.total = element.total;
+          if (element.status === 2) order.status = 'Paid Order';
+          if (element.status === 3) order.status = 'Canceled Order';
+          order.phoneNumber = element.phone_number;
+          order.orderDate = element.order_date;
+          order.email = element.email;
+          this.orders.push(order);
+        }
       });
       // observable.next(true);
       // return observable.complete();
