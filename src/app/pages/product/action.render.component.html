@@ -106,36 +106,110 @@
 </ng-template>
 
 <!-- Edit Dialog -->
+<!--<ng-template #editDialog let-data let-ref="dialogRef">-->
+<!--  <nb-card [size]="'large'" style="width: 500px">-->
+<!--    <nb-card-header>Edit product</nb-card-header>-->
+<!--    <nb-card-body>-->
+<!--      <h6 for="name">Name</h6>-->
+<!--      <input type="text" nbInput fullWidth class="form-control" id="name" [(ngModel)]="product.name" name="name"-->
+<!--             style="margin-bottom: 1rem" required>-->
+
+<!--      <h6 for="price">Price</h6>-->
+<!--      <input type="number" nbInput fullWidth class="form-control" id="price" [(ngModel)]="product.price"-->
+<!--             name="price" style="margin-bottom: 1rem" required>-->
+
+<!--      <h6 for="power">Category</h6>-->
+<!--      <nb-select id="power" fullWidth style="margin-bottom: 1rem; margin-right: 1rem;"-->
+<!--                 [(ngModel)]="product.categoryId" required>-->
+<!--        <nb-option-group *ngFor="let cate of masterCategory" title="{{cate.name}}">-->
+<!--          <nb-option *ngFor="let subcate of filtCategory(cate.id)" [value]="subcate.id">-->
+<!--            {{subcate.name}}-->
+<!--          </nb-option>-->
+<!--        </nb-option-group>-->
+<!--      </nb-select>-->
+
+<!--      <h6 for="description">Description</h6>-->
+<!--      <textarea type="text" nbInput fullWidth class="form-control" id="description" style="height: 150px"-->
+<!--                [(ngModel)]="product.description" name="description"></textarea>-->
+
+<!--    </nb-card-body>-->
+<!--    <nb-card-footer>-->
+<!--      <button (click)="ref.close()" nbButton status="danger" style="margin-right: 1rem;">Cancel</button>-->
+<!--      <button (click)="saveProduct();ref.close()" nbButton status="success">Save</button>-->
+<!--    </nb-card-footer>-->
+<!--  </nb-card>-->
+<!--</ng-template>-->
+
 <ng-template #editDialog let-data let-ref="dialogRef">
   <nb-card [size]="'large'" style="width: 500px">
-    <nb-card-header>Edit product</nb-card-header>
+    <nb-card-header>New Product</nb-card-header>
     <nb-card-body>
-      <h6 for="name">Name</h6>
-      <input type="text" nbInput fullWidth class="form-control" id="name" [(ngModel)]="product.name" name="name"
-             style="margin-bottom: 1rem" required>
+      <div class="jumbotron">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-8 offset-md-2">
+              <form name="form" (ngSubmit)="f.form.valid && (onSubmit() && ref.close())" #f="ngForm"
+                    novalidate>
+                <div class="form-group">
+                  <label for="firstName">Name</label>
+                  <input type="text" id="firstName" class="form-control" name="firstName"
+                         [(ngModel)]="product.name"
+                         #firstName="ngModel" [ngClass]="{ 'is-invalid': f.submitted && firstName.invalid }"
+                         required/>
+                  <div *ngIf="f.submitted && firstName.invalid" class="text-danger">
+                    <div *ngIf="firstName.errors.required">Name of Product is required</div>
+                  </div>
+                </div>
 
-      <h6 for="price">Price</h6>
-      <input type="number" nbInput fullWidth class="form-control" id="price" [(ngModel)]="product.price"
-             name="price" style="margin-bottom: 1rem" required>
+                <div class="form-group">
+                  <label for="phoneNumber">Price</label>
+                  <input type="text" class="form-control" id="phoneNumber" name="phoneNumber"
+                         [(ngModel)]="product.price" #phoneNumber="ngModel"
+                         [ngClass]="{ 'is-invalid': f.submitted && phoneNumber.invalid }" required pattern="[0-9]+"/>
+                  <div *ngIf="f.submitted && phoneNumber.invalid" class="text-danger">
+                    <div *ngIf="phoneNumber.errors.required">Price of Product is Required</div>
+                    <div *ngIf="phoneNumber.errors.pattern">Price of Product must be a Valid</div>
+                  </div>
+                </div>
 
-      <h6 for="power">Category</h6>
-      <nb-select id="power" fullWidth style="margin-bottom: 1rem; margin-right: 1rem;"
-                 [(ngModel)]="product.categoryId" required>
-        <nb-option-group *ngFor="let cate of masterCategory" title="{{cate.name}}">
-          <nb-option *ngFor="let subcate of filtCategory(cate.id)" [value]="subcate.id">
-            {{subcate.name}}
-          </nb-option>
-        </nb-option-group>
-      </nb-select>
+                <div class="form-group">
+                  <label for="category">Category</label>
+                  <nb-select required name="category" id="category" fullWidth
+                             style="margin-bottom: 1rem; margin-right: 1rem;"
+                             #category="ngModel" [(ngModel)]="product.categoryId"
+                             [ngClass]="{ 'is-invalid': f.submitted && category.invalid }">
+                    <nb-option-group *ngFor="let cate of masterCategory" title="{{cate.name}}">
+                      <nb-option *ngFor="let subcate of filtCategory(cate.id)" [value]="subcate.id">
+                        {{subcate.name}}
+                      </nb-option>
+                    </nb-option-group>
+                  </nb-select>
+                  <div *ngIf="f.submitted && category.invalid" class="text-danger">
+                    <div *ngIf="category.errors.required">Category of Product is Required</div>
+                  </div>
+                </div>
 
-      <h6 for="description">Description</h6>
-      <textarea type="text" nbInput fullWidth class="form-control" id="description" style="height: 150px"
-                [(ngModel)]="product.description" name="description"></textarea>
-
+                <div class="form-group">
+                  <label for="description">Description</label>
+                  <textarea type="text" class="form-control" id="description" name="description"
+                            [(ngModel)]="product.description" #description="ngModel" style="height: 150px"
+                            [ngClass]="{ 'is-invalid': f.submitted && description.invalid }" required></textarea>
+                  <div *ngIf="f.submitted && (description.invalid)" class="text-danger">
+                    <div *ngIf="description.errors.required">Description of Product is Required</div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <pre class="text-danger">{{  errors | json }}</pre>
+                  <button (click)="ref.close()" nbButton status="danger" style="margin-right: 1rem;">Cancel</button>
+                  <button nbButton type="submit" status="success">Save</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
     </nb-card-body>
     <nb-card-footer>
-      <button (click)="ref.close()" nbButton status="danger" style="margin-right: 1rem;">Cancel</button>
-      <button (click)="saveProduct();ref.close()" nbButton status="success">Save</button>
     </nb-card-footer>
   </nb-card>
 </ng-template>
