@@ -11,6 +11,7 @@ import { ThemeModule } from './@theme/theme.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { LogoutModule } from './auth/logout/logout.module';
+import { LoginMoudle } from './auth/login/login.module';
 import { NbSecurityModule, NbRoleProvider } from '@nebular/security';
 import {
   NbActionsModule,
@@ -41,6 +42,7 @@ import { RoleProvider } from './services/role.provider';
     HttpClientModule,
     AppRoutingModule,
     LogoutModule,
+    LoginMoudle,
     NbCardModule,
     NbButtonModule,
     NbActionsModule,
@@ -73,6 +75,7 @@ import { RoleProvider } from './services/role.provider';
         login: {
           redirectDelay: 500,
           strategy: 'email',
+          rememberMe: false,
           showMessages: {
             success: true,
             error: true,
