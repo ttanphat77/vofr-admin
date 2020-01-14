@@ -1,5 +1,6 @@
-import {Component, OnInit, TemplateRef} from '@angular/core';
+import {Component, OnDestroy, OnInit, TemplateRef} from '@angular/core';
 import {sortDate, sortName} from "../common/sortDate";
+import io from 'socket.io-client';
 import {NbDialogService} from "@nebular/theme";
 import {DatePipe} from "@angular/common";
 import {Order} from "../../models/order.model";
@@ -14,13 +15,15 @@ import {DescriptionRenderComponent} from "../product/description.render.componen
 import {QuantityActionComponentComponent} from "./quantity-action-component.component";
 import {DeleteActionComponent} from "./delete-action.component";
 import {OrderActionComponent} from "./order-action.component";
+import {SocketServiceService} from "../../services/socket-service.service";
 
 @Component({
   selector: 'cashier',
   templateUrl: './cashier.component.html',
   styleUrls: ['./cashier.component.scss'],
 })
-export class CashierComponent implements OnInit {
+export class CashierComponent implements OnInit, OnDestroy {
+  private socket;
   orders: Order[] = [];
   productToAdd: Product;
   orderDetails: OrderItem[] = [];
@@ -194,6 +197,10 @@ export class CashierComponent implements OnInit {
 
   ngOnInit() {
     this.getAllData();
+    this.socket = io.connect('http://23.94.26.75');
+    this.socket.on('noti-new-order', (order) => {
+      this.getAllData();
+    });
   }
 
   onUserRowSelect(event): void {
@@ -395,5 +402,9 @@ export class CashierComponent implements OnInit {
     this.dialogRef.close();
     return this.dialogService.open(success, {});
 
+  }
+
+  ngOnDestroy(): void {
+    this.socket.disconnect();
   }
 }
