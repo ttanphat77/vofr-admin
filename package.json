@@ -64,6 +64,7 @@
     "rxjs-compat": "6.3.0",
     "save": "^2.4.0",
     "socicon": "3.0.5",
+    "socket.io-client": "^2.3.0",
     "typeface-exo": "0.0.22",
     "web-animations-js": "github:angular/web-animations-js#release_pr208",
     "zone.js": "~0.9.1"
