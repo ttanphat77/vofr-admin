@@ -43,11 +43,11 @@ export class CashierComponent implements OnInit, OnDestroy {
   orderSettings: any = {
     actions: false,
     columns: {
-      id: {
-        title: 'ID',
-        type: 'String',
-        width: '4%',
-      },
+      // id: {
+      //   title: 'ID',
+      //   type: 'String',
+      //   width: '4%',
+      // },
       name: {
         title: 'Customer Name',
         type: 'String',
@@ -197,7 +197,7 @@ export class CashierComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.getAllData();
-    this.socket = io.connect('http://23.94.26.75');
+    this.socket = io.connect('https://protected-peak-19050.herokuapp.com/');
     this.socket.on('noti-new-order', (order) => {
       this.getAllData();
     });

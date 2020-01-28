@@ -38,6 +38,5 @@ export class PagesComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.disposeConnection();
-
   }
 }
