@@ -3,15 +3,18 @@
  * Copyright Akveo. All Rights Reserved.
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
-import {BrowserModule} from '@angular/platform-browser';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {NgModule, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
-import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
-import {ThemeModule} from './@theme/theme.module';
-import {AppComponent} from './app.component';
-import {AppRoutingModule} from './app-routing.module';
-import {LogoutModule} from './auth/logout/logout.module';
-import {NbSecurityModule, NbRoleProvider} from '@nebular/security';
+
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { ThemeModule } from './@theme/theme.module';
+import { AppComponent } from './app.component';
+import { AppRoutingModule } from './app-routing.module';
+import { LogoutModule } from './auth/logout/logout.module';
+import { LoginMoudle } from './auth/login/login.module';
+import { NbSecurityModule, NbRoleProvider } from '@nebular/security';
+
 import {
   NbActionsModule,
   NbButtonModule,
@@ -41,6 +44,7 @@ import {RoleProvider} from './services/role.provider';
     HttpClientModule,
     AppRoutingModule,
     LogoutModule,
+    LoginMoudle,
     NbCardModule,
     NbButtonModule,
     NbActionsModule,
@@ -73,6 +77,7 @@ import {RoleProvider} from './services/role.provider';
         login: {
           redirectDelay: 500,
           strategy: 'email',
+          rememberMe: false,
           showMessages: {
             success: true,
             error: true,
