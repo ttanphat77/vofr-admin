@@ -3,6 +3,7 @@
  * Copyright Akveo. All Rights Reserved.
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
+
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -13,6 +14,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { LogoutModule } from './auth/logout/logout.module';
 import { LoginMoudle } from './auth/login/login.module';
 import { NbSecurityModule, NbRoleProvider } from '@nebular/security';
+
 import {
   NbActionsModule,
   NbButtonModule,
@@ -30,8 +32,8 @@ import {
   NbAuthModule,
   NbAuthJWTToken,
 } from '@nebular/auth';
-import { AuthGuard } from './services/auth-guard.service';
-import { RoleProvider } from './services/role.provider';
+import {AuthGuard} from './services/auth-guard.service';
+import {RoleProvider} from './services/role.provider';
 
 @NgModule({
   declarations: [AppComponent],
@@ -90,11 +92,13 @@ import { RoleProvider } from './services/role.provider';
     NbSecurityModule.forRoot({
       accessControl: {
         Cashier: {
+          notification: 'Order',
           view: ['Cashier', 'Order', 'Dashboard', 'Product'],
           create: 'Cashier',
           edit: 'Cashier',
         },
         Admin: {
+          notification: '',
           view: '*',
           create: '*',
           edit: '*',
