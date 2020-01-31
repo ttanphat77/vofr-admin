@@ -1,5 +1,9 @@
 @import '../../@theme/styles/themes.scss';
 
+input[type="checkbox"] {
+  height: auto;
+}
+
 @include nb-install-component() {
   nb-card {
     transform: translate3d(0, 0, 0);
@@ -47,6 +51,9 @@
   .active-pink .fa,
   .active-pink-2 .fa {
     color: #f48fb1;
+  }
+  input[type="checkbox"] {
+    height: auto;
   }
 
 

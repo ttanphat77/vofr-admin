@@ -7,6 +7,10 @@
             <nb-icon icon="plus-outline" status="danger" style="color: white"></nb-icon>
             Add new
           </button>
+          <button nbButton status="warning" style="margin-left: 5px"
+                  (click)="toMerge(mergealert, timemergealert, chooseInfo)">Merge
+            Order
+          </button>
         </h2>
 
         <!-- Success Dialog -->
@@ -14,7 +18,40 @@
           <nb-card>
             <nb-card-body class="example-last-child-no-b-margin">
               <nb-alert status="success">
-                Successfully Saved
+                Successfully
+              </nb-alert>
+            </nb-card-body>
+          </nb-card>
+        </ng-template>
+
+        <!-- Success Dialog -->
+        <ng-template #noitemorder>
+          <nb-card>
+            <nb-card-body class="example-last-child-no-b-margin">
+              <nb-alert status="danger">
+                You Cannot Finish Order With No Items
+              </nb-alert>
+            </nb-card-body>
+          </nb-card>
+        </ng-template>
+
+        <!-- Merge Alert Dialog -->
+        <ng-template #mergealert>
+          <nb-card>
+            <nb-card-body class="example-last-child-no-b-margin">
+              <nb-alert status="danger">
+                You Can Only Merge a Minium of 2 Orders
+              </nb-alert>
+            </nb-card-body>
+          </nb-card>
+        </ng-template>
+
+        <!--Time Merge Alert Dialog -->
+        <ng-template #timemergealert>
+          <nb-card>
+            <nb-card-body class="example-last-child-no-b-margin">
+              <nb-alert status="danger">
+                You Can Only Merge Same-Day Orders
               </nb-alert>
             </nb-card-body>
           </nb-card>
@@ -29,7 +66,7 @@
             </nb-card-body>
             <nb-card-footer>
               <button (click)="ref.close()" nbButton status="danger" style="margin-right: 1rem;">Cancel</button>
-              <button (click)="payOrder();ref.close()" nbButton>Accept</button>
+              <button (click)="payOrder(success, noitemorder);ref.close()" nbButton>Accept</button>
             </nb-card-footer>
           </nb-card>
         </ng-template>
@@ -47,6 +84,8 @@
             </nb-card-footer>
           </nb-card>
         </ng-template>
+
+
         <ng-template #addOrderDialog let-data let-ref="dialogRef">
           <nb-card size="giant" style="width: 500px">
             <nb-card-header>New Order</nb-card-header>
@@ -274,3 +313,35 @@
     </nb-card>
   </div>
 </div>
+
+
+<!-- Choose information template -->
+<ng-template #chooseInfo let-data let-ref="dialogRef">
+  <nb-card style="width: 800px;">
+    <nb-card-header>Pick Information for Your Merge Order</nb-card-header>
+    <nb-card-body>
+      <ng2-smart-table [settings]="chooseInfoSettings" [source]="infoSource"
+                       (userRowSelect)="onChooseInfo($event, confirm);">
+      </ng2-smart-table>
+    </nb-card-body>
+    <nb-card-footer>
+    </nb-card-footer>
+  </nb-card>
+</ng-template>
+<!-- Confirm Dialog -->
+<ng-template #confirm let-data let-ref="dialogRef">
+  <nb-card>
+    <nb-card-header>Confirm Merge Order</nb-card-header>
+    <nb-card-body>
+      <h5>Do you want to merge 2 orders with information:</h5>
+      <h6>{{choosenInfo.name}}</h6>
+      <h6>{{choosenInfo.email}}</h6>
+      <h6>{{choosenInfo.phoneNumber}}</h6>
+      <h6>{{choosenInfo.address}}</h6>
+    </nb-card-body>
+    <nb-card-footer>
+      <button (click)="ref.close()" nbButton status="danger" style="margin-right: 1rem;">Cancel</button>
+      <button (click)="mergeOrder(success);ref.close()" nbButton>Accept</button>
+    </nb-card-footer>
+  </nb-card>
+</ng-template>
