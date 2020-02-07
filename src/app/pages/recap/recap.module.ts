@@ -14,6 +14,7 @@ import { RecapComponent } from './recap.component';
 import { FileUploadModule } from 'ng2-file-upload';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { FormsModule } from '@angular/forms';
+import { ScenePipe } from '../pipe/scene.pipe';
 @NgModule({
   imports: [
     ThemeModule,
@@ -30,6 +31,7 @@ import { FormsModule } from '@angular/forms';
   ],
   declarations: [
     RecapComponent,
+    ScenePipe,
   ],
 })
 export class RecapModule { }
