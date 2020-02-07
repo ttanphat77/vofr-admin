@@ -11,6 +11,7 @@ import {ActionRenderComponent} from './action.render.component';
 import {DescriptionRenderComponent} from './description.render.component';
 import {NbDialogService} from '@nebular/theme';
 import {Observable, observable} from 'rxjs';
+import {SocketServiceService} from "../../services/socket-service.service";
 
 @Component({
   selector: 'app-product-list',
@@ -160,7 +161,8 @@ export class ProductComponent {
     private productService: ProductService,
     private dialogService: NbDialogService,
     private categoryService: CategoryService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private socketService: SocketServiceService
   ) {
   }
 
@@ -324,5 +326,9 @@ export class ProductComponent {
       this.source.add(product);
       this.source.refresh();
     })
+  }
+
+  add() {
+    this.socketService.add();
   }
 }

@@ -1,5 +1,6 @@
-import {Component, OnInit, TemplateRef} from '@angular/core';
+import {Component, OnDestroy, OnInit, TemplateRef} from '@angular/core';
 import {sortDate, sortName} from "../common/sortDate";
+import io from 'socket.io-client';
 import {NbDialogService} from "@nebular/theme";
 import {DatePipe} from "@angular/common";
 import {Order} from "../../models/order.model";
@@ -14,13 +15,16 @@ import {DescriptionRenderComponent} from "../product/description.render.componen
 import {QuantityActionComponentComponent} from "./quantity-action-component.component";
 import {DeleteActionComponent} from "./delete-action.component";
 import {OrderActionComponent} from "./order-action.component";
+import {SocketServiceService} from "../../services/socket-service.service";
+import {MergeOrderComponent} from "./merge-order/merge-order.component";
 
 @Component({
   selector: 'cashier',
   templateUrl: './cashier.component.html',
   styleUrls: ['./cashier.component.scss'],
 })
-export class CashierComponent implements OnInit {
+export class CashierComponent implements OnInit, OnDestroy {
+  private socket;
   orders: Order[] = [];
   productToAdd: Product;
   orderDetails: OrderItem[] = [];
@@ -28,6 +32,7 @@ export class CashierComponent implements OnInit {
   source: LocalDataSource = new LocalDataSource();
   detailSource: LocalDataSource = new LocalDataSource();
   productSource: LocalDataSource = new LocalDataSource();
+  infoSource: LocalDataSource = new LocalDataSource();
   choosenOrder: Order;
   newItem: OrderItem = new OrderItem();
   results: Object;
@@ -36,19 +41,15 @@ export class CashierComponent implements OnInit {
   searchText: string;
   newOrderItem: OrderItem = new OrderItem();
   newOrder: Order;
+  selectedOrdersToMerge: Order[] = [];
+  choosenInfo: Order;
 
-  orderSettings: any = {
+  chooseInfoSettings: any = {
     actions: false,
     columns: {
-      id: {
-        title: 'ID',
-        type: 'String',
-        width: '4%',
-      },
       name: {
         title: 'Customer Name',
         type: 'String',
-        width: '5%',
         sort: true,
         sortDirection: 'desc',
         compareFunction: sortName,
@@ -56,19 +57,62 @@ export class CashierComponent implements OnInit {
       phoneNumber: {
         title: 'Phone Number',
         type: 'String',
-        width: '5%',
         // renderComponent: DescriptionRenderComponent,
       },
       email: {
         title: 'Email',
         type: 'String',
-        width: '5%',
         // renderComponent: DescriptionRenderComponent,
       },
       address: {
         title: 'Address',
         type: 'String',
-        width: '5%',
+        // renderComponent: DescriptionRenderComponent,
+      },
+    },
+  };
+
+  orderSettings: any = {
+    actions: false,
+    columns: {
+      merge: {
+        title: '',
+        type: 'custom',
+        width: '2%',
+        valuePrepareFunction: (cell, row) => row,
+        renderComponent: MergeOrderComponent,
+        onComponentInitFunction: (instance) => {
+          instance.check.subscribe((value) => {
+            if (value.value === false) {
+              let number = this.selectedOrdersToMerge.findIndex((item) => item.id === value.order.id)
+              this.selectedOrdersToMerge.splice(number, 1);
+            } else {
+              this.selectedOrdersToMerge.push(value.order);
+            }
+            console.log(this.selectedOrdersToMerge);
+          });
+        },
+      },
+      name: {
+        title: 'Customer Name',
+        type: 'String',
+        sort: true,
+        sortDirection: 'desc',
+        compareFunction: sortName,
+      },
+      phoneNumber: {
+        title: 'Phone Number',
+        type: 'String',
+        // renderComponent: DescriptionRenderComponent,
+      },
+      email: {
+        title: 'Email',
+        type: 'String',
+        // renderComponent: DescriptionRenderComponent,
+      },
+      address: {
+        title: 'Address',
+        type: 'String',
         // renderComponent: DescriptionRenderComponent,
       },
       // total: {
@@ -79,14 +123,12 @@ export class CashierComponent implements OnInit {
       method: {
         title: 'Method',
         sort: true,
-        width: '1%',
         type: 'String'
       },
       orderDate: {
         title: 'Order date',
         sort: true,
         sortDirection: 'desc',
-        width: '5%',
         compareFunction: sortDate,
         valuePrepareFunction: (date) => {
           const raw = new Date(date);
@@ -97,7 +139,6 @@ export class CashierComponent implements OnInit {
         title: '',
         type: 'custom',
         filter: false,
-        width: '1%',
         valuePrepareFunction: (cell, row) => row,
         renderComponent: OrderActionComponent,
         onComponentInitFunction: (instance) => {
@@ -194,6 +235,10 @@ export class CashierComponent implements OnInit {
 
   ngOnInit() {
     this.getAllData();
+    this.socket = io.connect('https://protected-peak-19050.herokuapp.com/');
+    this.socket.on('noti-new-order', (order) => {
+      this.getAllData();
+    });
   }
 
   onUserRowSelect(event): void {
@@ -361,10 +406,14 @@ export class CashierComponent implements OnInit {
     });
   }
 
-  payOrder() {
+  payOrder(success: TemplateRef<any>, fail: TemplateRef<any>) {
+    if (this.choosenOrder.total === 0) {
+      return this.openAddNew(fail, 3);
+    }
     this.orderService.changeStatus(this.choosenOrder.id, 2).subscribe(res => {
       this.source.remove(this.choosenOrder);
       this.choosenOrder = null;
+      this.openAddNew(success, 3);
     })
   }
 
@@ -395,5 +444,56 @@ export class CashierComponent implements OnInit {
     this.dialogRef.close();
     return this.dialogService.open(success, {});
 
+  }
+
+  ngOnDestroy(): void {
+    this.socket.disconnect();
+  }
+
+  toMerge(fail: TemplateRef<any>, fail2: TemplateRef<any>, success: TemplateRef<any>) {
+    if (this.selectedOrdersToMerge.length < 2) {
+      return this.openAddNew(fail, 3);
+    }
+
+    let numberArray = [];
+    this.selectedOrdersToMerge.map(value => {
+      numberArray.push(this.countDays(value.orderDate, new Date()));
+    });
+
+    for (let i = 0; i < numberArray.length; i++) {
+      for (let j = i + 1; j < numberArray.length; j++) {
+        if (Math.abs(numberArray[i] - numberArray[j]) > 1)
+          return this.openAddNew(fail2, 3);
+      }
+    }
+
+    this.infoSource.load(this.selectedOrdersToMerge);
+    this.openAddNew(success, 1);
+
+  }
+
+  countDays = (date1, date2) => {
+    let one_day = 1000 * 60 * 60 * 24;
+
+    let date1_ms = (new Date(date1)).getTime();
+    let date2_ms = (new Date(date2)).getTime();
+
+    let difference_ms = date2_ms - date1_ms;
+
+    return Math.round(difference_ms / one_day);
+  }
+
+
+  mergeOrder(success: TemplateRef<any>) {
+    this.dialogRef.close();
+    this.openAddNew(success, 3);
+    console.log('order can merge', this.selectedOrdersToMerge);
+    console.log('info merge', this.choosenInfo);
+    return this.getAllData();
+  }
+
+  onChooseInfo($event: any, confirm: TemplateRef<any>) {
+    this.choosenInfo = $event.data;
+    this.openAddNew(confirm, 3);
   }
 }

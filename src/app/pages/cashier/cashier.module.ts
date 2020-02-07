@@ -4,7 +4,7 @@ import {CashierComponent} from './cashier.component';
 import {
   NbActionsModule, NbAlertModule,
   NbButtonModule,
-  NbCardModule, NbDialogModule,
+  NbCardModule, NbCheckboxModule, NbDialogModule,
   NbIconModule,
   NbInputModule,
   NbListModule, NbPopoverModule, NbSelectModule, NbSpinnerModule,
@@ -21,11 +21,12 @@ import {DescriptionRenderComponent} from "../product/description.render.componen
 import {QuantityActionComponentComponent} from "./quantity-action-component.component";
 import {DeleteActionComponent} from "./delete-action.component";
 import {OrderActionComponent} from "./order-action.component";
+import { MergeOrderComponent } from './merge-order/merge-order.component';
 
 
 @NgModule({
-  declarations: [CashierComponent, FilterPipe, QuantityActionComponentComponent, DeleteActionComponent, OrderActionComponent],
-  entryComponents: [QuantityActionComponentComponent, DeleteActionComponent, OrderActionComponent],
+  declarations: [CashierComponent, FilterPipe, QuantityActionComponentComponent, DeleteActionComponent, OrderActionComponent, MergeOrderComponent],
+  entryComponents: [QuantityActionComponentComponent, DeleteActionComponent, OrderActionComponent, MergeOrderComponent],
   imports: [
     CommonModule,
     NbCardModule,
@@ -47,6 +48,7 @@ import {OrderActionComponent} from "./order-action.component";
     NbSelectModule,
     NbDialogModule.forRoot(),
     NbAlertModule,
+    NbCheckboxModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   exports: [
