@@ -407,7 +407,7 @@ export class CashierComponent implements OnInit, OnDestroy {
   }
 
   payOrder(success: TemplateRef<any>, fail: TemplateRef<any>) {
-    if (this.choosenOrder.total === 0) {
+    if (this.orderDetails.length === 0) {
       return this.openAddNew(fail, 3);
     }
     this.orderService.changeStatus(this.choosenOrder.id, 2).subscribe(res => {
