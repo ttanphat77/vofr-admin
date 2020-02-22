@@ -12,7 +12,7 @@
           <input type="text" name="name" #name="ngModel" [(ngModel)]="newSceneName" required
             style="margin: 0 0 1rem 1rem" nbInput placeholder="Name" />
 
-          <label *ngIf="name.errors?.required && (name.dirty || name.touched)" class="text-danger">
+          <label *ngIf="name.errors?.required && (name.dirty || name.touched)" >
             Name is required!
           </label>
           <br />
@@ -100,9 +100,11 @@
     <nb-card size="large">
       <nb-card-header>
         History
+        <br/>
+        <input type="text" nbInput fullWidth status="basic" [(ngModel)]="query" placeholder="Search">
       </nb-card-header>
       <nb-list>
-        <nb-list-item *ngFor="let scene of scenes">
+        <nb-list-item *ngFor="let scene of scenes | scene: query">
           <h5 style="display: inline;">{{scene.name}}</h5> -
           <code class="text-primary" *ngIf="scene.status == 'Processing'">Processing</code>
           <code class="text-danger" *ngIf="scene.status == 'ERROR'">Error</code>

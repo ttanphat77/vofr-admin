@@ -8,6 +8,7 @@ import {
 } from '@nebular/auth';
 import { AuthGuard } from './services/auth-guard.service';
 import { LogoutComponent } from './auth/logout/logout.component';
+import { LoginComponent } from './auth/login/login.component';
 
 const routes: Routes = [
   {
@@ -26,7 +27,7 @@ const routes: Routes = [
       },
       {
         path: 'login',
-        component: NbLoginComponent,
+        component: LoginComponent,
       },
       {
         path: 'logout',
