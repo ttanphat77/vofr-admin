@@ -1,1 +1,1 @@
-<nb-checkbox (checkedChange)="toggle($event)" [disabled]="!available"></nb-checkbox>
+<nb-checkbox (checkedChange)="toggle($event)" *ngIf="available" [disabled]="!available"></nb-checkbox>

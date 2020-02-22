@@ -462,7 +462,7 @@ export class CashierComponent implements OnInit, OnDestroy {
 
     for (let i = 0; i < numberArray.length; i++) {
       for (let j = i + 1; j < numberArray.length; j++) {
-        if (Math.abs(numberArray[i] - numberArray[j]) > 1)
+        if (Math.abs(numberArray[i] - numberArray[j]) > 2)
           return this.openAddNew(fail2, 3);
       }
     }
