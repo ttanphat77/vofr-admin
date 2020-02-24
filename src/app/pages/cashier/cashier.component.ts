@@ -486,11 +486,16 @@ export class CashierComponent implements OnInit, OnDestroy {
 
 
   mergeOrder(success: TemplateRef<any>) {
-    this.dialogRef.close();
-    this.openAddNew(success, 3);
-    console.log('order can merge', this.selectedOrdersToMerge);
-    console.log('info merge', this.choosenInfo);
-    return this.getAllData();
+
+    console.log('test', [this.choosenInfo.id, ...this.selectedOrdersToMerge]);
+
+    this.orderService.mergeOrder(this.selectedOrdersToMerge, this.choosenInfo).subscribe(res => {
+      this.dialogRef.close();
+      this.selectedOrdersToMerge = [];
+      this.choosenInfo = null;
+      this.openAddNew(success, 3);
+      this.getAllData();
+    })
   }
 
   onChooseInfo($event: any, confirm: TemplateRef<any>) {

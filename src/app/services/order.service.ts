@@ -82,4 +82,21 @@ export class OrderService {
           return of(err);
         }));
   }
+
+  mergeOrder(orderToMerge: Order[], choosenInfo: Order) {
+    let orderIDList = orderToMerge.map((value, index) => value.id);
+    let index = orderIDList.findIndex((value, index) => value == choosenInfo.id);
+    orderIDList.splice(index, 1);
+    orderIDList.unshift(choosenInfo.id);
+    let jsonObject = orderIDList.map((value, index1) => ({
+      order_id: value
+    }))
+    console.log("test object", jsonObject);
+    return this.http.put<any>(apiUrl + '/order/merge-order', jsonObject)
+      .pipe(tap(_ => console.log('Merge Order')),
+        catchError(err => {
+          console.log(err);
+          return of(err);
+        }));
+  }
 }
