@@ -253,6 +253,7 @@ export class CashierComponent implements OnInit, OnDestroy {
       orderList.forEach(element => {
         if (element.status === 1) {
           const order: Order = new Order();
+          order.merge = false;
           order.id = element.order_id;
           order.name = element.full_name;
           order.total = element.total;
