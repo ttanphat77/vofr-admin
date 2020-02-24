@@ -1,4 +1,5 @@
 export class Order {
+  merge: boolean;
   id: string;
   total: number;
   name: string;
