@@ -8,7 +8,7 @@
             Add new
           </button>
           <button nbButton status="warning" style="margin-left: 5px"
-                  (click)="toMerge(mergealert, timemergealert, chooseInfo)">Merge
+            (click)="toMerge(mergealert, timemergealert, chooseInfo)">Merge
             Order
           </button>
         </h2>
@@ -94,14 +94,12 @@
                 <div class="container">
                   <div class="row">
                     <div class="col-md-8 offset-md-2">
-                      <form name="form" (ngSubmit)="f.form.valid && onSubmit(success)" #f="ngForm"
-                            novalidate>
+                      <form name="form" (ngSubmit)="f.form.valid && onSubmit(success)" #f="ngForm" novalidate>
                         <div class="form-group">
                           <label for="firstName">Customer Name</label>
                           <input type="text" id="firstName" class="form-control" name="firstName"
-                                 [(ngModel)]="newOrder.name"
-                                 #firstName="ngModel" [ngClass]="{ 'is-invalid': f.submitted && firstName.invalid }"
-                                 required/>
+                            [(ngModel)]="newOrder.name" #firstName="ngModel"
+                            [ngClass]="{ 'is-invalid': f.submitted && firstName.invalid }" required />
                           <div *ngIf="f.submitted && firstName.invalid" class="invalid-feedback">
                             <div *ngIf="firstName.errors.required">Customer Name is Required</div>
                           </div>
@@ -109,8 +107,8 @@
                         <div class="form-group">
                           <label for="email">Email</label>
                           <input type="text" class="form-control" id="email" name="email" [(ngModel)]="newOrder.email"
-                                 #email="ngModel"
-                                 [ngClass]="{ 'is-invalid': f.submitted && email.invalid }" required email/>
+                            #email="ngModel" [ngClass]="{ 'is-invalid': f.submitted && email.invalid }" required
+                            email />
                           <div *ngIf="f.submitted && email.invalid" class="invalid-feedback">
                             <div *ngIf="email.errors.required">Email is required</div>
                             <div *ngIf="email.errors.email">Email must be a valid email address</div>
@@ -119,9 +117,9 @@
                         <div class="form-group">
                           <label for="phoneNumber">Phone Number</label>
                           <input type="text" class="form-control" id="phoneNumber" name="phoneNumber"
-                                 [(ngModel)]="newOrder.phoneNumber" #phoneNumber="ngModel"
-                                 [ngClass]="{ 'is-invalid': f.submitted && phoneNumber.invalid }" required
-                                 pattern="[0-9]+"/>
+                            [(ngModel)]="newOrder.phoneNumber" #phoneNumber="ngModel"
+                            [ngClass]="{ 'is-invalid': f.submitted && phoneNumber.invalid }" required
+                            pattern="[0-9]+" />
                           <div *ngIf="f.submitted && phoneNumber.invalid" class="invalid-feedback">
                             <div *ngIf="phoneNumber.errors.required">Phone Number is required</div>
                             <div *ngIf="phoneNumber.errors.pattern">phoneNumber must be a valid</div>
@@ -130,8 +128,8 @@
                         <div class="form-group">
                           <label for="address">Address</label>
                           <input type="text" class="form-control" id="address" name="address"
-                                 [(ngModel)]="newOrder.address" #address="ngModel"
-                                 [ngClass]="{ 'is-invalid': f.submitted && address.invalid }" required/>
+                            [(ngModel)]="newOrder.address" #address="ngModel"
+                            [ngClass]="{ 'is-invalid': f.submitted && address.invalid }" required />
                           <div *ngIf="f.submitted && address.invalid" class="invalid-feedback">
                             <div *ngIf="address.errors.required">Address is required</div>
                           </div>
@@ -247,24 +245,21 @@
               <!--                     [(ngModel)]="newItem.name" style="margin-bottom: 1rem" required>-->
               <div class="form-inline md-form form-sm active-pink-2">
                 <input class="form-control form-control-sm mr-3 w-75" placeholder="Search Product" aria-label="Search"
-                       type="search" [(ngModel)]="searchText" mdbInput
-                       (keydown.enter)="search($event.target.value)">
+                  type="search" [(ngModel)]="searchText" mdbInput (keydown.enter)="search($event.target.value)">
                 <mdb-icon fas icon="search" aria-hidden="true"></mdb-icon>
               </div>
-              <br/>
+              <br />
               <!--              <ul *ngFor="let user of usersArray | filter: searchText">-->
               <!--                <li>{{user.name}}</li>-->
               <!--              </ul>-->
               <ng2-smart-table [settings]="productSettings" [source]="productSource"
-                               (userRowSelect)="chooseNewProduct($event)">
+                (userRowSelect)="chooseNewProduct($event)">
               </ng2-smart-table>
             </nb-card-body>
             <nb-card-footer>
-              <button (click)="ref.close()" nbButton status="danger"
-                      style="margin-right: 1rem;">Cancel
+              <button (click)="ref.close()" nbButton status="danger" style="margin-right: 1rem;">Cancel
               </button>
-              <button (click)="addNewOrderItem(productToAdd);ref.close()" nbButton type="submit"
-                      status="success">Add
+              <button (click)="addNewOrderItem(productToAdd);ref.close()" nbButton type="submit" status="success">Add
               </button>
             </nb-card-footer>
           </nb-card>
@@ -296,7 +291,9 @@
         <ng2-smart-table [settings]="orderDetailSettings" [source]="detailSource">
         </ng2-smart-table>
         <!--        <h1>{{demo}}</h1>-->
-        <h1 style="float: right" *ngIf="choosenOrder"> Total: {{caculateTotal()}} </h1>
+        <h1 style="float: right" *ngIf="choosenOrder">
+          Total: {{caculateTotal() | currency:'VND':'symbol':'1.2-2'}}
+        </h1>
       </nb-card-body>
 
       <nb-card-footer>
@@ -305,7 +302,7 @@
           Done
         </button>
         <button style="float: right; margin-right: 0.5rem" nbButton (click)="openAddNew(cancelDialog, 3)"
-                status="danger">
+          status="danger">
           <nb-icon icon="close-outline" status="warning" style="color: white;"></nb-icon>
           Cancel
         </button>
@@ -321,7 +318,7 @@
     <nb-card-header>Pick Information for Your Merge Order</nb-card-header>
     <nb-card-body>
       <ng2-smart-table [settings]="chooseInfoSettings" [source]="infoSource"
-                       (userRowSelect)="onChooseInfo($event, confirm);">
+        (userRowSelect)="onChooseInfo($event, confirm);">
       </ng2-smart-table>
     </nb-card-body>
     <nb-card-footer>

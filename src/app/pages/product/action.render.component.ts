@@ -40,7 +40,7 @@ export class ActionRenderComponent implements OnInit {
     private imageService: ProductImageService,
     private productService: ProductService,
     private tokenService: NbAuthService,
-    private accessChecker: NbAccessChecker
+    public accessChecker: NbAccessChecker
   ) {
   }
 

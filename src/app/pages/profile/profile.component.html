@@ -1,0 +1,73 @@
+<nb-card>
+    <nb-card-header>Profile</nb-card-header>
+    <nb-card-body>
+        <div class="row justify-content-center">
+            <div class="col-6">
+                <form name="form" #f="ngForm" (ngSubmit)="f.form.valid && onSave(f.submitted && firstName.invalid)"
+                    novalidate>
+                    <div class="row form-group">
+                        <div class="col-3">
+                            <label for="firstName" class="title">First name</label>
+                        </div>
+                        <div class="col-9">
+                            <input id="firstName" name="firstName" #firstName="ngModel" type="text" class="input"
+                                [(ngModel)]="user.firstName" nbInput fullWidth status="primary" [disabled]="!isEdit"
+                                required>
+                            <div *ngIf="f.submitted && firstName.invalid" class="text-danger">
+                                <div *ngIf="firstName.errors.required">First Name is required</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-3">
+                            <label for="lastName" class="title">Last name</label>
+                        </div>
+                        <div class="col-9">
+                            <input id="lastName" name="lastName" #lastName="ngModel" type="text" class="input"
+                                [(ngModel)]="user.lastName" nbInput fullWidth status="primary" [disabled]="!isEdit"
+                                required>
+                            <div *ngIf="f.submitted && lastName.invalid" class="text-danger">
+                                <div *ngIf="lastName.errors.required">Last Name is required</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-3">
+                            <label for="email" class="title">Email</label>
+                        </div>
+                        <div class="col-9">
+                            <input id="email" name="email" #email="ngModel" type="text" class="input" email
+                                [(ngModel)]="user.email" nbInput fullWidth status="primary" [disabled]="true">
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-3">
+                            <label for="phoneNumber" class="title">Phone number</label>
+                        </div>
+                        <div class="col-9">
+                            <input id="phoneNumber" name="phoneNumber" #phoneNumber="ngModel" type="text" class="input"
+                                [(ngModel)]="user.phoneNumber" nbInput fullWidth status="primary" [disabled]="!isEdit"
+                                pattern="[0-9]+">
+                            <div *ngIf="f.submitted && phoneNumber.invalid" class="text-danger">
+                                <div *ngIf="phoneNumber.errors.pattern">phoneNumber must be a valid</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-3">
+                            <label for="address" class="title">Address</label>
+                        </div>
+                        <div class="col-9">
+                            <input id="address" name="address" #address="ngModel" type="text" class="input"
+                                [(ngModel)]="user.address" nbInput fullWidth status="primary" [disabled]="!isEdit">
+                        </div>
+                    </div>
+                    <button nbButton status="primary" type="button" (click)="onClickEdit()"
+                        *ngIf="!isEdit">Edit</button>
+                    <button nbButton status="danger" type="button" (click)="onCancel()" *ngIf="isEdit">Cancel</button>
+                    <button nbButton status="success" type="submit" *ngIf="isEdit">Save</button>
+                </form>
+            </div>
+        </div>
+    </nb-card-body>
+</nb-card>

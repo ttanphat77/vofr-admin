@@ -1,0 +1,17 @@
+@import '../../@theme/styles/themes.scss';
+
+.title {
+    line-height: 40px;
+}
+
+.input:disabled {
+    color: black;
+}
+
+.input:enabled {
+    background-color: white;
+}
+
+button {
+    margin-right: 10px;
+}

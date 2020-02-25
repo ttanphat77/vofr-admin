@@ -16,12 +16,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
   userPictureOnly: boolean = false;
   user: Account;
 
-  userMenu = [{ title: 'Profile' }, { title: 'Log out', link: 'auth/logout' }];
+  userMenu = [
+    { title: 'Profile', link: 'pages/profile' },
+    { title: 'Log out', link: 'auth/logout' }
+  ];
 
   constructor(private sidebarService: NbSidebarService,
     private menuService: NbMenuService,
     private authService: NbAuthService,
-    private accountService: AccountService,) {
+    private accountService: AccountService, ) {
   }
 
   ngOnInit() {

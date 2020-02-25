@@ -16,6 +16,7 @@ const URL = 'http://23.94.26.75/node/api/upload';
 
 export class RecapComponent implements OnInit, OnDestroy {
 
+  query: string = '';
   uploader: FileUploader = new FileUploader({ url: URL, itemAlias: 'photo' });
   isCreated: boolean = false;
   message: string = '';
