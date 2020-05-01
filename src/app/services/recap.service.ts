@@ -49,7 +49,6 @@ export class RecapService {
         })
     }
     deleteImages(images: string[]): Observable<any> {
-        console.log('delete');
         return this.http.post(this.serverUri + '/deleteImages', {
             images: images,
         })

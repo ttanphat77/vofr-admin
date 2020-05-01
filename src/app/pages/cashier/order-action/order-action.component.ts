@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output, TemplateRef} from '@angular/core';
 import {NbDialogService} from "@nebular/theme";
-import {Order} from "../../models/order.model";
-import {OrderService} from "../../services/order.service";
+import {Order} from "../../../models/order.model";
+import {OrderService} from "../../../services/order.service";
 
 @Component({
   selector: 'order-action',

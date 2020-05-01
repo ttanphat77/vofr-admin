@@ -20,11 +20,9 @@ export class RoleSelectComponent implements OnInit {
 
   ngOnInit(): void {
     this.account = this.value;
-    console.log('test ', this.value.role);
   }
 
   changeRole() {
-    console.log(this.account.role);
     this.accountService.changeRole(this.value.id, this.account.role).subscribe();
   }
 }

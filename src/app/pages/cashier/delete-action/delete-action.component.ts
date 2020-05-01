@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {OrderItem} from "../../models/orderItem.model";
+import {OrderItem} from "../../../models/orderItem.model";
 
 @Component({
   selector: 'delete-action',
