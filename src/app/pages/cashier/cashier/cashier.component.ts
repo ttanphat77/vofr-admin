@@ -13,7 +13,7 @@ import {Subject} from "rxjs";
 import {Product} from "../../models/product.model";
 import {DescriptionRenderComponent} from "../product/description.render.component";
 import {QuantityActionComponentComponent} from "./quantity-action-component.component";
-import {DeleteActionComponent} from "./delete-action.component";
+import {DeleteActionComponent} from "./delete-action/delete-action.component";
 import {OrderActionComponent} from "./order-action.component";
 import {SocketServiceService} from "../../services/socket-service.service";
 import {MergeOrderComponent} from "./merge-order/merge-order.component";
