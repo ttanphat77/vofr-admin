@@ -7,7 +7,7 @@ import { RecapComponent } from './recap/recap.component';
 import { ProductComponent } from './product/product.component';
 import { CategoryComponent } from './category/category.component';
 import { OrderComponent } from './order/order.component';
-import { CashierComponent } from './cashier/cashier.component';
+import { CashierComponent } from './cashier/cashier/cashier.component';
 import { AccountComponent } from './account/account.component';
 import { ProfileComponent } from './profile/profile.component';
 
@@ -21,7 +21,7 @@ const routes: Routes = [{
     },
     {
       path: 'profile',
-      component: ProfileComponent 
+      component: ProfileComponent
     },
     {
       path: 'recap',

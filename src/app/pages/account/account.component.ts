@@ -176,7 +176,6 @@ export class AccountComponent implements OnInit {
     this.accounts = [];
     this.accountService.getAllAccount().subscribe(data => {
       const accountList: any[] = data.data;
-      console.log(accountList);
       accountList.forEach(element => {
 
         if (element.role_id === 1 || element.role_id === 3) {

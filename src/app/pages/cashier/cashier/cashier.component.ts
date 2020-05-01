@@ -1,22 +1,22 @@
 import {Component, OnDestroy, OnInit, TemplateRef} from '@angular/core';
-import {sortDate, sortName} from "../common/sortDate";
+import {sortDate, sortName} from "../../common/sortDate";
 import io from 'socket.io-client';
 import {NbDialogService} from "@nebular/theme";
 import {DatePipe} from "@angular/common";
-import {Order} from "../../models/order.model";
-import {OrderService} from "../../services/order.service";
+import {Order} from "../../../models/order.model";
+import {OrderService} from "../../../services/order.service";
 import {LocalDataSource} from "ng2-smart-table";
-import {OrderDetailService} from "../../services/order-detail.service";
-import {ProductService} from "../../services/product.service";
-import {OrderItem} from "../../models/orderItem.model";
+import {OrderDetailService} from "../../../services/order-detail.service";
+import {ProductService} from "../../../services/product.service";
+import {OrderItem} from "../../../models/orderItem.model";
 import {Subject} from "rxjs";
-import {Product} from "../../models/product.model";
-import {DescriptionRenderComponent} from "../product/description.render.component";
-import {QuantityActionComponentComponent} from "./quantity-action-component.component";
-import {DeleteActionComponent} from "./delete-action/delete-action.component";
-import {OrderActionComponent} from "./order-action.component";
-import {SocketServiceService} from "../../services/socket-service.service";
-import {MergeOrderComponent} from "./merge-order/merge-order.component";
+import {Product} from "../../../models/product.model";
+import {DescriptionRenderComponent} from "../../product/description.render.component";
+import {QuantityActionComponentComponent} from "../quantity-action/quantity-action-component.component";
+import {DeleteActionComponent} from "../delete-action/delete-action.component";
+import {OrderActionComponent} from "../order-action/order-action.component";
+import {SocketServiceService} from "../../../services/socket-service.service";
+import {MergeOrderComponent} from "../merge-order/merge-order.component";
 
 @Component({
   selector: 'cashier',
@@ -173,11 +173,11 @@ export class CashierComponent implements OnInit, OnDestroy {
         renderComponent: QuantityActionComponentComponent,
         onComponentInitFunction: (instance) => {
           instance.increase.subscribe((value) => {
-            console.log(value);
+            console.log('quantity', value)
             let index = this.orderDetails.findIndex(value1 => value1.id === value.orderItem.id);
             if (index !== -1) {
               this.orderDetails[index] = value.orderItem;
-              this.detailSource.load(this.orderDetails);
+              // this.detailSource.load(this.orderDetails);
             }
           });
         },
@@ -242,8 +242,11 @@ export class CashierComponent implements OnInit, OnDestroy {
   }
 
   onUserRowSelect(event): void {
-    this.choosenOrder = event.data;
-    this.getAllDataOrderItem(this.choosenOrder.id);
+    console.log(event)
+    if(event.isSelected) {
+      this.choosenOrder = event.data;
+      this.getAllDataOrderItem(this.choosenOrder.id);
+    }
   }
 
   getAllData() {
@@ -402,7 +405,6 @@ export class CashierComponent implements OnInit, OnDestroy {
 
   saveOrder(dialog: TemplateRef<any>) {
     this.orderDetailService.updateOrderDetail(this.orderDetails).subscribe(res => {
-      console.log(res);
       this.openAddNew(dialog, 3);
     });
   }
@@ -433,7 +435,6 @@ export class CashierComponent implements OnInit, OnDestroy {
   }
 
   addNewOrder() {
-    console.log(this.newOrder);
     this.orderService.addNewOrder(this.newOrder).subscribe(res => {
       this.choosenOrder = null;
       this.getAllData();
@@ -486,9 +487,6 @@ export class CashierComponent implements OnInit, OnDestroy {
 
 
   mergeOrder(success: TemplateRef<any>) {
-
-    console.log('test', [this.choosenInfo.id, ...this.selectedOrdersToMerge]);
-
     this.orderService.mergeOrder(this.selectedOrdersToMerge, this.choosenInfo).subscribe(res => {
       this.dialogRef.close();
       this.selectedOrdersToMerge = [];

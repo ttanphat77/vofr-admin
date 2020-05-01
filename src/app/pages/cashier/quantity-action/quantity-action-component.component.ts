@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {OrderItem} from "../../models/orderItem.model";
+import {OrderItem} from "../../../models/orderItem.model";
 
 @Component({
   selector: 'quantity-action-component',
@@ -17,7 +17,6 @@ export class QuantityActionComponentComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.value);
     this.orderItem = this.value;
   }
 

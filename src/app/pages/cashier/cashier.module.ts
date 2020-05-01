@@ -1,6 +1,6 @@
 import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {CashierComponent} from './cashier.component';
+import {CashierComponent} from './cashier/cashier.component';
 import {
   NbActionsModule, NbAlertModule,
   NbButtonModule,
@@ -18,9 +18,9 @@ import {NbEvaIconsModule} from '@nebular/eva-icons';
 import {AppModule} from "../../app.module";
 import {FilterPipe} from "./filter.pipe";
 import {DescriptionRenderComponent} from "../product/description.render.component";
-import {QuantityActionComponentComponent} from "./quantity-action-component.component";
-import {DeleteActionComponent} from "./delete-action.component";
-import {OrderActionComponent} from "./order-action.component";
+import {QuantityActionComponentComponent} from "./quantity-action/quantity-action-component.component";
+import {DeleteActionComponent} from "./delete-action/delete-action.component";
+import {OrderActionComponent} from "./order-action/order-action.component";
 import { MergeOrderComponent } from './merge-order/merge-order.component';
 
 

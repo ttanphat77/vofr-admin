@@ -91,7 +91,6 @@ export class OrderService {
     let jsonObject = orderIDList.map((value, index1) => ({
       order_id: value
     }))
-    console.log("test object", jsonObject);
     return this.http.put<any>(apiUrl + '/order/merge-order', jsonObject)
       .pipe(tap(_ => console.log('Merge Order')),
         catchError(err => {
