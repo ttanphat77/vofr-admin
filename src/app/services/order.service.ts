@@ -21,6 +21,17 @@ export class OrderService {
         }));
   }
 
+  updateOrder(order: Order): Observable<any> {
+    return this.http.put<any>(apiUrl + '/order/update-order', {
+      order_id: order.id,
+      total: order.total
+    }).pipe(tap(_ => console.log('Update Order')),
+      catchError(err => {
+        console.log(err);
+        return of(null);
+      }));
+  }
+
   updateCustomerInformation(order: Order): Observable<any> {
     return this.http.put<any>(apiUrl + '/order/update-customer-order', {
       order_id: order.id,
