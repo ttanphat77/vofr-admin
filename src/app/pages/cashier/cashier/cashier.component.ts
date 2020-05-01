@@ -413,11 +413,16 @@ export class CashierComponent implements OnInit, OnDestroy {
     if (this.orderDetails.length === 0) {
       return this.openAddNew(fail, 3);
     }
-    this.orderService.changeStatus(this.choosenOrder.id, 2).subscribe(res => {
-      this.source.remove(this.choosenOrder);
-      this.choosenOrder = null;
-      this.openAddNew(success, 3);
-    })
+    this.orderDetailService.updateOrderDetail(this.orderDetails).subscribe(res => {
+      this.choosenOrder.total = this.caculateTotal();
+      this.orderService.updateOrder(this.choosenOrder).subscribe(res => {
+        this.orderService.changeStatus(this.choosenOrder.id, 2).subscribe(res => {
+          this.source.remove(this.choosenOrder);
+          this.choosenOrder = null;
+          this.openAddNew(success, 3);
+        })
+      });
+    });
   }
 
   cancelOrder() {
