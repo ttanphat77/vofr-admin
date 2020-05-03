@@ -1,1 +1,1 @@
-<nb-action size="small" icon="trash-2-outline" (click)="deleteItem()"></nb-action>
+<nb-action [disabled]="order.method === 'Pay by Paypal'" size="small" icon="trash-2-outline" (click)="order.method === 'Pay at cashier' && deleteItem()"></nb-action>

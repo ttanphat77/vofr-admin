@@ -169,11 +169,10 @@ export class CashierComponent implements OnInit, OnDestroy {
         title: 'Quantity',
         type: 'custom',
         width: '3%',
-        valuePrepareFunction: (cell, row) => row,
+        valuePrepareFunction: (cell, row) => [row, this.choosenOrder],
         renderComponent: QuantityActionComponentComponent,
         onComponentInitFunction: (instance) => {
           instance.increase.subscribe((value) => {
-            console.log('quantity', value)
             let index = this.orderDetails.findIndex(value1 => value1.id === value.orderItem.id);
             if (index !== -1) {
               this.orderDetails[index] = value.orderItem;
@@ -189,7 +188,7 @@ export class CashierComponent implements OnInit, OnDestroy {
         type: 'custom',
         filter: false,
         width: '1%',
-        valuePrepareFunction: (cell, row) => row,
+        valuePrepareFunction: (cell, row) => [row, this.choosenOrder],
         renderComponent: DeleteActionComponent,
         onComponentInitFunction: (instance) => {
           instance.delete.subscribe((value) => {

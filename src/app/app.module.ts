@@ -93,7 +93,7 @@ import {RoleProvider} from './services/role.provider';
       accessControl: {
         Cashier: {
           notification: 'Order',
-          view: ['Cashier', 'Order', 'Dashboard', 'Product'],
+          view: ['Cashier', 'Order', 'Dashboard', 'Product', 'Profile'],
           create: 'Cashier',
           edit: 'Cashier',
         },

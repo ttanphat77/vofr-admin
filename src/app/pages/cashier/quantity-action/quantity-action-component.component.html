@@ -1,5 +1,5 @@
 <div class="quantity">
-  <div *ngIf="value.quantity > 1" (click)="change(-1)" class='arrow'>&#10094;</div>
-  <span class='value'>{{value.quantity}}</span>
-  <div (click)="change(1)" class='arrow'>&#10095;</div>
+  <div  *ngIf="value[0].quantity > 1 && !(order.method === 'Pay by Paypal')" (click)="change(-1)" class='arrow'>&#10094;</div>
+  <span class='value'>{{value[0].quantity}}</span>
+  <div *ngIf="!(order.method === 'Pay by Paypal')" (click)="change(1)" class='arrow'>&#10095;</div>
 </div>
