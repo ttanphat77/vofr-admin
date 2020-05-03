@@ -26,6 +26,7 @@ export class RecapComponent implements OnInit, OnDestroy {
   scenes: Scene[] = [];
   uploaded: number = 0;
   newSceneName: string = '';
+  progressIntervals = [];
   processing: boolean = false;
   constructor(private service: RecapService) {
   }
@@ -44,6 +45,7 @@ export class RecapComponent implements OnInit, OnDestroy {
           var progressChecker = setInterval(function () {
             context.checkProgress(scene, progressChecker);
           }, 5000);
+          this.progressIntervals.push(progressChecker);
         }
       })
     })
@@ -111,6 +113,9 @@ export class RecapComponent implements OnInit, OnDestroy {
     //Add 'implements OnDestroy' to the class.
     this.service.deleteImages(this.images).subscribe(res => {
       console.log(res);
+    });
+    this.progressIntervals.forEach((i) => {
+      clearInterval(i);
     })
   }
 }
