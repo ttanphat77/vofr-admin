@@ -64,6 +64,8 @@
                     </div>
                     <button nbButton status="primary" type="button" (click)="onClickEdit()"
                         *ngIf="!isEdit">Edit</button>
+                  <button nbButton status="danger" type="button" (click)="open(addNewDialog)"
+                          *ngIf="!isEdit">Change Password</button>
                     <button nbButton status="danger" type="button" (click)="onCancel()" *ngIf="isEdit">Cancel</button>
                     <button nbButton status="success" type="submit" *ngIf="isEdit">Save</button>
                 </form>
@@ -71,3 +73,65 @@
         </div>
     </nb-card-body>
 </nb-card>
+
+
+<!-- Add new template -->
+<ng-template #addNewDialog let-data let-ref="dialogRef">
+  <nb-card [size]="'large'" style="width: 500px">
+    <nb-card-header>Change Password</nb-card-header>
+    <nb-card-body>
+      <div class="row justify-content-center">
+        <div class="col-10">
+          <form name="form" #formtwo="ngForm" (ngSubmit)="formtwo.form.valid && onSaveTwo(formtwo.submitted && firstName.invalid)"
+                novalidate>
+            <div class="row form-group">
+              <div class="col-5">
+                <label for="oldPass" class="title">Old Password</label>
+              </div>
+              <div class="col-6">
+                <input id="oldPass" name="oldPass" #oldPass="ngModel" type="password" class="input"
+                       [(ngModel)]="oldPassword" nbInput fullWidth status="primary"
+                       required>
+                <div *ngIf="formtwo.submitted && oldPass.invalid" class="text-danger">
+                  <div *ngIf="oldPass.errors.required">Old Password is required</div>
+                </div>
+              </div>
+            </div>
+            <div class="row form-group">
+              <div class="col-5">
+                <label for="newPass" class="title">New Password</label>
+              </div>
+              <div class="col-6">
+                <input id="newPass" name="newPass" #newPass="ngModel" type="password" class="input"
+                       [(ngModel)]="newPassword" nbInput fullWidth status="primary"
+                       required>
+                <div *ngIf="formtwo.submitted && newPass.invalid" class="text-danger">
+                  <div *ngIf="newPass.errors.required">New Password is required</div>
+                </div>
+              </div>
+            </div>
+            <div class="row form-group">
+              <div class="col-5">
+                <label for="newRepass" class="title">Confirm Password</label>
+              </div>
+              <div class="col-6">
+                <input id="newRepass" name="newRepass" #newRepass="ngModel" type="password" class="input" email
+                       [(ngModel)]="newRepassword" nbInput fullWidth status="primary">
+                <div *ngIf="formtwo.submitted && newRepass.invalid" class="text-danger">
+                  <div *ngIf="newRepass.errors.required">New Password is required</div>
+                </div>
+              </div>
+            </div>
+            <pre class="text-danger">{{  errors | json }}</pre>
+            <button nbButton status="danger" type="button" (click)="test()" >Cancel</button>
+            <button  nbButton status="success" (click)="changePassword(dialogRef)" type="submit">Update</button>
+          </form>
+        </div>
+      </div>
+    </nb-card-body>
+<!--    <nb-card-footer>-->
+<!--      <button (click)="ref.close()" nbButton status="danger" style="margin-right: 1rem;">Cancel</button>-->
+<!--      <button (click)="changePassword();ref.close()" nbButton type="submit" status="success">Save</button>-->
+<!--    </nb-card-footer>-->
+  </nb-card>
+</ng-template>

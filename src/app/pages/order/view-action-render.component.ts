@@ -8,6 +8,7 @@ import {sortDate, sortName} from '../common/sortDate';
 import {OrderItem} from '../../models/orderItem.model';
 import {OrderDetailService} from '../../services/order-detail.service';
 import {ProductService} from '../../services/product.service';
+import {FormatPriceComponent} from "./format-price/format-price.component";
 
 @Component({
   templateUrl: './view-action-render.component.html',
@@ -34,8 +35,9 @@ export class ViewActionRenderComponent implements OnInit {
       },
       price: {
         title: 'Price',
-        type: 'String',
+        type: 'custom',
         width: '5%',
+        renderComponent: FormatPriceComponent
       },
       quantity: {
         title: 'Quantity',

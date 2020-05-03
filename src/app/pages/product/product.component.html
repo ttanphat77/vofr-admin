@@ -5,7 +5,7 @@
         <nb-icon icon="plus-outline" status="danger" style="color: white"></nb-icon>
         Add new
       </button>
-      <button nbButton (click)="add()">Test Realtime</button>
+<!--      <button nbButton (click)="add()">Test Realtime</button>-->
     </h2>
   </nb-card-header>
   <ng-template #addNewDialog let-data let-ref="dialogRef">
@@ -69,7 +69,7 @@
                   <div class="form-group">
                     <pre class="text-danger">{{  errors | json }}</pre>
                     <button (click)="ref.close()" nbButton status="danger" style="margin-right: 1rem;">Cancel</button>
-                    <button nbButton type="submit" status="success">Save</button>
+                    <button nbButton type="submit" (click)="onSubmit();ref.close()" status="success">Save</button>
                   </div>
                 </form>
               </div>

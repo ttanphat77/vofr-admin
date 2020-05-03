@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import { environment } from "../../environments/environment";
-import { HttpClient } from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import { Observable, of } from "rxjs";
-import { catchError, tap } from "rxjs/operators";
+import {catchError, map, tap} from "rxjs/operators";
 import { Account } from "../models/account.model";
 import { NbAuthJWTToken, NbAuthService } from '@nebular/auth';
+import {tokenName} from "@angular/compiler";
+import {Router} from "@angular/router";
 
 const apiUrl = environment.apiUrl;
 
@@ -13,10 +15,16 @@ const apiUrl = environment.apiUrl;
   providedIn: 'root'
 })
 export class AccountService {
+  private token: string;
 
   constructor(private http: HttpClient,
-    private authService: NbAuthService) {
-  }
+    private authService: NbAuthService,
+             ) {
+
+    this.authService.getToken().subscribe((token: NbAuthJWTToken) => {
+      this.token = token.getValue();
+    })
+}
 
   getUserById(id): Observable<any> {
     return this.http.get<any>(apiUrl + '/account?id=' + id)
@@ -87,8 +95,8 @@ export class AccountService {
       phone_number: account.phoneNumber,
       username: account.username,
       password: "123456",
-      role_id: 2,
-      role_name: "User",
+      role_id: 3,
+      role_name: "Cashier",
       image_user: "https://cdn1.vectorstock.com/i/1000x1000/19/45/user-avatar-icon-sign-symbol-vector-4001945.jpg"
     }).pipe(tap(_ => console.log('Create Account')),
       catchError(err => {
@@ -102,6 +110,19 @@ export class AccountService {
     return this.http.put<any>(apiUrl + '/account/change-role-account?'
       + 'id=' + id + '&roleId=' + roleId, {})
       .pipe(tap(_ => console.log('changed role')),
+        catchError(err => {
+          console.log(err);
+          return of(null);
+        }));
+  }
+
+  changePassword(oldPass: string, newPass: string) {
+    const httpOptions = {
+      headers: new HttpHeaders({'Authorization': 'Bearer '+this.token})
+    };
+    return this.http.put<any>(apiUrl + '/account/change-password?'
+      + 'password=' + oldPass + '&passwordNew=' + newPass, {}, httpOptions)
+      .pipe(tap(_ => console.log('changed password')),
         catchError(err => {
           console.log(err);
           return of(null);

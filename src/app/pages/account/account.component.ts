@@ -94,19 +94,19 @@ export class AccountComponent implements OnInit {
         sort: false,
         // renderComponent: DescriptionRenderComponent,
       },
-      role: {
-        editable: true,
-        title: 'Role',
-        type: 'custom',
-        width: '5%',
-        valuePrepareFunction: (cell, row) => row,
-        renderComponent: RoleSelectComponent,
-        onComponentInitFunction: (instance) => {
-          instance.save.subscribe((row) => {
-            this.handleChangeStatus(row);
-          });
-        },
-      },
+      // role: {
+      //   editable: true,
+      //   title: 'Role',
+      //   type: 'custom',
+      //   width: '5%',
+      //   valuePrepareFunction: (cell, row) => row,
+      //   renderComponent: RoleSelectComponent,
+      //   onComponentInitFunction: (instance) => {
+      //     instance.save.subscribe((row) => {
+      //       this.handleChangeStatus(row);
+      //     });
+      //   },
+      // },
       //
       // orderDate: {
       //   title: 'Order date',
@@ -178,7 +178,7 @@ export class AccountComponent implements OnInit {
       const accountList: any[] = data.data;
       accountList.forEach(element => {
 
-        if (element.role_id === 1 || element.role_id === 3) {
+        if (element.role_id === 3) {
           const account: Account = new Account();
           account.id = element.account_id;
           account.firstName = element.first_name;

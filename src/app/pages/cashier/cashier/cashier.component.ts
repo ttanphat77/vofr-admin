@@ -17,6 +17,7 @@ import {DeleteActionComponent} from "../delete-action/delete-action.component";
 import {OrderActionComponent} from "../order-action/order-action.component";
 import {SocketServiceService} from "../../../services/socket-service.service";
 import {MergeOrderComponent} from "../merge-order/merge-order.component";
+import {FormatPriceComponent} from "../format-price/format-price.component";
 
 @Component({
   selector: 'cashier',
@@ -79,7 +80,7 @@ export class CashierComponent implements OnInit, OnDestroy {
         title: '',
         type: 'custom',
         width: '2%',
-        valuePrepareFunction: (cell, row) => row,
+        valuePrepareFunction: (cell, row) => cell,
         renderComponent: MergeOrderComponent,
         onComponentInitFunction: (instance) => {
           instance.check.subscribe((value) => {
@@ -162,8 +163,9 @@ export class CashierComponent implements OnInit, OnDestroy {
       },
       price: {
         title: 'Price',
-        type: 'String',
+        type: 'custom',
         width: '5%',
+        renderComponent: FormatPriceComponent
       },
       quantity: {
         title: 'Quantity',
