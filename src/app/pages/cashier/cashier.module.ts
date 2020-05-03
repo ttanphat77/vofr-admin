@@ -1,6 +1,7 @@
 import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {CashierComponent} from './cashier/cashier.component';
+import {FormatPriceComponent} from "./format-price/format-price.component";
 import {
   NbActionsModule, NbAlertModule,
   NbButtonModule,
@@ -25,8 +26,8 @@ import { MergeOrderComponent } from './merge-order/merge-order.component';
 
 
 @NgModule({
-  declarations: [CashierComponent, FilterPipe, QuantityActionComponentComponent, DeleteActionComponent, OrderActionComponent, MergeOrderComponent],
-  entryComponents: [QuantityActionComponentComponent, DeleteActionComponent, OrderActionComponent, MergeOrderComponent],
+  declarations: [CashierComponent, FilterPipe, QuantityActionComponentComponent, DeleteActionComponent, OrderActionComponent, MergeOrderComponent, FormatPriceComponent],
+  entryComponents: [QuantityActionComponentComponent, DeleteActionComponent, OrderActionComponent, MergeOrderComponent, FormatPriceComponent],
   imports: [
     CommonModule,
     NbCardModule,

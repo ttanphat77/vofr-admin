@@ -23,6 +23,7 @@ import {
 } from '@nebular/theme';
 import { DescriptionRenderComponent } from './description.render.component';
 import { FormsModule } from '@angular/forms';
+import { FormatPriceComponent } from './format-price/format-price.component';
 
 @NgModule({
   declarations: [
@@ -30,11 +31,13 @@ import { FormsModule } from '@angular/forms';
     ActiveButtonRenderComponent,
     ActionRenderComponent,
     DescriptionRenderComponent,
+    FormatPriceComponent,
   ],
   entryComponents: [
     ActiveButtonRenderComponent,
     ActionRenderComponent,
     DescriptionRenderComponent,
+    FormatPriceComponent,
   ],
   imports: [
     NbCardModule,

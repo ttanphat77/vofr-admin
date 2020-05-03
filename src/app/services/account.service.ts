@@ -87,8 +87,8 @@ export class AccountService {
       phone_number: account.phoneNumber,
       username: account.username,
       password: "123456",
-      role_id: 2,
-      role_name: "User",
+      role_id: 3,
+      role_name: "Cashier",
       image_user: "https://cdn1.vectorstock.com/i/1000x1000/19/45/user-avatar-icon-sign-symbol-vector-4001945.jpg"
     }).pipe(tap(_ => console.log('Create Account')),
       catchError(err => {
