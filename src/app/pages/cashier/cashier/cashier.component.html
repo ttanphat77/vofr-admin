@@ -2,7 +2,7 @@
   <div class="card-col">
     <nb-card>
       <nb-card-header>
-        <h2>Order
+        <h2>Processing Order
           <button nbButton (click)="openAddNew(addOrderDialog, 1)">
             <nb-icon icon="plus-outline" status="danger" style="color: white"></nb-icon>
             Add new
@@ -276,10 +276,10 @@
     <nb-card>
       <nb-card-header>
         <h2>
-          <button nbButton style="margin-bottom: 1rem" (click)="openAddNew(addNewItemDialog, 2)">
+          <button [disabled]="choosenOrder.method === 'Pay by Paypal'" nbButton style="margin-bottom: 1rem" (click)="openAddNew(addNewItemDialog, 2)">
             <nb-icon icon="plus-outline" status="danger" style="color: white"></nb-icon>
           </button>
-          <button nbButton style="margin-left: 1rem; margin-bottom: 1rem" (click)="saveOrder(success)">
+          <button [disabled]="choosenOrder.method === 'Pay by Paypal'" nbButton style="margin-left: 1rem; margin-bottom: 1rem" (click)="saveOrder(success)">
             <nb-icon icon="save-outline" status="danger" style="color: white"></nb-icon>
           </button>
           {{choosenOrder?.name}}
@@ -303,7 +303,7 @@
         <button style="float: right; margin-right: 0.5rem" nbButton (click)="openAddNew(cancelDialog, 3)"
           status="danger">
           <nb-icon icon="close-outline" status="warning" style="color: white;"></nb-icon>
-          Cancel
+          Cancel Order
         </button>
       </nb-card-footer>
     </nb-card>
