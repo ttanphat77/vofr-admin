@@ -13,7 +13,7 @@ export class RoleProvider implements NbRoleProvider {
 
     getRole(): Observable<string> {
         return this.authService.onTokenChange()
-            .pipe(
+              .pipe(
                 map((token: NbAuthJWTToken) => {
                     return token.isValid() ? token.getPayload()['role'] : 'guest';
                 }),
