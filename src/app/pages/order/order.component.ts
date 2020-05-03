@@ -12,6 +12,7 @@ import {Product} from '../../models/product.model';
 import {Observable} from 'rxjs';
 import {OrderService} from '../../services/order.service';
 import {ViewActionRenderComponent} from './view-action-render.component';
+import {FormatPriceComponent} from "./format-price/format-price.component";
 
 @Component({
   selector: 'order',
@@ -58,8 +59,9 @@ export class OrderComponent implements OnInit {
       },
       total: {
         title: 'Total',
-        type: 'String',
+        type: 'custom',
         width: '10%',
+        renderComponent: FormatPriceComponent
       },
 
       orderDate: {

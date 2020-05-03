@@ -17,12 +17,13 @@ import {NbEvaIconsModule} from '@nebular/eva-icons';
 import {OrderComponent} from './order.component';
 
 import {ViewActionRenderComponent} from './view-action-render.component';
+import {FormatPriceComponent} from "./format-price/format-price.component";
 
 
 @NgModule({
-  declarations: [OrderComponent, ViewActionRenderComponent,
+  declarations: [OrderComponent, ViewActionRenderComponent, FormatPriceComponent
   ],
-  entryComponents: [ViewActionRenderComponent],
+  entryComponents: [ViewActionRenderComponent, FormatPriceComponent],
   imports: [
     CommonModule,
     NbCardModule,
