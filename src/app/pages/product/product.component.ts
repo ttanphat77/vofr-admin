@@ -12,6 +12,7 @@ import {DescriptionRenderComponent} from './description.render.component';
 import {NbDialogService} from '@nebular/theme';
 import {Observable, observable} from 'rxjs';
 import {SocketServiceService} from "../../services/socket-service.service";
+import {FormatPriceComponent} from "./format-price/format-price.component";
 
 @Component({
   selector: 'app-product-list',
@@ -45,8 +46,9 @@ export class ProductComponent {
       },
       price: {
         title: 'Price',
-        type: 'String',
+        type: 'custom',
         width: '5%',
+        renderComponent: FormatPriceComponent
       },
       description: {
         title: 'Description',
@@ -293,7 +295,6 @@ export class ProductComponent {
 
   onSubmit() {
     // console.log(tmp);
-    console.log(this.newProduct);
     this.createProduct();
     // this.accountService.updateAccount(this.value).subscribe(res => {
     //   if (res.success === true) {
