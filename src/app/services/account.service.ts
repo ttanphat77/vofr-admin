@@ -125,7 +125,7 @@ export class AccountService {
       .pipe(tap(_ => console.log('changed password')),
         catchError(err => {
           console.log(err);
-          return of(null);
+          return of(err);
         }));
   }
 }
