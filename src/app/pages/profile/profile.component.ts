@@ -108,11 +108,8 @@ export class ProfileComponent implements OnInit {
     }
 
     this.accountService.changePassword(this.oldPassword, this.newPassword).subscribe(res => {
-      // if(res === null) {
-      //   return this.errors = 'Error Server';
-      // }
-      if (res.success === false) {
-        return this.errors = res.message;
+      if(res === null) {
+        return this.errors = 'Error Server';
       }
       if (res.success === true) {
         // this.dialogService.open(dialog, {});
@@ -120,7 +117,7 @@ export class ProfileComponent implements OnInit {
          // this.dialogRef.close();
       }
       if (res.status === 400) {
-        return this.errors = res.error.message || res.message;
+        return this.errors = res.error.message;
       }
       if (res.status === 500) {
         return this.errors = 'Server Error';

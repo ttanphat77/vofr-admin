@@ -80,7 +80,7 @@ export class CashierComponent implements OnInit, OnDestroy {
         title: '',
         type: 'custom',
         width: '2%',
-        valuePrepareFunction: (cell, row) => row,
+        valuePrepareFunction: (cell, row) => cell,
         renderComponent: MergeOrderComponent,
         onComponentInitFunction: (instance) => {
           instance.check.subscribe((value) => {
