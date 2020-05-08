@@ -17,19 +17,36 @@ export class SocketServiceService {
   }
 
   connect() {
-    this.socket = io.connect('https://protected-peak-19050.herokuapp.com/');
+    // this.socket = io.connect('https://protected-peak-19050.herokuapp.com/');
+    this.socket = io.connect('http://localhost:3000');
     this.accessChecker.isGranted('notification', 'Order').subscribe(res => {
       if (res === true) {
         this.socket.on('noti-new-order', (order) => {
           this.showToast(3000);
         });
+
+        this.socket.on('send-all-noti', (noti) => {
+          console.log(noti)
+        })
       }
     });
     return () => this.socket.disconnect();
   }
 
   add() {
-    this.socket.emit('add-new-order');
+    // this.socket.emit('add-new-order', {
+    //   order_id: '123',
+    //   name: 'Tran Hoang Giang',
+    //   total: 8000,
+    //   order_item: [
+    //     {
+    //       id: '32132',
+    //       name: 'dsadsa'
+    //     }
+    //   ]
+    // });
+
+    // this.socket.emit('get-all-noti')
   }
 
 
