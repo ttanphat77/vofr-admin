@@ -8,12 +8,31 @@
 </div>
 
 <div class="header-container">
-  <nb-actions size="large">
+  <nb-actions size="medium">
+    <nb-action icon="bell-outline" badgeText="3" badgePosition="top" badgeStatus="danger" [nbPopover]="template">
+    </nb-action>
     <nb-action class="user-action">
-      <nb-user [nbContextMenu]="userMenu"
-               [name]="user?.firstName"
-               [picture]="user?.image">
+      <nb-user [nbContextMenu]="userMenu" [name]="user?.firstName" [picture]="user?.image">
       </nb-user>
     </nb-action>
   </nb-actions>
 </div>
+
+<!-- Notification popup -->
+<ng-template #template let-data>
+  <nb-card class="notification-popup" [size]="'medium'" accent="info">
+    <nb-card-header>New Orders</nb-card-header>
+    <nb-list>
+      <nb-list-item *ngFor="let noti of orders" [ngStyle]="{'background-color': noti.seen ? '#ffffff' : '#edf2fa'}">
+        <div>
+          <b>{{noti?.order?.customerName}}</b> has created an order <b
+            [ngStyle]="{'color': noti?.order?.method == 'Pay at cashier'? '#DD2C00' : '#0091EA'}">{{noti?.order?.method}}</b>
+        </div>
+        <div>
+          <nb-icon icon="clock-outline"></nb-icon> {{noti?.order?.createdDate | timeAgo}}
+        </div>
+      </nb-list-item>
+    </nb-list>
+    <nb-card-footer><a class="see-all" href="#">See all</a></nb-card-footer>
+  </nb-card>
+</ng-template>

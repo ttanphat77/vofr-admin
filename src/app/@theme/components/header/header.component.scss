@@ -1,6 +1,6 @@
-@import '~bootstrap/scss/mixins/breakpoints';
-@import '~@nebular/theme/styles/global/breakpoints';
-@import '../../styles/themes';
+@import "~bootstrap/scss/mixins/breakpoints";
+@import "~@nebular/theme/styles/global/breakpoints";
+@import "../../styles/themes";
 
 @include nb-install-component() {
   display: flex;
@@ -24,7 +24,7 @@
   }
 
   ::ng-deep nb-search button {
-    padding: 0!important;
+    padding: 0 !important;
   }
 
   .header-container {
@@ -74,3 +74,16 @@
     }
   }
 }
+
+.notification-popup {
+  width: 25rem;
+  margin-bottom: 0;
+
+  nb-card-footer {
+    text-align: center;
+    .see-all {
+      font-weight: bold;
+    }
+  }
+}
+

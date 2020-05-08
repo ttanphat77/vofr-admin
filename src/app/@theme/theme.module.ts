@@ -12,6 +12,10 @@ import {
   NbSelectModule,
   NbIconModule,
   NbThemeModule,
+  NbBadgeModule,
+  NbPopoverModule,
+  NbCardModule,
+  NbListModule,
 } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { NbSecurityModule } from '@nebular/security';
@@ -39,6 +43,7 @@ import { DEFAULT_THEME } from './styles/theme.default';
 import { COSMIC_THEME } from './styles/theme.cosmic';
 import { CORPORATE_THEME } from './styles/theme.corporate';
 import { DARK_THEME } from './styles/theme.dark';
+import { TimeAgoPipe } from './pipes/timeago.pipe';
 
 const NB_MODULES = [
   NbLayoutModule,
@@ -53,6 +58,10 @@ const NB_MODULES = [
   NbSelectModule,
   NbIconModule,
   NbEvaIconsModule,
+  NbBadgeModule,
+  NbPopoverModule,
+  NbCardModule,
+  NbListModule
 ];
 const COMPONENTS = [
   SwitcherComponent,
@@ -70,6 +79,7 @@ const PIPES = [
   RoundPipe,
   TimingPipe,
   NumberWithCommasPipe,
+  TimeAgoPipe
 ];
 
 @NgModule({

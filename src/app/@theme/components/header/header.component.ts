@@ -11,6 +11,116 @@ import { Subject } from 'rxjs';
   templateUrl: './header.component.html',
 })
 export class HeaderComponent implements OnInit, OnDestroy {
+  orders = [
+    {
+      id: 1,
+      order: {
+        id: 22,
+        customerName: 'Trần Tấn Phát',
+        method: 'Pay at cashier',
+        createdDate: new Date("May 6 2020 22:45"),
+      },
+      seen: false,
+    },
+    {
+      id: 2,
+      order: {
+        id: 22,
+        customerName: 'Giang',
+        method: 'Pay by Paypal',
+        createdDate: new Date("May 6 2020 21:45"),
+      },
+      seen: false,
+    },
+    {
+      id: 3,
+      order: {
+        id: 22,
+        customerName: 'Trung',
+        method: 'Pay at cashier',
+        createdDate: new Date("May 6 2020 18:45"),
+      },
+      seen: false,
+    },
+    {
+      id: 4,
+      order: {
+        id: 22,
+        customerName: 'Phát',
+        method: 'Pay by Paypal',
+        createdDate: new Date("May 6 2020 7:45"),
+      },
+      seen: true,
+    },{
+      id: 2,
+      order: {
+        id: 22,
+        customerName: 'Giang',
+        method: 'Pay by Paypal',
+        createdDate: new Date("May 5 2020 22:45"),
+      },
+      seen: false,
+    },
+    {
+      id: 3,
+      order: {
+        id: 22,
+        customerName: 'Trung',
+        method: 'Pay at cashier',
+        createdDate: new Date("April 25 2020 22:45"),
+      },
+      seen: false,
+    },
+    {
+      id: 4,
+      order: {
+        id: 22,
+        customerName: 'Phát',
+        method: 'Pay by Paypal',
+        createdDate: new Date("April 11 2020 22:45"),
+      },
+      seen: true,
+    },{
+      id: 2,
+      order: {
+        id: 22,
+        customerName: 'Giang',
+        method: 'Pay by Paypal',
+        createdDate: new Date("March 11 2020 22:45"),
+      },
+      seen: false,
+    },
+    {
+      id: 3,
+      order: {
+        id: 22,
+        customerName: 'Trung',
+        method: 'Pay at cashier',
+        createdDate: new Date("January 31 1980 12:30"),
+      },
+      seen: false,
+    },
+    {
+      id: 4,
+      order: {
+        id: 22,
+        customerName: 'Phát',
+        method: 'Pay by Paypal',
+        createdDate: new Date("January 31 1980 12:30"),
+      },
+      seen: true,
+    },
+    {
+      id: 5,
+      order: {
+        id: 22,
+        customerName: 'Phát',
+        method: 'Pay at cashier',
+        createdDate: new Date("January 31 1980 12:30"),
+      },
+      seen: true,
+    },
+  ]
 
   private destroy$: Subject<void> = new Subject<void>();
   userPictureOnly: boolean = false;
