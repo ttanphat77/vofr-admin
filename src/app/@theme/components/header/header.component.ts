@@ -1,9 +1,13 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NbMenuService, NbSidebarService } from '@nebular/theme';
-import { NbAuthJWTToken, NbAuthService } from '@nebular/auth';
-import { AccountService } from '../../../services/account.service';
-import { Account } from '../../../models/account.model';
-import { Subject } from 'rxjs';
+import {ApplicationRef, Component, OnDestroy, OnInit} from '@angular/core';
+import {NbMenuService, NbSidebarService} from '@nebular/theme';
+import {NbAuthJWTToken, NbAuthService} from '@nebular/auth';
+import {AccountService} from '../../../services/account.service';
+import {Account} from '../../../models/account.model';
+import {Subject} from 'rxjs';
+import {NotificationService} from "../../../services/notification.service";
+import {SocketServiceService} from "../../../services/socket-service.service";
+import io from 'socket.io-client';
+
 
 @Component({
   selector: 'ngx-header',
@@ -11,133 +15,48 @@ import { Subject } from 'rxjs';
   templateUrl: './header.component.html',
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-  orders = [
-    {
-      id: 1,
-      order: {
-        id: 22,
-        customerName: 'Trần Tấn Phát',
-        method: 'Pay at cashier',
-        createdDate: new Date("May 6 2020 22:45"),
-      },
-      seen: false,
-    },
-    {
-      id: 2,
-      order: {
-        id: 22,
-        customerName: 'Giang',
-        method: 'Pay by Paypal',
-        createdDate: new Date("May 6 2020 21:45"),
-      },
-      seen: false,
-    },
-    {
-      id: 3,
-      order: {
-        id: 22,
-        customerName: 'Trung',
-        method: 'Pay at cashier',
-        createdDate: new Date("May 6 2020 18:45"),
-      },
-      seen: false,
-    },
-    {
-      id: 4,
-      order: {
-        id: 22,
-        customerName: 'Phát',
-        method: 'Pay by Paypal',
-        createdDate: new Date("May 6 2020 7:45"),
-      },
-      seen: true,
-    },{
-      id: 2,
-      order: {
-        id: 22,
-        customerName: 'Giang',
-        method: 'Pay by Paypal',
-        createdDate: new Date("May 5 2020 22:45"),
-      },
-      seen: false,
-    },
-    {
-      id: 3,
-      order: {
-        id: 22,
-        customerName: 'Trung',
-        method: 'Pay at cashier',
-        createdDate: new Date("April 25 2020 22:45"),
-      },
-      seen: false,
-    },
-    {
-      id: 4,
-      order: {
-        id: 22,
-        customerName: 'Phát',
-        method: 'Pay by Paypal',
-        createdDate: new Date("April 11 2020 22:45"),
-      },
-      seen: true,
-    },{
-      id: 2,
-      order: {
-        id: 22,
-        customerName: 'Giang',
-        method: 'Pay by Paypal',
-        createdDate: new Date("March 11 2020 22:45"),
-      },
-      seen: false,
-    },
-    {
-      id: 3,
-      order: {
-        id: 22,
-        customerName: 'Trung',
-        method: 'Pay at cashier',
-        createdDate: new Date("January 31 1980 12:30"),
-      },
-      seen: false,
-    },
-    {
-      id: 4,
-      order: {
-        id: 22,
-        customerName: 'Phát',
-        method: 'Pay by Paypal',
-        createdDate: new Date("January 31 1980 12:30"),
-      },
-      seen: true,
-    },
-    {
-      id: 5,
-      order: {
-        id: 22,
-        customerName: 'Phát',
-        method: 'Pay at cashier',
-        createdDate: new Date("January 31 1980 12:30"),
-      },
-      seen: true,
-    },
-  ]
+  orders = [];
+  unseenNoti: number;
+  private disposeConnection: VoidFunction;
+  private socket;
 
   private destroy$: Subject<void> = new Subject<void>();
   userPictureOnly: boolean = false;
   user: Account;
 
   userMenu = [
-    { title: 'Profile', link: 'pages/profile' },
-    { title: 'Log out', link: 'auth/logout' }
+    {title: 'Profile', link: 'pages/profile'},
+    {title: 'Log out', link: 'auth/logout'}
   ];
 
   constructor(private sidebarService: NbSidebarService,
-    private menuService: NbMenuService,
-    private authService: NbAuthService,
-    private accountService: AccountService, ) {
+              private menuService: NbMenuService,
+              private authService: NbAuthService,
+              private accountService: AccountService,
+              private notificationService: NotificationService,
+              private socketService: SocketServiceService) {
   }
 
   ngOnInit() {
+    this.notificationService.getAllNoti().subscribe(res => {
+      this.orders = res;
+      this.unseenNoti = this.orders.filter(item => item.seen === false).length;
+    });
+
+    this.socket = io.connect('https://protected-peak-19050.herokuapp.com/');
+    this.socket.on('noti-new-order', ()=>{
+      this.notificationService.getAllNoti().subscribe(res => {
+        this.orders = res;
+        this.unseenNoti = this.orders.filter(item => item.seen === false).length;
+      });
+    })
+
+    this.socket.on('send-all-noti', (noti) => {
+      // this.notificationService.getAllNoti().subscribe(res => {
+        this.orders = noti;
+        this.unseenNoti = this.orders.filter(item => item.seen === false).length;
+      // });
+    })
 
     this.authService.onTokenChange()
       .subscribe((token: NbAuthJWTToken) => {
@@ -162,23 +81,34 @@ export class HeaderComponent implements OnInit, OnDestroy {
             this.user.image = account.image_user;
           })
         }
-
       });
   }
 
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
+    this.disposeConnection();
   }
 
   toggleSidebar(): boolean {
     this.sidebarService.toggle(true, 'menu-sidebar');
-
     return false;
   }
 
   navigateHome() {
     this.menuService.navigateHome();
     return false;
+  }
+
+  openNoti(event) {
+    // this.notificationService.getAllNoti().subscribe(res => {
+    //   this.orders = res;
+    // })
+    this.socket.emit('get-all-noti')
+  }
+
+
+  navigateToCashier(id) {
+    console.log(id);
   }
 }
