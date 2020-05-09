@@ -11,5 +11,6 @@
 export const environment = {
   production: false,
   apiUrl: 'http://23.94.26.75/vat-api/api',
-  SOCKET_ENDPOINT: 'http://localhost:3000'
+  // SOCKET_ENDPOINT: 'http://localhost:3000',
+  SOCKET_ENDPOINT: 'https://protected-peak-19050.herokuapp.com'
 };
