@@ -87,7 +87,7 @@ export class OrderService {
       total: 0,
       status: 0,
       order_date: null,
-      account_id: null,
+      account_id: '4',
       full_name: order.name,
       email: order.email,
       address: order.address,

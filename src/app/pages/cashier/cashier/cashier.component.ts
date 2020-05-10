@@ -472,7 +472,8 @@ export class CashierComponent implements OnInit, OnDestroy {
       this.choosenOrder.total = this.caculateTotal();
       this.orderService.updateOrder(this.choosenOrder).subscribe(res => {
         this.orderService.changeStatus(this.choosenOrder.id, 2).subscribe(res => {
-          this.source.remove(this.choosenOrder);
+          let idx = this.orders.findIndex((value, index) => value.id === this.choosenOrder.id)
+          this.source.remove(this.orders[idx]);
           this.choosenOrder = null;
           this.openAddNew(success, 3);
         })
@@ -482,7 +483,8 @@ export class CashierComponent implements OnInit, OnDestroy {
 
   cancelOrder() {
     this.orderService.changeStatus(this.choosenOrder.id, 3).subscribe(res => {
-      this.source.remove(this.choosenOrder);
+      let idx = this.orders.findIndex((value, index) => value.id === this.choosenOrder.id)
+      this.source.remove(this.orders[idx]);
       this.choosenOrder = null;
     })
   }
