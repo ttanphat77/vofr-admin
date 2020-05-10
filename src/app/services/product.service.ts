@@ -1,14 +1,14 @@
-import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import {Observable, of} from 'rxjs';
-import {catchError, map, tap} from 'rxjs/operators';
-import {environment} from '../../environments/environment';
-import {Product} from '../models/product.model';
+import { Observable, of } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
+import { Product } from '../models/product.model';
 
 const apiUrl = environment.apiUrl;
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 
 export class ProductService {
   constructor(
@@ -82,7 +82,28 @@ export class ProductService {
   getProductById(id: string): Observable<any> {
     return this.http.get<any>(apiUrl + '/product?'
       + 'id=' + id, {})
-      .pipe(tap(_ => console.log('changed status')),
+      .pipe(tap(_ => { }),
+        catchError(err => {
+          console.log(err);
+          return of(null);
+        }));
+  }
+
+  createProductSize(productId, size) {
+    return this.http.post<any>(apiUrl + '/product-size/create-size', {
+      name: size,
+      product_id: productId
+    }).pipe(tap(_ => console.log('Add size')),
+      catchError(err => {
+        console.log(err);
+        return of(null);
+      }));
+  }
+
+  getSizeByProductId(productId) {
+    return this.http.get<any>(apiUrl + '/product-size/get-list-size?'
+      + 'id=' + productId, {})
+      .pipe(tap(_ => { }),
         catchError(err => {
           console.log(err);
           return of(null);

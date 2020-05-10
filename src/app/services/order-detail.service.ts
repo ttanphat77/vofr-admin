@@ -34,7 +34,7 @@ export class OrderDetailService {
         quantity: value.quantity,
         product_id: value.productId,
         order_id: value.orderId,
-        size: 0
+        size: value.size
       })
     });
     return this.http.put<any>(apiUrl + '/order-item/update-list-order-item', tempBody).pipe(tap(_ => console.log('Update product')),

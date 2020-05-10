@@ -1,14 +1,14 @@
-import {Component, EventEmitter, Input, OnInit, Output, TemplateRef} from '@angular/core';
-import {NbDialogService} from '@nebular/theme';
-import {DatePipe} from '@angular/common';
-import {OrderService} from '../../services/order.service';
-import {LocalDataSource} from 'ng2-smart-table';
-import {Order} from '../../models/order.model';
-import {sortDate, sortName} from '../common/sortDate';
-import {OrderItem} from '../../models/orderItem.model';
-import {OrderDetailService} from '../../services/order-detail.service';
-import {ProductService} from '../../services/product.service';
-import {FormatPriceComponent} from "./format-price/format-price.component";
+import { Component, EventEmitter, Input, OnInit, Output, TemplateRef } from '@angular/core';
+import { NbDialogService } from '@nebular/theme';
+import { DatePipe } from '@angular/common';
+import { OrderService } from '../../services/order.service';
+import { LocalDataSource } from 'ng2-smart-table';
+import { Order } from '../../models/order.model';
+import { sortDate, sortName } from '../common/sortDate';
+import { OrderItem } from '../../models/orderItem.model';
+import { OrderDetailService } from '../../services/order-detail.service';
+import { ProductService } from '../../services/product.service';
+import { FormatPriceComponent } from "./format-price/format-price.component";
 
 @Component({
   templateUrl: './view-action-render.component.html',
@@ -43,6 +43,12 @@ export class ViewActionRenderComponent implements OnInit {
         title: 'Quantity',
         type: 'String',
         width: '25%',
+        // renderComponent: DescriptionRenderComponent,
+      },
+      size: {
+        title: 'Size',
+        type: 'String',
+        width: '15%',
         // renderComponent: DescriptionRenderComponent,
       },
       // orderDate: {
@@ -95,28 +101,30 @@ export class ViewActionRenderComponent implements OnInit {
   @Output() save: EventEmitter<any> = new EventEmitter();
 
   constructor(private dialogService: NbDialogService,
-              private datePipe: DatePipe,
-              private orderDetailService: OrderDetailService,
-              private productService: ProductService,
+    private datePipe: DatePipe,
+    private orderDetailService: OrderDetailService,
+    private productService: ProductService,
   ) {
   }
 
   ngOnInit() {
     this.order = this.value;
-    this.getOrderDetailById(this.order.id);
   }
 
   getOrderDetailById(id: string) {
     this.orderDetailService.getOrderDetailById(id).subscribe(data => {
+      this.orders = [];
       const orderDetailList: any[] = data.data;
       orderDetailList.forEach(element => {
         const orderItem: OrderItem = new OrderItem();
         orderItem.id = element.order_item_id;
         orderItem.price = element.price;
         orderItem.quantity = element.quantity;
-        this.productService.getProductById(element.product_id).subscribe(product => {
+        orderItem.size = element.size;
+        this.productService.getProductById(element.product.product_id).subscribe(product => {
           const productDetail: any = product.data;
           orderItem.name = productDetail[0].product_name;
+          this.source.refresh();
         });
         this.orders.push(orderItem);
       });
@@ -131,7 +139,8 @@ export class ViewActionRenderComponent implements OnInit {
   }
 
   open(dialog: TemplateRef<any>) {
-    this.dialogService.open(dialog, {hasBackdrop: true, hasScroll: true, autoFocus: false, closeOnEsc: false});
+    this.getOrderDetailById(this.order.id);
+    this.dialogService.open(dialog, { hasBackdrop: true, hasScroll: true, autoFocus: false, closeOnEsc: false });
   }
 
 }
