@@ -24,6 +24,7 @@ export class AccountComponent implements OnInit {
   account: Account;
   model: any = {};
   errors: string;
+  userRole = '2';
   tableSettings: any = {
     actions: false,
     columns: {
@@ -68,10 +69,17 @@ export class AccountComponent implements OnInit {
         width: '5%',
         // renderComponent: DescriptionRenderComponent,
       },
+      address: {
+        title: 'Address',
+        type: 'String',
+        width: '5%',
+        // renderComponent: DescriptionRenderComponent,
+      },
       dateCreated: {
         title: 'Created Date',
         sort: true,
         sortDirection: 'desc',
+        filter: false,
         width: '5%',
         compareFunction: sortDate,
         valuePrepareFunction: (date) => {
@@ -178,7 +186,7 @@ export class AccountComponent implements OnInit {
       const accountList: any[] = data.data;
       accountList.forEach(element => {
 
-        if (element.role_id === 3) {
+        if (element.role_id == this.userRole) {
           const account: Account = new Account();
           account.id = element.account_id;
           account.firstName = element.first_name;
@@ -217,7 +225,7 @@ export class AccountComponent implements OnInit {
   }
 
   onSubmit(dialog: TemplateRef<any>) {
-    this.accountService.addNewAccount(this.account).subscribe(res => {
+    this.accountService.addNewAccount(this.account, this.userRole).subscribe(res => {
       if (res.success === true) {
         this.getAllData();
         this.dialogService.open(dialog, {});

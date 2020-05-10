@@ -1,25 +1,26 @@
-import {Component, OnChanges, OnDestroy, OnInit, SimpleChanges, TemplateRef} from '@angular/core';
-import {sortDate, sortName} from "../../common/sortDate";
+import { Component, OnChanges, OnDestroy, OnInit, SimpleChanges, TemplateRef } from '@angular/core';
+import { sortDate, sortName } from "../../common/sortDate";
 import io from 'socket.io-client';
-import {NbDialogService} from "@nebular/theme";
-import {DatePipe} from "@angular/common";
-import {Order} from "../../../models/order.model";
-import {OrderService} from "../../../services/order.service";
-import {LocalDataSource} from "ng2-smart-table";
-import {OrderDetailService} from "../../../services/order-detail.service";
-import {ProductService} from "../../../services/product.service";
-import {OrderItem} from "../../../models/orderItem.model";
-import {Subject} from "rxjs";
-import {Product} from "../../../models/product.model";
-import {DescriptionRenderComponent} from "../../product/description.render.component";
-import {QuantityActionComponentComponent} from "../quantity-action/quantity-action-component.component";
-import {DeleteActionComponent} from "../delete-action/delete-action.component";
-import {OrderActionComponent} from "../order-action/order-action.component";
-import {SocketServiceService} from "../../../services/socket-service.service";
-import {MergeOrderComponent} from "../merge-order/merge-order.component";
-import {FormatPriceComponent} from "../format-price/format-price.component";
+import { NbDialogService } from "@nebular/theme";
+import { DatePipe } from "@angular/common";
+import { Order } from "../../../models/order.model";
+import { OrderService } from "../../../services/order.service";
+import { LocalDataSource } from "ng2-smart-table";
+import { OrderDetailService } from "../../../services/order-detail.service";
+import { ProductService } from "../../../services/product.service";
+import { OrderItem } from "../../../models/orderItem.model";
+import { Subject } from "rxjs";
+import { Product } from "../../../models/product.model";
+import { DescriptionRenderComponent } from "../../product/description.render.component";
+import { QuantityActionComponentComponent } from "../quantity-action/quantity-action-component.component";
+import { DeleteActionComponent } from "../delete-action/delete-action.component";
+import { OrderActionComponent } from "../order-action/order-action.component";
+import { SocketServiceService } from "../../../services/socket-service.service";
+import { MergeOrderComponent } from "../merge-order/merge-order.component";
+import { FormatPriceComponent } from "../format-price/format-price.component";
 import { SizeComponent } from '../size/size.component';
-import {ActivatedRoute} from "@angular/router";
+import { ActivatedRoute } from "@angular/router";
+import { SizePickerComponent } from './size-picker/size-picker.component';
 
 @Component({
   selector: 'cashier',
@@ -46,6 +47,10 @@ export class CashierComponent implements OnInit, OnDestroy {
   newOrder: Order;
   selectedOrdersToMerge: Order[] = [];
   choosenInfo: Order;
+  methods: any = [
+    { value: 'Pay at cashier', title: 'Pay at cashier' },
+    { value: 'Pay by Paypal', title: 'Pay by Paypal' }
+  ]
 
   chooseInfoSettings: any = {
     actions: false,
@@ -82,6 +87,7 @@ export class CashierComponent implements OnInit, OnDestroy {
         title: '',
         type: 'custom',
         width: '2%',
+        filter: false,
         valuePrepareFunction: (cell, row) => row,
         renderComponent: MergeOrderComponent,
         onComponentInitFunction: (instance) => {
@@ -125,12 +131,20 @@ export class CashierComponent implements OnInit, OnDestroy {
       // },
       method: {
         title: 'Method',
-        sort: true,
-        type: 'String'
+        sort: false,
+        type: 'String',
+        filter: {
+          type: 'list',
+          config: {
+            selectText: 'Select...',
+            list: this.methods,
+          },
+        },  
       },
       orderDate: {
         title: 'Order date',
         sort: true,
+        filter: false,
         sortDirection: 'desc',
         compareFunction: sortDate,
         valuePrepareFunction: (date) => {
@@ -167,12 +181,14 @@ export class CashierComponent implements OnInit, OnDestroy {
         title: 'Price',
         type: 'custom',
         width: '5%',
+        filter: false,
         renderComponent: FormatPriceComponent
       },
       quantity: {
         title: 'Quantity',
         type: 'custom',
         width: '3%',
+        filter: false,
         valuePrepareFunction: (cell, row) => [row, this.choosenOrder],
         renderComponent: QuantityActionComponentComponent,
         onComponentInitFunction: (instance) => {
@@ -189,6 +205,7 @@ export class CashierComponent implements OnInit, OnDestroy {
         title: 'Size',
         type: 'custom',
         width: '20%',
+        filter: false,
         valuePrepareFunction: (cell, row) => row,
         renderComponent: SizeComponent,
       },
@@ -227,7 +244,15 @@ export class CashierComponent implements OnInit, OnDestroy {
         filter: false,
         renderComponent: DescriptionRenderComponent,
         // renderComponent: DescriptionRenderComponent,
-      }
+      },
+      size: {
+        title: 'Size',
+        type: 'custom',
+        width: '10%',
+        filter: false,
+        renderComponent: SizePickerComponent,
+        valuePrepareFunction: (cell, row) => row
+      },
     },
   };
 
@@ -356,10 +381,10 @@ export class CashierComponent implements OnInit, OnDestroy {
         closeOnEsc: false
       });
     } else if (b === 2) {
-      this.dialogService.open(dialog, {hasBackdrop: true, hasScroll: true, autoFocus: false, closeOnEsc: false});
+      this.dialogService.open(dialog, { hasBackdrop: true, hasScroll: true, autoFocus: false, closeOnEsc: false });
       this.getAllProduct();
     } else if (b === 3) {
-      this.dialogService.open(dialog, {hasBackdrop: true, hasScroll: true, autoFocus: false, closeOnEsc: false});
+      this.dialogService.open(dialog, { hasBackdrop: true, hasScroll: true, autoFocus: false, closeOnEsc: false });
     }
 
   }
@@ -417,10 +442,14 @@ export class CashierComponent implements OnInit, OnDestroy {
     this.newOrderItem.price = product.price;
     this.newOrderItem.productId = product.id;
     this.newOrderItem.orderId = this.choosenOrder.id;
-    let index = this.orderDetails.findIndex(item => item.productId === this.newOrderItem.productId);
+    this.newOrderItem.size = product.size;
+    let index = this.orderDetails.findIndex(item =>
+      item.productId === this.newOrderItem.productId
+      && item.size == this.newOrderItem.size);
     if (index !== -1) {
       this.orderDetails[index].quantity = this.orderDetails[index].quantity + 1;
     }
+    console.log(this.newOrderItem);
     if (index === -1) this.orderDetails.push(this.newOrderItem);
 
     this.detailSource.load(this.orderDetails);

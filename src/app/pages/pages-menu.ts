@@ -28,7 +28,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
     link: '/pages/cashier'
   },
   {
-    title: 'Order',
+    title: 'Order History',
     icon: 'shopping-cart-outline',
     link: '/pages/order'
   },

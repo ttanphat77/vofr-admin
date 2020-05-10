@@ -1,9 +1,3 @@
-<!-- <div>
-    <nb-select [(selected)]="value.size" (selectedChange)="change()">
-        <nb-option *ngFor="let size of sizes" [value]="size.name">{{size.name}}</nb-option>
-    </nb-select>
-</div> -->
-
 <div class="d-inline-block" ngbDropdown #myDrop="ngbDropdown">
     <button class="btn btn-outline-light mr-2" id="dropdownManual" ngbDropdownAnchor
         (focus)="myDrop.open()">{{value.size}}</button>

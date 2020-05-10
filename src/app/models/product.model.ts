@@ -8,4 +8,5 @@ export class Product {
     isActived: boolean;
     categoryId: number;
     masterCategoryId: number;
+    size: string = '';
 }

@@ -1,18 +1,18 @@
-import {Component, OnInit, TemplateRef} from '@angular/core';
-import {NbDialogService} from '@nebular/theme';
-import {LocalDataSource} from 'ng2-smart-table';
-import {Order} from '../../models/order.model';
-import {DescriptionRenderComponent} from '../product/description.render.component';
-import {Category} from '../../models/category.model';
-import {sortDate, sortName} from '../common/sortDate';
-import {ActiveButtonRenderComponent} from '../product/activeButton.render.component';
-import {ActionRenderComponent} from '../product/action.render.component';
-import {DatePipe} from '@angular/common';
-import {Product} from '../../models/product.model';
-import {Observable} from 'rxjs';
-import {OrderService} from '../../services/order.service';
-import {ViewActionRenderComponent} from './view-action-render.component';
-import {FormatPriceComponent} from "./format-price/format-price.component";
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { NbDialogService } from '@nebular/theme';
+import { LocalDataSource } from 'ng2-smart-table';
+import { Order } from '../../models/order.model';
+import { DescriptionRenderComponent } from '../product/description.render.component';
+import { Category } from '../../models/category.model';
+import { sortDate, sortName } from '../common/sortDate';
+import { ActiveButtonRenderComponent } from '../product/activeButton.render.component';
+import { ActionRenderComponent } from '../product/action.render.component';
+import { DatePipe } from '@angular/common';
+import { Product } from '../../models/product.model';
+import { Observable } from 'rxjs';
+import { OrderService } from '../../services/order.service';
+import { ViewActionRenderComponent } from './view-action-render.component';
+import { FormatPriceComponent } from "./format-price/format-price.component";
 
 @Component({
   selector: 'order',
@@ -23,6 +23,11 @@ export class OrderComponent implements OnInit {
   source: LocalDataSource = new LocalDataSource();
   newOrder: Order = new Order();
   orders: Order[] = [];
+  statuses = [
+    {value: 'Paid Order', title: 'Paid Order'},
+    {value: 'Canceled Order', title: 'Canceled Order'}
+  ]
+
   tableSettings: any = {
     actions: false,
     columns: {
@@ -55,12 +60,20 @@ export class OrderComponent implements OnInit {
         title: 'Status',
         type: 'String',
         width: '15%',
+        filter: {
+          type: 'list',
+          config: {
+            selectText: 'Select...',
+            list: this.statuses,
+          },
+        },
         // renderComponent: DescriptionRenderComponent,
       },
       total: {
         title: 'Total',
         type: 'custom',
         width: '10%',
+        filter: false,
         renderComponent: FormatPriceComponent
       },
 
@@ -69,6 +82,7 @@ export class OrderComponent implements OnInit {
         sort: true,
         sortDirection: 'desc',
         width: '20%',
+        filter: false,
         compareFunction: sortDate,
         valuePrepareFunction: (date) => {
           const raw = new Date(date);
@@ -110,8 +124,8 @@ export class OrderComponent implements OnInit {
   };
 
   constructor(private dialogService: NbDialogService,
-              private datePipe: DatePipe,
-              private orderService: OrderService,
+    private datePipe: DatePipe,
+    private orderService: OrderService,
   ) {
   }
 
@@ -147,7 +161,7 @@ export class OrderComponent implements OnInit {
   }
 
   open(dialog: TemplateRef<any>) {
-    this.dialogService.open(dialog, {hasBackdrop: true, hasScroll: true, autoFocus: false, closeOnEsc: false});
+    this.dialogService.open(dialog, { hasBackdrop: true, hasScroll: true, autoFocus: false, closeOnEsc: false });
   }
 
   handleEdit(order: Order) {

@@ -10,8 +10,7 @@
 <div class="header-container">
   <nb-actions size="medium">
     <nb-action (click)="openNoti($event);" icon="bell-outline" [badgeText]="unseenNoti" badgePosition="top"
-               badgeStatus="danger"
-               [nbPopover]="template">
+      badgeStatus="danger" [nbPopover]="template" *ngIf="(accessChecker.isGranted('view','Notification') | async)">
     </nb-action>
     <nb-action class="user-action">
       <nb-user [nbContextMenu]="userMenu" [name]="user?.firstName" [picture]="user?.image">
@@ -30,7 +29,7 @@
         <!--        <a [routerLink]="['/pages/cashier', noti?.order?.order_id]" style="text-decoration: none; color: inherit;">-->
         <div (click)="navigateToCashier(noti?.order?.order_id)">
           <b>{{noti?.order?.full_name}}</b> has created an order <b
-          [ngStyle]="{'color': noti?.order?.method === 1 ? '#DD2C00' : '#0091EA'}">{{noti?.order?.method === 1 ? 'Pay at cashier' : 'Pay by Paypal'}}</b>
+            [ngStyle]="{'color': noti?.order?.method === 1 ? '#DD2C00' : '#0091EA'}">{{noti?.order?.method === 1 ? 'Pay at cashier' : 'Pay by Paypal'}}</b>
           <div>
             <nb-icon icon="clock-outline"></nb-icon>
             {{noti?.order?.order_date | timeAgo}}

@@ -1,9 +1,13 @@
 <nb-card>
   <nb-card-header>
-    <h2>Cashier Account
+    <h2>Account
+      <nb-select style="margin: 0 1rem;" [(selected)]="userRole" (selectedChange)="getAllData()">
+        <nb-option value="2">User</nb-option>
+        <nb-option value="3">Cashier</nb-option>
+      </nb-select>
       <button nbButton (click)="open(addNewDialog)">
         <nb-icon icon="plus-outline" status="danger" style="color: white"></nb-icon>
-        Add new
+        Add {{userRole == 2 ? 'User' : 'Cashier'}}
       </button>
     </h2>
   </nb-card-header>
@@ -21,7 +25,7 @@
   <!-- Add new template -->
   <ng-template #addNewDialog let-data let-ref="dialogRef">
     <nb-card size="giant" style="width: 500px">
-      <nb-card-header>New Cashier Account</nb-card-header>
+      <nb-card-header>New {{userRole == 2 ? 'User' : 'Cashier'}} Account</nb-card-header>
       <nb-card-body>
         <div class="jumbotron">
           <div class="container">

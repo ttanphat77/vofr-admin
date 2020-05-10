@@ -8,6 +8,7 @@ import {NotificationService} from "../../../services/notification.service";
 import {SocketServiceService} from "../../../services/socket-service.service";
 import io from 'socket.io-client';
 import {Router} from "@angular/router";
+import {NbAccessChecker} from "@nebular/security";
 
 
 @Component({
@@ -35,7 +36,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
               private authService: NbAuthService,
               private accountService: AccountService,
               private notificationService: NotificationService,
-              private socketService: SocketServiceService,
+              public accessChecker: NbAccessChecker,
               private router: Router) {
   }
 

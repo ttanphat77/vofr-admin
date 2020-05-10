@@ -26,6 +26,7 @@ import { MergeOrderComponent } from './merge-order/merge-order.component';
 import { SizeComponent } from './size/size.component';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { SizePickerComponent } from './cashier/size-picker/size-picker.component';
 
 
 @NgModule({
@@ -37,14 +38,16 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     OrderActionComponent,
     MergeOrderComponent,
     FormatPriceComponent,
-    SizeComponent],
+    SizeComponent,
+    SizePickerComponent],
   entryComponents: [
     QuantityActionComponentComponent,
     DeleteActionComponent,
     OrderActionComponent,
     MergeOrderComponent,
     FormatPriceComponent,
-    SizeComponent],
+    SizeComponent,
+    SizePickerComponent],
   imports: [
     NgbModule,
     CommonModule,

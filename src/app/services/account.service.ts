@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { environment } from "../../environments/environment";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable, of } from "rxjs";
-import {catchError, map, tap} from "rxjs/operators";
+import { catchError, map, tap } from "rxjs/operators";
 import { Account } from "../models/account.model";
 import { NbAuthJWTToken, NbAuthService } from '@nebular/auth';
-import {tokenName} from "@angular/compiler";
-import {Router} from "@angular/router";
+import { tokenName } from "@angular/compiler";
+import { Router } from "@angular/router";
 
 const apiUrl = environment.apiUrl;
 
@@ -19,12 +19,12 @@ export class AccountService {
 
   constructor(private http: HttpClient,
     private authService: NbAuthService,
-             ) {
+  ) {
 
     this.authService.getToken().subscribe((token: NbAuthJWTToken) => {
       this.token = token.getValue();
     })
-}
+  }
 
   getUserById(id): Observable<any> {
     return this.http.get<any>(apiUrl + '/account?id=' + id)
@@ -85,7 +85,7 @@ export class AccountService {
   }
 
 
-  addNewAccount(account: Account): Observable<any> {
+  addNewAccount(account: Account, role: string): Observable<any> {
     return this.http.post<any>(apiUrl + '/account/create-account', {
       account_id: null,
       first_name: account.firstName,
@@ -95,8 +95,8 @@ export class AccountService {
       phone_number: account.phoneNumber,
       username: account.username,
       password: "123456",
-      role_id: 3,
-      role_name: "Cashier",
+      role_id: parseInt(role),
+      role_name: role == '2' ? 'User' : 'Cashier',
       image_user: "https://cdn1.vectorstock.com/i/1000x1000/19/45/user-avatar-icon-sign-symbol-vector-4001945.jpg"
     }).pipe(tap(_ => console.log('Create Account')),
       catchError(err => {
@@ -118,7 +118,7 @@ export class AccountService {
 
   changePassword(oldPass: string, newPass: string) {
     const httpOptions = {
-      headers: new HttpHeaders({'Authorization': 'Bearer '+this.token})
+      headers: new HttpHeaders({ 'Authorization': 'Bearer ' + this.token })
     };
     return this.http.put<any>(apiUrl + '/account/change-password?'
       + 'password=' + oldPass + '&passwordNew=' + newPass, {}, httpOptions)
