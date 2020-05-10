@@ -21,6 +21,14 @@ export class OrderService {
         }));
   }
 
+  getOrderById(id: string): Observable<any> {
+    return this.http.get<any>(apiUrl + '/order?id='+id)
+      .pipe(tap(_ => console.log('fetched order by Id')),
+        catchError(err => {
+          return of(null);
+        }));
+  }
+
   updateOrder(order: Order): Observable<any> {
     return this.http.put<any>(apiUrl + '/order/update-order', {
       order_id: order.id,

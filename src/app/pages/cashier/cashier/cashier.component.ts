@@ -1,7 +1,7 @@
 import {Component, OnChanges, OnDestroy, OnInit, SimpleChanges, TemplateRef} from '@angular/core';
 import {sortDate, sortName} from "../../common/sortDate";
 import io from 'socket.io-client';
-import {NbDialogService} from "@nebular/theme";
+import {NbDialogService, NbGlobalLogicalPosition, NbToastrService} from "@nebular/theme";
 import {DatePipe} from "@angular/common";
 import {Order} from "../../../models/order.model";
 import {OrderService} from "../../../services/order.service";
@@ -238,7 +238,8 @@ export class CashierComponent implements OnInit, OnDestroy {
     private orderService: OrderService,
     private orderDetailService: OrderDetailService,
     private productService: ProductService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private toastService: NbToastrService
   ) {
   }
 
@@ -248,13 +249,43 @@ export class CashierComponent implements OnInit, OnDestroy {
     this.socket.on('noti-new-order', (order) => {
       this.getAllData();
     });
-    // this.activatedRoute.queryParams.subscribe(params => {
-    //   if(params.id) {
-    //     let idx = this.orders.findIndex((value, index) => value.id === params.id);
-    //     this.choosenOrder = this.orders[idx];
-    //     this.getAllDataOrderItem(this.choosenOrder.id);
-    //   }
-    // });
+    this.activatedRoute.queryParams.subscribe(params => {
+      if(params.id) {
+        this.orderService.getOrderById(params.id).subscribe(data => {
+          const orderList: any[] = data.data;
+          orderList.forEach(element => {
+            if (element.status === 1) {
+              const order: Order = new Order();
+              order.merge = false;
+              order.id = element.order_id;
+              order.name = element.full_name;
+              order.total = element.total;
+              switch (element.method) {
+                case 1:
+                  order.method = 'Pay at cashier';
+                  break;
+                case 2:
+                  order.method = 'Pay by Paypal';
+                  break;
+                case 0:
+                  order.method = 'Cash on delivery';
+                  break;
+              }
+              if (element.status === 1) order.status = 'Processing';
+              order.phoneNumber = element.phone_number;
+              order.address = element.address;
+              order.orderDate = element.order_date;
+              order.email = element.email;
+              this.choosenOrder = order;
+              this.getAllDataOrderItem(this.choosenOrder.id);
+            } else {
+              this.showToast(3000, params.id);
+              this.choosenOrder = null;
+            }
+          })
+        })
+      }
+    });
   }
 
   onUserRowSelect(event): void {
@@ -295,13 +326,13 @@ export class CashierComponent implements OnInit, OnDestroy {
         }
       });
       this.source.load(this.orders);
-      this.activatedRoute.queryParams.subscribe(params => {
-        if (params.id) {
-          let idx = this.orders.findIndex((value, index) => value.id === params.id);
-          this.choosenOrder = this.orders[idx];
-          this.getAllDataOrderItem(this.choosenOrder.id);
-        }
-      });
+      // this.activatedRoute.queryParams.subscribe(params => {
+      //   if (params.id) {
+      //     let idx = this.orders.findIndex((value, index) => value.id === params.id);
+      //     this.choosenOrder = this.orders[idx];
+      //     this.getAllDataOrderItem(this.choosenOrder.id);
+      //   }
+      // });
     });
   }
 
@@ -528,5 +559,17 @@ export class CashierComponent implements OnInit, OnDestroy {
   onChooseInfo($event: any, confirm: TemplateRef<any>) {
     this.choosenInfo = $event.data;
     this.openAddNew(confirm, 3);
+  }
+
+  showToast(duration, id) {
+    this.toastService.show(
+      `Order ${id} has been processed`,
+      null,
+      {
+        duration,
+        limit: 3,
+        position: NbGlobalLogicalPosition.TOP_START,
+        status: "warning"
+      });
   }
 }

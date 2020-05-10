@@ -28,7 +28,7 @@
 
       <nb-list-item *ngFor="let noti of orders" [ngStyle]="{'background-color': noti.seen ? '#ffffff' : '#edf2fa'}">
         <!--        <a [routerLink]="['/pages/cashier', noti?.order?.order_id]" style="text-decoration: none; color: inherit;">-->
-        <div (click)="navigateToCashier(noti?.order?.order_id)">
+        <div (click)="navigateToCashier(noti?.order?.order_id)" style="cursor: pointer">
           <b>{{noti?.order?.full_name}}</b> has created an order <b
           [ngStyle]="{'color': noti?.order?.method === 1 ? '#DD2C00' : '#0091EA'}">{{noti?.order?.method === 1 ? 'Pay at cashier' : 'Pay by Paypal'}}</b>
           <div>
