@@ -4,5 +4,6 @@ export class OrderItem {
   name: string;
   price: number;
   quantity: number;
-  orderId: string
+  orderId: string;
+  size: string;
 }
