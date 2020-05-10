@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, TemplateRef} from '@angular/core';
+import {Component, OnChanges, OnDestroy, OnInit, SimpleChanges, TemplateRef} from '@angular/core';
 import {sortDate, sortName} from "../../common/sortDate";
 import io from 'socket.io-client';
 import {NbDialogService} from "@nebular/theme";
@@ -18,6 +18,7 @@ import {OrderActionComponent} from "../order-action/order-action.component";
 import {SocketServiceService} from "../../../services/socket-service.service";
 import {MergeOrderComponent} from "../merge-order/merge-order.component";
 import {FormatPriceComponent} from "../format-price/format-price.component";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'cashier',
@@ -80,7 +81,7 @@ export class CashierComponent implements OnInit, OnDestroy {
         title: '',
         type: 'custom',
         width: '2%',
-        valuePrepareFunction: (cell, row) => cell,
+        valuePrepareFunction: (cell, row) => row,
         renderComponent: MergeOrderComponent,
         onComponentInitFunction: (instance) => {
           instance.check.subscribe((value) => {
@@ -231,6 +232,7 @@ export class CashierComponent implements OnInit, OnDestroy {
     private orderService: OrderService,
     private orderDetailService: OrderDetailService,
     private productService: ProductService,
+    private activatedRoute: ActivatedRoute
   ) {
   }
 
@@ -240,11 +242,18 @@ export class CashierComponent implements OnInit, OnDestroy {
     this.socket.on('noti-new-order', (order) => {
       this.getAllData();
     });
+    // this.activatedRoute.queryParams.subscribe(params => {
+    //   if(params.id) {
+    //     let idx = this.orders.findIndex((value, index) => value.id === params.id);
+    //     this.choosenOrder = this.orders[idx];
+    //     this.getAllDataOrderItem(this.choosenOrder.id);
+    //   }
+    // });
   }
 
   onUserRowSelect(event): void {
     console.log(event)
-    if(event.isSelected) {
+    if (event.isSelected) {
       this.choosenOrder = event.data;
       this.getAllDataOrderItem(this.choosenOrder.id);
     }
@@ -281,6 +290,13 @@ export class CashierComponent implements OnInit, OnDestroy {
         }
       });
       this.source.load(this.orders);
+      this.activatedRoute.queryParams.subscribe(params => {
+        if (params.id) {
+          let idx = this.orders.findIndex((value, index) => value.id === params.id);
+          this.choosenOrder = this.orders[idx];
+          this.getAllDataOrderItem(this.choosenOrder.id);
+        }
+      });
     });
   }
 
