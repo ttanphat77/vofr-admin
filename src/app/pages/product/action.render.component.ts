@@ -30,6 +30,8 @@ export class ActionRenderComponent implements OnInit {
   glbLoading = false;
   sfbLoading = false;
   product: Product;
+  beginProductSizes: any[] = [];
+  newProductSizes: any[] = [];
 
   @Input() value;
 
@@ -113,6 +115,16 @@ export class ActionRenderComponent implements OnInit {
       this.sfbUploader.clearQueue();
       this.sfbLoading = false;
     };
+
+    this.productService.getSizeByProductId(this.product.id).subscribe((rs) => {
+      if (rs.data.length) {
+        this.newProductSizes = JSON.parse(JSON.stringify(rs.data));
+        this.beginProductSizes = JSON.parse(JSON.stringify(rs.data));
+        // if(this.value.size == '') {
+        //   this.value.size = this.sizes[0].name;
+        // }
+      }
+    })
   }
 
   getImages() {
@@ -237,6 +249,69 @@ export class ActionRenderComponent implements OnInit {
 
   onSubmit(dialog: TemplateRef<any>) {
     this.saveProduct();
+    this.updateSize();
+    this.productService.getSizeByProductId(this.product.id).subscribe((rs) => {
+      if (rs.data.length) {
+        this.newProductSizes = JSON.parse(JSON.stringify(rs.data));
+        this.beginProductSizes = JSON.parse(JSON.stringify(rs.data));
+        // if(this.value.size == '') {
+        //   this.value.size = this.sizes[0].name;
+        // }
+      }
+    })
     return this.dialogRef.close();
   }
+
+  removeSize(index) {
+    this.newProductSizes.splice(index, 1);
+  }
+
+  addSize() {
+    this.newProductSizes.push({
+      name: ''
+    })
+  }
+
+  createSize(productId) {
+    this.newProductSizes.forEach((size) => {
+      this.productService.createProductSize(productId, size.name).subscribe((rs) => {
+      }, (err) => console.log(err))
+    })
+  }
+
+  updateSize() {
+    let newSizeName = this.newProductSizes.map(a => a.name);
+    let beginSizeName = this.beginProductSizes.map(a => a.name);
+
+    let a = new Set(beginSizeName);
+    let b = new Set(newSizeName);
+    console.log(beginSizeName);
+    console.log(newSizeName);
+
+
+    let deleteSize = new Set(
+      [...a].filter(x => !b.has(x)));
+
+    let addSize = new Set(
+      [...b].filter(x => !a.has(x)));
+
+    console.log('delete', deleteSize);
+    console.log('add', addSize);
+
+    let deleteSizeArray = [...deleteSize];
+    let addSizeArray = [...addSize];
+
+    deleteSizeArray.forEach(value1 => {
+      let id = this.beginProductSizes.findIndex(name => name.name === value1);
+      if (id >= 0) {
+        this.productService.deleteSize(this.beginProductSizes[id].id).subscribe();
+      }
+    })
+
+    addSizeArray.forEach(value1 => {
+      this.productService.createProductSize(this.product.id, value1).subscribe((rs) => {
+      }, (err) => console.log(err))
+    })
+  }
+
 }

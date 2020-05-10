@@ -95,7 +95,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
-    this.disposeConnection();
+    // this.disposeConnection();
   }
 
   toggleSidebar(): boolean {

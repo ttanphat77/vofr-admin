@@ -1,23 +1,23 @@
 import { Component, OnChanges, OnDestroy, OnInit, SimpleChanges, TemplateRef } from '@angular/core';
 import { sortDate, sortName } from "../../common/sortDate";
 import io from 'socket.io-client';
-import { NbDialogService } from "@nebular/theme";
-import { DatePipe } from "@angular/common";
-import { Order } from "../../../models/order.model";
-import { OrderService } from "../../../services/order.service";
-import { LocalDataSource } from "ng2-smart-table";
-import { OrderDetailService } from "../../../services/order-detail.service";
-import { ProductService } from "../../../services/product.service";
-import { OrderItem } from "../../../models/orderItem.model";
-import { Subject } from "rxjs";
-import { Product } from "../../../models/product.model";
-import { DescriptionRenderComponent } from "../../product/description.render.component";
-import { QuantityActionComponentComponent } from "../quantity-action/quantity-action-component.component";
-import { DeleteActionComponent } from "../delete-action/delete-action.component";
-import { OrderActionComponent } from "../order-action/order-action.component";
-import { SocketServiceService } from "../../../services/socket-service.service";
-import { MergeOrderComponent } from "../merge-order/merge-order.component";
-import { FormatPriceComponent } from "../format-price/format-price.component";
+import {NbDialogService, NbGlobalLogicalPosition, NbToastrService} from "@nebular/theme";
+import {DatePipe} from "@angular/common";
+import {Order} from "../../../models/order.model";
+import {OrderService} from "../../../services/order.service";
+import {LocalDataSource} from "ng2-smart-table";
+import {OrderDetailService} from "../../../services/order-detail.service";
+import {ProductService} from "../../../services/product.service";
+import {OrderItem} from "../../../models/orderItem.model";
+import {Subject} from "rxjs";
+import {Product} from "../../../models/product.model";
+import {DescriptionRenderComponent} from "../../product/description.render.component";
+import {QuantityActionComponentComponent} from "../quantity-action/quantity-action-component.component";
+import {DeleteActionComponent} from "../delete-action/delete-action.component";
+import {OrderActionComponent} from "../order-action/order-action.component";
+import {SocketServiceService} from "../../../services/socket-service.service";
+import {MergeOrderComponent} from "../merge-order/merge-order.component";
+import {FormatPriceComponent} from "../format-price/format-price.component";
 import { SizeComponent } from '../size/size.component';
 import { ActivatedRoute } from "@angular/router";
 import { SizePickerComponent } from './size-picker/size-picker.component';
@@ -263,7 +263,8 @@ export class CashierComponent implements OnInit, OnDestroy {
     private orderService: OrderService,
     private orderDetailService: OrderDetailService,
     private productService: ProductService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private toastService: NbToastrService
   ) {
   }
 
@@ -273,13 +274,43 @@ export class CashierComponent implements OnInit, OnDestroy {
     this.socket.on('noti-new-order', (order) => {
       this.getAllData();
     });
-    // this.activatedRoute.queryParams.subscribe(params => {
-    //   if(params.id) {
-    //     let idx = this.orders.findIndex((value, index) => value.id === params.id);
-    //     this.choosenOrder = this.orders[idx];
-    //     this.getAllDataOrderItem(this.choosenOrder.id);
-    //   }
-    // });
+    this.activatedRoute.queryParams.subscribe(params => {
+      if(params.id) {
+        this.orderService.getOrderById(params.id).subscribe(data => {
+          const orderList: any[] = data.data;
+          orderList.forEach(element => {
+            if (element.status === 1) {
+              const order: Order = new Order();
+              order.merge = false;
+              order.id = element.order_id;
+              order.name = element.full_name;
+              order.total = element.total;
+              switch (element.method) {
+                case 1:
+                  order.method = 'Pay at cashier';
+                  break;
+                case 2:
+                  order.method = 'Pay by Paypal';
+                  break;
+                case 0:
+                  order.method = 'Cash on delivery';
+                  break;
+              }
+              if (element.status === 1) order.status = 'Processing';
+              order.phoneNumber = element.phone_number;
+              order.address = element.address;
+              order.orderDate = element.order_date;
+              order.email = element.email;
+              this.choosenOrder = order;
+              this.getAllDataOrderItem(this.choosenOrder.id);
+            } else {
+              this.showToast(3000, params.id);
+              this.choosenOrder = null;
+            }
+          })
+        })
+      }
+    });
   }
 
   onUserRowSelect(event): void {
@@ -320,13 +351,13 @@ export class CashierComponent implements OnInit, OnDestroy {
         }
       });
       this.source.load(this.orders);
-      this.activatedRoute.queryParams.subscribe(params => {
-        if (params.id) {
-          let idx = this.orders.findIndex((value, index) => value.id === params.id);
-          this.choosenOrder = this.orders[idx];
-          this.getAllDataOrderItem(this.choosenOrder.id);
-        }
-      });
+      // this.activatedRoute.queryParams.subscribe(params => {
+      //   if (params.id) {
+      //     let idx = this.orders.findIndex((value, index) => value.id === params.id);
+      //     this.choosenOrder = this.orders[idx];
+      //     this.getAllDataOrderItem(this.choosenOrder.id);
+      //   }
+      // });
     });
   }
 
@@ -470,7 +501,8 @@ export class CashierComponent implements OnInit, OnDestroy {
       this.choosenOrder.total = this.caculateTotal();
       this.orderService.updateOrder(this.choosenOrder).subscribe(res => {
         this.orderService.changeStatus(this.choosenOrder.id, 2).subscribe(res => {
-          this.source.remove(this.choosenOrder);
+          let idx = this.orders.findIndex((value, index) => value.id === this.choosenOrder.id)
+          this.source.remove(this.orders[idx]);
           this.choosenOrder = null;
           this.openAddNew(success, 3);
         })
@@ -480,7 +512,8 @@ export class CashierComponent implements OnInit, OnDestroy {
 
   cancelOrder() {
     this.orderService.changeStatus(this.choosenOrder.id, 3).subscribe(res => {
-      this.source.remove(this.choosenOrder);
+      let idx = this.orders.findIndex((value, index) => value.id === this.choosenOrder.id)
+      this.source.remove(this.orders[idx]);
       this.choosenOrder = null;
     })
   }
@@ -557,5 +590,17 @@ export class CashierComponent implements OnInit, OnDestroy {
   onChooseInfo($event: any, confirm: TemplateRef<any>) {
     this.choosenInfo = $event.data;
     this.openAddNew(confirm, 3);
+  }
+
+  showToast(duration, id) {
+    this.toastService.show(
+      `Order ${id} has been processed`,
+      null,
+      {
+        duration,
+        limit: 3,
+        position: NbGlobalLogicalPosition.TOP_START,
+        status: "warning"
+      });
   }
 }
