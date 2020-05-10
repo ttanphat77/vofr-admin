@@ -17,8 +17,8 @@ export class SocketServiceService {
   }
 
   connect() {
-    // this.socket = io.connect('https://protected-peak-19050.herokuapp.com/');
-    this.socket = io.connect('http://localhost:3000');
+    this.socket = io.connect('https://protected-peak-19050.herokuapp.com/');
+    // this.socket = io.connect('http://localhost:3000');
     this.accessChecker.isGranted('notification', 'Order').subscribe(res => {
       if (res === true) {
         this.socket.on('noti-new-order', (order) => {
