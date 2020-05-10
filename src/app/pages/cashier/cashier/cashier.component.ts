@@ -18,6 +18,7 @@ import {OrderActionComponent} from "../order-action/order-action.component";
 import {SocketServiceService} from "../../../services/socket-service.service";
 import {MergeOrderComponent} from "../merge-order/merge-order.component";
 import {FormatPriceComponent} from "../format-price/format-price.component";
+import { SizeComponent } from '../size/size.component';
 import {ActivatedRoute} from "@angular/router";
 
 @Component({
@@ -183,8 +184,13 @@ export class CashierComponent implements OnInit, OnDestroy {
             }
           });
         },
-
-        // renderComponent: DescriptionRenderComponent,
+      },
+      customSize: {
+        title: 'Size',
+        type: 'custom',
+        width: '20%',
+        valuePrepareFunction: (cell, row) => row,
+        renderComponent: SizeComponent,
       },
       action: {
         title: 'Delete',
@@ -283,7 +289,6 @@ export class CashierComponent implements OnInit, OnDestroy {
   }
 
   onUserRowSelect(event): void {
-    console.log(event)
     if (event.isSelected) {
       this.choosenOrder = event.data;
       this.getAllDataOrderItem(this.choosenOrder.id);
@@ -364,6 +369,7 @@ export class CashierComponent implements OnInit, OnDestroy {
         orderItem.name = element.product.product_name;
         orderItem.orderId = element.order_id;
         orderItem.productId = element.product.product_id;
+        orderItem.size = element.size;
         this.orderDetails.push(orderItem);
       });
       this.detailSource.load(this.orderDetails);
@@ -452,6 +458,7 @@ export class CashierComponent implements OnInit, OnDestroy {
   }
 
   saveOrder(dialog: TemplateRef<any>) {
+    console.log(this.orderDetails);
     this.orderDetailService.updateOrderDetail(this.orderDetails).subscribe(res => {
       this.openAddNew(dialog, 3);
     });

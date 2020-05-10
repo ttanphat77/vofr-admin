@@ -1,18 +1,18 @@
-import {Component, TemplateRef} from '@angular/core';
-import {LocalDataSource} from 'ng2-smart-table';
-import {Product} from '../../models/product.model';
-import {ProductService} from '../../services/product.service';
-import {DatePipe} from '@angular/common';
-import {sortDate} from '../common/sortDate';
-import {ActiveButtonRenderComponent} from './activeButton.render.component';
-import {CategoryService} from '../../services/category.service';
-import {Category} from '../../models/category.model';
-import {ActionRenderComponent} from './action.render.component';
-import {DescriptionRenderComponent} from './description.render.component';
-import {NbDialogService} from '@nebular/theme';
-import {Observable, observable} from 'rxjs';
-import {SocketServiceService} from "../../services/socket-service.service";
-import {FormatPriceComponent} from "./format-price/format-price.component";
+import { Component, TemplateRef } from '@angular/core';
+import { LocalDataSource } from 'ng2-smart-table';
+import { Product } from '../../models/product.model';
+import { ProductService } from '../../services/product.service';
+import { DatePipe } from '@angular/common';
+import { sortDate } from '../common/sortDate';
+import { ActiveButtonRenderComponent } from './activeButton.render.component';
+import { CategoryService } from '../../services/category.service';
+import { Category } from '../../models/category.model';
+import { ActionRenderComponent } from './action.render.component';
+import { DescriptionRenderComponent } from './description.render.component';
+import { NbDialogService } from '@nebular/theme';
+import { Observable, observable } from 'rxjs';
+import { SocketServiceService } from "../../services/socket-service.service";
+import { FormatPriceComponent } from "./format-price/format-price.component";
 
 @Component({
   selector: 'app-product-list',
@@ -28,6 +28,8 @@ export class ProductComponent {
   categories: Category[] = [];
   masterCategories: Category[] = [];
   errors: string;
+  newProductSizes: any[] = [];
+  adding: boolean = false;
 
   cateFilterList: any[] = [];
   masterFilterList: any[] = [];
@@ -193,13 +195,13 @@ export class ProductComponent {
           this.categories.push(category);
           if (category.masterCategoryId == null) {
             this.masterCategories.push(category);
-            this.masterFilterList.push({value: element.category_id, title: element.category_name});
+            this.masterFilterList.push({ value: element.category_id, title: element.category_name });
           } else {
-            this.cateFilterList.push({value: element.category_id, title: element.category_name});
+            this.cateFilterList.push({ value: element.category_id, title: element.category_name });
           }
         });
-        this.masterFilterList.push({value: null, title: 'No category'})
-        this.cateFilterList.push({value: null, title: 'No category'})
+        this.masterFilterList.push({ value: null, title: 'No category' })
+        this.cateFilterList.push({ value: null, title: 'No category' })
         this.productService.getAllProduct().subscribe(data => {
           var listProduct: any[] = (data as any).data;
           listProduct.forEach(element => {
@@ -275,7 +277,7 @@ export class ProductComponent {
   }
 
   open(dialog: TemplateRef<any>) {
-    this.dialogService.open(dialog, {hasBackdrop: true, hasScroll: true, autoFocus: false, closeOnEsc: false});
+    this.dialogService.open(dialog, { hasBackdrop: true, hasScroll: true, autoFocus: false, closeOnEsc: false });
   }
 
   handleChangeStatus(product: Product) {
@@ -293,25 +295,8 @@ export class ProductComponent {
     this.source.remove(product);
   }
 
-  onSubmit() {
-    // console.log(tmp);
-    this.createProduct();
-    // this.accountService.updateAccount(this.value).subscribe(res => {
-    //   if (res.success === true) {
-    //     this.save.emit({account: this.value, action: 'edit'});
-    //     this.dialogService.open(dialog, {});
-    //     return this.dialogRef.close();
-    //   }
-    //   if (res.status === 400) {
-    //     return this.errors = res.error.message;
-    //   }
-    //   if (res.status === 500) {
-    //     return this.errors = 'Server Error';
-    //   }
-    // });
-  }
-
-  createProduct() {
+  onSubmit(ref: any) {
+    this.adding = true
     this.productService.createProduct(this.newProduct).subscribe(res => {
       var product = new Product();
       product.id = res.data.product_id;
@@ -326,10 +311,28 @@ export class ProductComponent {
       product.masterCategoryId = cate.masterCategoryId;
       this.source.add(product);
       this.source.refresh();
+      ref.close();
+      this.createSize(res.data.product_id);
+      this.adding = false;
+    }, (err) => {
+      console.log(err);
+      this.adding = false;
     })
   }
 
-  add() {
-    this.socketService.add();
+  addSize() {
+    this.newProductSizes.push({
+      name: ''
+    })
+  }
+
+  removeSize(index) {
+    this.newProductSizes.splice(index, 1);
+  }
+
+  createSize(productId) {
+    this.newProductSizes.forEach((size) => {
+      this.productService.createProductSize(productId, size.name).subscribe((rs) => { }, (err) => console.log(err))
+    })
   }
 }
