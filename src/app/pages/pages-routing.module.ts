@@ -1,15 +1,15 @@
-import { RouterModule, Routes } from '@angular/router';
-import { NgModule } from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {NgModule} from '@angular/core';
 
-import { PagesComponent } from './pages.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { RecapComponent } from './recap/recap.component';
-import { ProductComponent } from './product/product.component';
-import { CategoryComponent } from './category/category.component';
-import { OrderComponent } from './order/order.component';
-import { CashierComponent } from './cashier/cashier/cashier.component';
-import { AccountComponent } from './account/account.component';
-import { ProfileComponent } from './profile/profile.component';
+import {PagesComponent} from './pages.component';
+import {DashboardComponent} from './dashboard/dashboard.component';
+import {RecapComponent} from './recap/recap.component';
+import {ProductComponent} from './product/product.component';
+import {CategoryComponent} from './category/category.component';
+import {OrderComponent} from './order/order.component';
+import {CashierComponent} from './cashier/cashier/cashier.component';
+import {AccountComponent} from './account/account.component';
+import {ProfileComponent} from './profile/profile.component';
 
 const routes: Routes = [{
   path: '',
@@ -26,9 +26,10 @@ const routes: Routes = [{
     {
       path: 'recap',
       component: RecapComponent,
-    }, {
+    },
+    {
       path: 'cashier',
-      component: CashierComponent,
+      component: CashierComponent
     },
     {
       path: 'product',

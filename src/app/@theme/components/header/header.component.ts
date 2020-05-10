@@ -1,4 +1,4 @@
-import {ApplicationRef, Component, OnDestroy, OnInit} from '@angular/core';
+import {ApplicationRef, Component, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import {NbMenuService, NbSidebarService} from '@nebular/theme';
 import {NbAuthJWTToken, NbAuthService} from '@nebular/auth';
 import {AccountService} from '../../../services/account.service';
@@ -7,6 +7,7 @@ import {Subject} from 'rxjs';
 import {NotificationService} from "../../../services/notification.service";
 import {SocketServiceService} from "../../../services/socket-service.service";
 import io from 'socket.io-client';
+import {Router} from "@angular/router";
 
 
 @Component({
@@ -34,27 +35,33 @@ export class HeaderComponent implements OnInit, OnDestroy {
               private authService: NbAuthService,
               private accountService: AccountService,
               private notificationService: NotificationService,
-              private socketService: SocketServiceService) {
+              private socketService: SocketServiceService,
+              private router: Router) {
   }
+
 
   ngOnInit() {
     this.notificationService.getAllNoti().subscribe(res => {
+      // let itemsSorted  = $filter('orderBy')(res, 'date');
       this.orders = res;
+      this.orders.sort((a, b) => a.date > b.date ? -1 : 1);
       this.unseenNoti = this.orders.filter(item => item.seen === false).length;
     });
 
     this.socket = io.connect('https://protected-peak-19050.herokuapp.com/');
-    this.socket.on('noti-new-order', ()=>{
+    this.socket.on('noti-new-order', () => {
       this.notificationService.getAllNoti().subscribe(res => {
         this.orders = res;
+        this.orders.sort((a, b) => a.order.order_date > b.order.order_date ? -1 : 1);
         this.unseenNoti = this.orders.filter(item => item.seen === false).length;
       });
     })
 
     this.socket.on('send-all-noti', (noti) => {
       // this.notificationService.getAllNoti().subscribe(res => {
-        this.orders = noti;
-        this.unseenNoti = this.orders.filter(item => item.seen === false).length;
+      this.orders = noti;
+      this.orders.sort((a, b) => a.order.order_date > b.order.order_date ? -1 : 1);
+      this.unseenNoti = this.orders.filter(item => item.seen === false).length;
       // });
     })
 
@@ -107,8 +114,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.socket.emit('get-all-noti')
   }
 
-
   navigateToCashier(id) {
-    console.log(id);
+    this.router.navigateByUrl('/pages/cashier?id=' + id);
   }
 }
