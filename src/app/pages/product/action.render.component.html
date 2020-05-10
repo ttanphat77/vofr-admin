@@ -189,6 +189,24 @@
                   </div>
                 </div>
 
+                <h6>Size</h6>
+                <div class="row" *ngFor="let item of newProductSizes; let i = index">
+                  <div class="col-10">
+                    <input class="form-control" style="margin-bottom: 1rem;" #size="ngModel" name="size-{{i}}" [(ngModel)]="item.name" required/>
+                  </div>
+                  <div class="col-2">
+                    <nb-actions size="small" fullWidth>
+                      <nb-action icon="trash-2-outline" (click)="removeSize()"></nb-action>
+                    </nb-actions>
+                  </div>
+                  <div style="margin-bottom: 1rem;" *ngIf="f.submitted && size.invalid" class="text-danger col-12">
+                    <div *ngIf="size.errors.required">Size title is Required</div>
+                  </div>
+                </div>
+                <button nbButton style="margin-bottom: 1rem;" type="button" (click)="addSize()">
+                  <nb-icon icon="plus-outline"></nb-icon>
+                </button>
+
                 <div class="form-group">
                   <label for="description">Description</label>
                   <textarea type="text" class="form-control" id="description" name="description"
