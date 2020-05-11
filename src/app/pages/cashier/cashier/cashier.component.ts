@@ -1,26 +1,48 @@
-import { Component, OnChanges, OnDestroy, OnInit, SimpleChanges, TemplateRef } from '@angular/core';
+import { Component, OnChanges, OnDestroy, OnInit, SimpleChanges, TemplateRef, Pipe, PipeTransform } from '@angular/core';
 import { sortDate, sortName } from "../../common/sortDate";
 import io from 'socket.io-client';
-import {NbDialogService, NbGlobalLogicalPosition, NbToastrService} from "@nebular/theme";
-import {DatePipe} from "@angular/common";
-import {Order} from "../../../models/order.model";
-import {OrderService} from "../../../services/order.service";
-import {LocalDataSource} from "ng2-smart-table";
-import {OrderDetailService} from "../../../services/order-detail.service";
-import {ProductService} from "../../../services/product.service";
-import {OrderItem} from "../../../models/orderItem.model";
-import {Subject} from "rxjs";
-import {Product} from "../../../models/product.model";
-import {DescriptionRenderComponent} from "../../product/description.render.component";
-import {QuantityActionComponentComponent} from "../quantity-action/quantity-action-component.component";
-import {DeleteActionComponent} from "../delete-action/delete-action.component";
-import {OrderActionComponent} from "../order-action/order-action.component";
-import {SocketServiceService} from "../../../services/socket-service.service";
-import {MergeOrderComponent} from "../merge-order/merge-order.component";
-import {FormatPriceComponent} from "../format-price/format-price.component";
+import { NbDialogService, NbGlobalLogicalPosition, NbToastrService } from "@nebular/theme";
+import { DatePipe } from "@angular/common";
+import { Order } from "../../../models/order.model";
+import { OrderService } from "../../../services/order.service";
+import { LocalDataSource } from "ng2-smart-table";
+import { OrderDetailService } from "../../../services/order-detail.service";
+import { ProductService } from "../../../services/product.service";
+import { OrderItem } from "../../../models/orderItem.model";
+import { Subject } from "rxjs";
+import { Product } from "../../../models/product.model";
+import { DescriptionRenderComponent } from "../../product/description.render.component";
+import { QuantityActionComponentComponent } from "../quantity-action/quantity-action-component.component";
+import { DeleteActionComponent } from "../delete-action/delete-action.component";
+import { OrderActionComponent } from "../order-action/order-action.component";
+import { SocketServiceService } from "../../../services/socket-service.service";
+import { MergeOrderComponent } from "../merge-order/merge-order.component";
+import { FormatPriceComponent } from "../format-price/format-price.component";
 import { SizeComponent } from '../size/size.component';
 import { ActivatedRoute } from "@angular/router";
 import { SizePickerComponent } from './size-picker/size-picker.component';
+import { AccountService } from '../../../services/account.service';
+
+@Pipe({
+  name: 'userFilter',
+  pure: false
+})
+export class UserFilterPipe implements PipeTransform {
+  transform(users: any[], value: string): any {
+    if (!users || !value) {
+      return users;
+    }
+    return users.filter((user) => {
+      const name: string = user.first_name + ' ' + user.last_name;
+      const phone: string = user.phone_number;
+      const email: string = user.email;
+      const val  = value.toLowerCase();
+      return name.toLowerCase().search(val) >= 0
+        || phone.toLowerCase().search(val) >= 0
+        || email.toLowerCase().search(val) >= 0;
+    });
+  }
+}
 
 @Component({
   selector: 'cashier',
@@ -29,6 +51,8 @@ import { SizePickerComponent } from './size-picker/size-picker.component';
 })
 export class CashierComponent implements OnInit, OnDestroy {
   private socket;
+  chosenUser: any;
+  filterText: string = '';
   orders: Order[] = [];
   productToAdd: Product;
   orderDetails: OrderItem[] = [];
@@ -47,6 +71,8 @@ export class CashierComponent implements OnInit, OnDestroy {
   newOrder: Order;
   selectedOrdersToMerge: Order[] = [];
   choosenInfo: Order;
+  users: any = [];
+
   methods: any = [
     { value: 'Pay at cashier', title: 'Pay at cashier' },
     { value: 'Pay by Paypal', title: 'Pay by Paypal' }
@@ -139,7 +165,7 @@ export class CashierComponent implements OnInit, OnDestroy {
             selectText: 'Select...',
             list: this.methods,
           },
-        },  
+        },
       },
       orderDate: {
         title: 'Order date',
@@ -264,7 +290,8 @@ export class CashierComponent implements OnInit, OnDestroy {
     private orderDetailService: OrderDetailService,
     private productService: ProductService,
     private activatedRoute: ActivatedRoute,
-    private toastService: NbToastrService
+    private toastService: NbToastrService,
+    private accountService: AccountService,
   ) {
   }
 
@@ -275,7 +302,7 @@ export class CashierComponent implements OnInit, OnDestroy {
       this.getAllData();
     });
     this.activatedRoute.queryParams.subscribe(params => {
-      if(params.id) {
+      if (params.id) {
         this.orderService.getOrderById(params.id).subscribe(data => {
           const orderList: any[] = data.data;
           orderList.forEach(element => {
@@ -311,6 +338,7 @@ export class CashierComponent implements OnInit, OnDestroy {
         })
       }
     });
+    this.getAllUser();
   }
 
   onUserRowSelect(event): void {
@@ -489,6 +517,7 @@ export class CashierComponent implements OnInit, OnDestroy {
   saveOrder(dialog: TemplateRef<any>) {
     console.log(this.orderDetails);
     this.orderDetailService.updateOrderDetail(this.orderDetails).subscribe(res => {
+      this.getAllDataOrderItem(this.choosenOrder.id);
       this.openAddNew(dialog, 3);
     });
   }
@@ -602,5 +631,27 @@ export class CashierComponent implements OnInit, OnDestroy {
         position: NbGlobalLogicalPosition.TOP_START,
         status: "warning"
       });
+  }
+
+  getAllUser() {
+    this.accountService.getAllAccount().subscribe((rs) => {
+      if (rs) {
+        this.users = rs.data.filter((user) => user.role_id == 2);
+        console.log(this.users);
+      }
+    })
+  }
+
+  addOrderUser() {
+    if (!this.chosenUser)
+      return false;
+    this.newOrder.name = this.chosenUser.first_name + ' ' + this.chosenUser.last_name;
+    this.newOrder.email = this.chosenUser.email;
+    this.newOrder.phoneNumber = this.chosenUser.phone_number;
+    this.newOrder.address = this.chosenUser.address;
+    this.newOrder.userId = this.chosenUser.account_id;
+    this.chosenUser = null;
+    this.addNewOrder();
+    this.dialogRef.close();
   }
 }

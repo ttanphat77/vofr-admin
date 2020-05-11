@@ -9,4 +9,5 @@ export class Order {
   phoneNumber: string;
   email: string;
   orderDate: Date;
+  userId: string;
 }

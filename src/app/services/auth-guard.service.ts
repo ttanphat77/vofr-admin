@@ -24,6 +24,7 @@ export class AuthGuard implements CanActivateChild {
   }
 
   upperFirstLetter(str: string): string {
+    if(str == 'order') return 'Order History'
     return str.charAt(0).toUpperCase() + str.slice(1);
   }
 

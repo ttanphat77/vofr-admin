@@ -1,13 +1,13 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CashierComponent } from './cashier/cashier.component';
+import { CashierComponent, UserFilterPipe } from './cashier/cashier.component';
 import { FormatPriceComponent } from "./format-price/format-price.component";
 import {
   NbActionsModule, NbAlertModule,
-  NbButtonModule,
+  NbButtonModule, NbRadioModule,
   NbCardModule, NbCheckboxModule, NbDialogModule,
-  NbIconModule,
-  NbInputModule,
+  NbIconModule, NbUserModule,
+  NbInputModule, NbTabsetModule,
   NbListModule, NbPopoverModule, NbSelectModule, NbSpinnerModule,
   NbThemeModule, NbTooltipModule,
 } from '@nebular/theme';
@@ -16,9 +16,7 @@ import { FormsModule } from '@angular/forms';
 import { ThemeModule } from '../../@theme/theme.module';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
-import { AppModule } from "../../app.module";
 import { FilterPipe } from "./filter.pipe";
-import { DescriptionRenderComponent } from "../product/description.render.component";
 import { QuantityActionComponentComponent } from "./quantity-action/quantity-action-component.component";
 import { DeleteActionComponent } from "./delete-action/delete-action.component";
 import { OrderActionComponent } from "./order-action/order-action.component";
@@ -31,6 +29,7 @@ import { SizePickerComponent } from './cashier/size-picker/size-picker.component
 
 @NgModule({
   declarations: [
+    UserFilterPipe,
     CashierComponent,
     FilterPipe,
     QuantityActionComponentComponent,
@@ -49,7 +48,10 @@ import { SizePickerComponent } from './cashier/size-picker/size-picker.component
     SizeComponent,
     SizePickerComponent],
   imports: [
+    NbRadioModule,
+    NbUserModule,
     NgbModule,
+    NbTabsetModule,
     CommonModule,
     NbCardModule,
     FileUploadModule,

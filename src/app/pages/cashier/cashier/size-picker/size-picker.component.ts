@@ -19,9 +19,9 @@ export class SizePickerComponent implements OnInit {
     this.productService.getSizeByProductId(this.value.id).subscribe((rs) => {
       if (rs.data.length) {
         this.sizes = rs.data;
-        // if(this.value.size == '') {
-        //   this.value.size = this.sizes[0].name;
-        // }
+        if(this.value.size == '') {
+          this.value.size = this.sizes[0].name;
+        }
       }
     })
   }
