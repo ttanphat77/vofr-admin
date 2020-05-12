@@ -22,6 +22,9 @@ import { SizeComponent } from '../size/size.component';
 import { ActivatedRoute } from "@angular/router";
 import { SizePickerComponent } from './size-picker/size-picker.component';
 import { AccountService } from '../../../services/account.service';
+import {environment} from "../../../../environments/environment";
+
+const apiUrl = environment.SOCKET_ENDPOINT
 
 @Pipe({
   name: 'userFilter',
@@ -297,7 +300,7 @@ export class CashierComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.getAllData();
-    this.socket = io.connect('https://protected-peak-19050.herokuapp.com/');
+    this.socket = io.connect(apiUrl);
     this.socket.on('noti-new-order', (order) => {
       this.getAllData();
     });
