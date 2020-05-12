@@ -3,6 +3,10 @@ import io from 'socket.io-client';
 import {Observable} from "rxjs";
 import {NbGlobalLogicalPosition, NbToastrService} from "@nebular/theme";
 import {NbAccessChecker} from "@nebular/security";
+import {environment} from "../../environments/environment";
+
+const apiUrl = environment.SOCKET_ENDPOINT;
+
 
 @Injectable({
   providedIn: 'root'
@@ -17,17 +21,12 @@ export class SocketServiceService {
   }
 
   connect() {
-    this.socket = io.connect('https://protected-peak-19050.herokuapp.com/');
-    // this.socket = io.connect('http://localhost:3000');
+    this.socket = io.connect(apiUrl);
     this.accessChecker.isGranted('notification', 'Order').subscribe(res => {
       if (res === true) {
         this.socket.on('noti-new-order', (order) => {
           this.showToast(3000);
         });
-
-        this.socket.on('send-all-noti', (noti) => {
-          console.log(noti)
-        })
       }
     });
     return () => this.socket.disconnect();

@@ -285,18 +285,11 @@ export class ActionRenderComponent implements OnInit {
 
     let a = new Set(beginSizeName);
     let b = new Set(newSizeName);
-    console.log(beginSizeName);
-    console.log(newSizeName);
-
-
     let deleteSize = new Set(
       [...a].filter(x => !b.has(x)));
 
     let addSize = new Set(
       [...b].filter(x => !a.has(x)));
-
-    console.log('delete', deleteSize);
-    console.log('add', addSize);
 
     let deleteSizeArray = [...deleteSize];
     let addSizeArray = [...addSize];

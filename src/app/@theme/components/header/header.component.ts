@@ -9,8 +9,9 @@ import {SocketServiceService} from "../../../services/socket-service.service";
 import io from 'socket.io-client';
 import {Router} from "@angular/router";
 import {NbAccessChecker} from "@nebular/security";
+import {environment} from "../../../../environments/environment";
 
-
+const apiUrl = environment.SOCKET_ENDPOINT
 @Component({
   selector: 'ngx-header',
   styleUrls: ['./header.component.scss'],
@@ -49,7 +50,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.unseenNoti = this.orders.filter(item => item.seen === false).length;
     });
 
-    this.socket = io.connect('https://protected-peak-19050.herokuapp.com/');
+    this.socket = io.connect(apiUrl);
     this.socket.on('noti-new-order', () => {
       this.notificationService.getAllNoti().subscribe(res => {
         this.orders = res;
@@ -59,11 +60,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
     })
 
     this.socket.on('send-all-noti', (noti) => {
-      // this.notificationService.getAllNoti().subscribe(res => {
       this.orders = noti;
       this.orders.sort((a, b) => a.order.order_date > b.order.order_date ? -1 : 1);
       this.unseenNoti = this.orders.filter(item => item.seen === false).length;
-      // });
     })
 
     this.authService.onTokenChange()
@@ -95,7 +94,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
-    // this.disposeConnection();
+    this.socket.disconnect();
   }
 
   toggleSidebar(): boolean {
